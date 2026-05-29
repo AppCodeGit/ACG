@@ -1,0 +1,118 @@
+.footer {
+  background-color: #474747;
+  padding: 30px 0;
+  margin-top: 20px;
+}
+
+.footer .logo img {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+.footer-container {
+  display: grid;
+}
+
+.footer-container .footer-items {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.footer-container .footer-items:nth-child(1) {
+  border-bottom: 1px dashed #7c7c7c;
+}
+
+.footer-container .footer-items .items {
+  display: flex;
+  gap: 60px;
+}
+
+.footer-container .footer-items .items .links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-items .items .links li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-items .items .links a {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.footer-items .items .links li a:hover {
+  color: #e9691e;
+}
+
+.footer-container .footer-items .about-us {
+  width: 400px;
+}
+
+.footer-container .footer-items .about-us p {
+  font-size: 0.9rem;
+  color: #bbb;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.footer-container .footer-items .learn-more ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  gap: 30px;
+}
+
+.footer-container .footer-items .learn-more ul li a {
+  text-decoration: none;
+  color: #bbb;
+  font-size: 0.9rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-container .footer-items .learn-more ul li a:hover {
+  color: #e9691e;
+}
+
+.footer-bottom {
+  background: #e9691e;
+  padding: 20px 0;
+  color: #fff;
+  text-align: center;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.social-links li {
+  margin: 0 10px;
+}
+
+.social-links a i {
+  color: #ffffff;
+  font-size: 13px;
+  transition: transform 0.3s ease-in-out;
+  border: 1px solid #e9691e;
+  padding: 12px 12px;
+}
+
+.social-links a i:hover {
+  transform: scale(1.2);
+  color: #e9691e;
+}

@@ -1,0 +1,47 @@
+.calendar-clock-container {
+  width: 100%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-clock-container .header-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+  animation: fadeInDown 0.5s ease;
+}
+
+.calendar-clock-container .real-time-display {
+  padding: 10px;
+}
+
+.calendar-clock-container .real-time-item {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  background-color: #e9691e;
+  animation: pulseGlow 3s infinite;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+}
+
+.calendar-clock-container .real-time-item h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.calendar-clock-container .real-time-item p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+

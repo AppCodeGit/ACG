@@ -1,0 +1,346 @@
+/* ========================================
+   VIDEO PLAYER - ADVANCED STYLES
+   ======================================== */
+
+.video-player-container {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.video-player-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  border-radius: 0;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  background: #000;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+
+/* ===== CONTROLS ===== */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+  padding: 20px 20px 12px;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.video-controls.visible {
+  opacity: 1;
+}
+
+.video-controls.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Control Bar */
+.control-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.progress-bar-container {
+  padding: 0 4px;
+}
+
+/* Time Display */
+.time-current,
+.time-duration {
+  color: white;
+  font-size: 13px;
+  font-family: monospace;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Seek Bar */
+.seek-bar {
+  flex: 1;
+  height: 5px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: height 0.2s ease;
+}
+
+.seek-bar:hover {
+  height: 8px;
+}
+
+.seek-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e9691e;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(233, 105, 30, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.seek-bar::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Bottom Controls */
+.bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.controls-left,
+.controls-center,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Control Buttons */
+.control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.control-btn:hover {
+  background: #e9691e;
+  transform: scale(1.05);
+}
+
+/* Playback Speed Button */
+.playback-speed-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.playback-speed-btn:hover {
+  background: #e9691e;
+  border-color: #e9691e;
+}
+
+/* Volume Control */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e9691e;
+  cursor: pointer;
+}
+
+/* Progress Badge */
+.progress-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.completed-badge {
+  background: #4caf50;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+/* Buffering Overlay */
+.buffering-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: white;
+  z-index: 20;
+}
+
+.buffering-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #e9691e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Loading Overlay */
+.video-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: white;
+  z-index: 15;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #e9691e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .video-controls {
+    padding: 15px 12px 10px;
+  }
+
+  .control-btn {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .playback-speed-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .volume-slider {
+    width: 50px;
+  }
+
+  .time-current,
+  .time-duration {
+    font-size: 11px;
+    min-width: 35px;
+  }
+
+  .progress-badge {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 550px) {
+  .volume-slider {
+    display: none;
+  }
+
+  .bottom-controls {
+    gap: 6px;
+  }
+
+  .controls-left,
+  .controls-center,
+  .controls-right {
+    gap: 6px;
+  }
+}
+
+/* For very small screens - stack controls */
+@media (max-width: 480px) {
+  .bottom-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls-left,
+  .controls-center,
+  .controls-right {
+    justify-content: center;
+  }
+
+  .control-btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .progress-badge {
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+
+  .time-current,
+  .time-duration {
+    font-size: 10px;
+    min-width: 30px;
+  }
+}

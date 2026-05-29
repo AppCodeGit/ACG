@@ -1,0 +1,638 @@
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.loading {
+  color: #0d6efd;
+}
+
+.error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.Payment-container .Payment-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.Payment-container .payment-summary-card {
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  color: #333;
+  position: relative;
+}
+
+.Payment-container .payment-header {
+  margin-bottom: 20px;
+  line-height: 1.6rem
+}
+
+.Payment-container .payment-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.Payment-container .payment-header p {
+ font-size: 1rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.Payment-container .summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+.Payment-container .summary-details .detail {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+  border-radius: 12px;
+}
+
+.Payment-container .summary-details .detail:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-left-color: #e9691e;
+}
+
+.Payment-container .summary-details .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  color: #e9691e;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.19);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  border-radius:6px;
+}
+
+.Payment-container .summary-details .detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.Payment-container .summary-details .label {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.Payment-container .summary-details .value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+}
+
+
+/* ===Progress=== */
+.Payment-container .progress-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+}
+
+.Payment-container .progress-container p{
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.Payment-container .progress-container .progress-history {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.Payment-container .progress-container .progress-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-top-right-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeef5;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 200px;
+}
+
+.Payment-container .progress-container .progress-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #7f8c8d, #d1d5db, #818cf8);
+  border-radius: 2px 2px 0 0;
+}
+
+.Payment-container .progress-container .progress-label:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.Payment-container .progress-container .percentage-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.Payment-container .progress-container .progress-percentage {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #e9691e;
+  background: linear-gradient(135deg, #e9691e 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(229, 160, 70, 0.2);
+  line-height: 1;
+}
+
+.Payment-container .progress-container .percent-symbol {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #6366f1;
+  margin-left: 2px;
+}
+
+.Payment-container .progress-container .progress-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.Payment-container .progress-container .progress-subtext {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  background: #f0f4ff;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+.Payment-container .progress-container .progress-subtext .material-symbols-outlined {
+  font-size: 1.1rem;
+  color: #10b981;
+}
+
+/* Animation for the percentage */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.Payment-container .progress-container .progress-percentage {
+  animation: countUp 0.8s ease-out;
+}
+
+/* Pulse animation for attention */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.Payment-container .progress-container .progress-label:hover .progress-percentage {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .Payment-container .progress-label {
+    padding: 15px;
+    margin-top: 15px;
+  }
+  
+  .Payment-container .progress-percentage {
+    font-size: 2.8rem;
+  }
+  
+  .Payment-container .percent-symbol {
+    font-size: 1.5rem;
+  }
+  
+  .Payment-container .progress-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .Payment-container .progress-percentage {
+    font-size: 2.2rem;
+  }
+  
+  .Payment-container .percent-symbol {
+    font-size: 1.2rem;
+  }
+  
+  .Payment-container .progress-text {
+    font-size: 0.9rem;
+  }
+  
+  .Payment-container .progress-subtext {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Achievement badge effect */
+.Payment-container .progress-label::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(245, 158, 11, 0.4);
+  }
+}
+
+/* Payment Progress Section */
+.Payment-container .progress-container .payment-progress-section {
+  background: white;
+  margin: 24px 0;
+}
+
+.Payment-container .progress-container .payment-history-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Payment-container .progress-container .history-details {
+  background: #f9fafb;
+  padding: 10px;
+  border-left: 4px solid #e9691e;
+  border-radius: 12px;
+}
+
+.Payment-container .progress-container .level {
+  display: block;
+  font-weight: 500;
+  color: #1e293a;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.Payment-container .progress-container .progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.Payment-container .progress-container .progress-text span:nth-child(2) {
+  font-weight: 600;
+  color: #e9691e;
+}
+
+.Payment-container .progress-container .parent-div {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+}
+
+.Payment-container .progress-container .child-div {
+  height: 100%;
+  background: linear-gradient(90deg, #e9691e 0%, #ff9500 100%);
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.Payment-container .progress-container .child-div::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  z-index: 1;
+  background-size: 20px 20px;
+  animation: move 1s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 20px;
+  }
+}
+
+/* Animation for progress bars */
+@keyframes growProgressBar {
+  0% { width: 0; }
+  100% { width: attr(data-progress); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .Payment-container .payment-progress-section {
+    padding: 16px;
+  }
+  
+  .Payment-container .history-details {
+    padding: 12px;
+  }
+}
+
+/* Add these styles to your existing CSS */
+.Payment-container .semester-column-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.Payment-container .semester-column-layout .semester-column {
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.Payment-container .semester-column-layout .semester-title {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.Payment-container .semester-column-layout .installments-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.Payment-container .semester-column-layout .installment-card {
+  width: 100%;
+  background: #f9f9f9;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.Payment-container .semester-column-layout .installment-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Payment-container .semester-column-layout .installment-header h4 {
+  color: #e9691e;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.Payment-container .semester-column-layout .installment-header .material-symbols-outlined {
+  color: #3ace00;
+  font-size: 1.3rem;
+}
+
+.Payment-container .semester-column-layout .payment-record {
+  margin-bottom: 1rem;
+}
+
+.Payment-container .semester-column-layout .payment-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect */
+.status:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Active/click effect */
+.status:active {
+  transform: translateY(0);
+}
+
+/* Pulse animation for pending status */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
+  }
+}
+
+/* Optional: Add shine effect on hover */
+.status::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.status:hover::after {
+  left: 100%;
+}
+
+.Payment-container .semester-column-layout .payment-row .label {
+  color: #173755;
+  font-weight: bold;
+    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Payment-container .semester-column-layout .payment-row .label .material-symbols-outlined {
+  color: #e9691e;
+  font-size: 1.2rem;
+}
+
+.Payment-container .semester-column-layout .payment-row .value {
+  color: #34495e;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.Payment-container .semester-column-layout .payment-row .cash {
+  color: #3ace00;
+}
+
+.Payment-container .semester-column-layout .payment-row .value .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.Payment-container .semester-column-layout .date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.date-time.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2c3e50;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.date-time .date-icon,
+.date-time .time-icon {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+
+
+
+.Payment-container .no-records {
+  text-align: center;
+  color: #6b7280;
+  background-color: #f9fafb;
+}
+
+.Payment-container .no-records .material-symbols-outlined {
+  font-size: 3rem;
+  color: #9ca3af;
+  opacity: 0.7;
+}
+
+.Payment-container .no-records p {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+/* Optional: Add a subtle animation */
+.Payment-container .no-records {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

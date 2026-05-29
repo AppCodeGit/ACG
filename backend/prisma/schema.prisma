@@ -1,0 +1,361 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//////////////////////////
+// ENUMS
+//////////////////////////
+
+enum Role {
+  student
+  admin
+}
+
+enum Gender {
+  male
+  female
+  other
+}
+
+enum ContentType {
+  video
+  document
+  assignment
+}
+
+enum ContentStatus {
+  draft
+  published
+  archived
+}
+
+//////////////////////////
+// USER MODEL
+//////////////////////////
+
+model User {
+  id            Int       @id @default(autoincrement())
+  cognitoId     String    @unique   // 👈 VERY IMPORTANT (Cognito user sub ID)
+  name          String
+  email         String    @unique
+  studentId     String?   @unique
+  role          Role      @default(student)
+  isActive      Boolean   @default(true)
+
+  refreshToken  String?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  failedLoginAttempts Int      @default(0)
+  lockedUntil         DateTime?
+  
+  studentProfile Student?
+  payments      Payment[]  // Now this will work since Payment has userId
+  courses       Course[]   // Courses created by admin/instructor
+  courseContent CourseContent[] // Content uploaded by user
+}
+
+//////////////////////////
+// STUDENT PROFILE
+//////////////////////////
+
+model Student {
+  id              Int      @id @default(autoincrement())
+  userId          Int?     @unique
+  user            User?    @relation(fields: [userId], references: [id])
+
+  fullName        String
+  email           String   @unique
+  phone           String
+  address         String
+  nationality     String
+  dob             DateTime
+  gender          Gender
+  profileImage    String
+
+  programName     String?
+  courseDetails   String?
+
+  qualification   String?
+  institution     String?
+  graduationYear  Int?
+  studyArea       String?
+  certifications  String?
+
+  guardianFullName   String?
+  relationship       String?
+  guardianPhone      String?
+  guardianEmail      String?
+  guardianOccupation String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  enrollments     Enrollment[]
+  assignmentSubmissions AssignmentSubmission[] 
+}
+
+model Program {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique  // "Software Engineering", "Cloud Computing", etc.
+  description String?
+  
+  courses     Course[]  // Programs have multiple courses
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//////////////////////////
+// COURSE MODEL
+//////////////////////////
+
+model Course {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  programId   Int          // 👈 ADD THIS - Link course to program
+  program     Program      @relation(fields: [programId], references: [id])  // 👈 ADD THIS LINE
+  thumbnail   String?      // URL to course thumbnail image
+  price       Float?       // Course price if paid
+  duration    String?      // Course duration (e.g., "8 weeks", "3 months")
+  level       String?      // Beginner, Intermediate, Advanced
+  category    String?      // Course category
+  instructorId Int?        // User ID of the instructor/admin who created it
+  instructor  User?        @relation(fields: [instructorId], references: [id])
+  
+  status      ContentStatus @default(draft)
+  isPublished Boolean     @default(false)
+  publishedAt DateTime?
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  content     CourseContent[]
+  enrollments Enrollment[]
+  payments    Payment[] 
+  
+  @@index([instructorId])
+  @@index([status])
+  @@index([isPublished])
+}
+
+// Add after Program model
+model Module {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String?
+  order       Int            @default(0)
+  programName String         // Which program this module belongs to
+  status      ContentStatus  @default(draft)
+  
+  // Content items in this module (1 video, 1 document, 1 assignment)
+  contents    CourseContent[]
+  
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  
+  @@unique([programName, order])
+  @@index([programName])
+  @@index([order])
+}
+
+// Update CourseContent model - add moduleId
+model CourseContent {
+  id          Int         @id @default(autoincrement())
+  courseId    Int?        
+  course      Course?     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  // New: Link to Module
+  moduleId    Int?
+  module      Module?     @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  
+  programName String
+  title       String
+  description String?
+  type        ContentType
+  status      ContentStatus @default(draft)
+  
+  // File information
+  fileUrl     String?
+  thumbnailUrl String?
+  fileSize    Int?
+  mimeType    String?
+  duration    String?
+  
+  order       Int         @default(0)
+  
+  uploadedById Int?
+  uploadedBy   User?      @relation(fields: [uploadedById], references: [id])
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  contentProgress ContentProgress[] 
+  
+  @@index([programName])
+  @@index([courseId])
+  @@index([moduleId])
+}
+
+//////////////////////////
+// ASSIGNMENT SUBMISSION MODEL
+//////////////////////////
+
+model AssignmentSubmission {
+  id              Int            @id @default(autoincrement())
+  assignmentId    Int            
+  studentId       Int
+  student         Student        @relation(fields: [studentId], references: [id])
+  
+  submissionUrl   String?
+  submissionText  String?
+  submittedAt     DateTime       @default(now())
+  
+  grade           Float?
+  feedback        String?
+  gradedBy        Int?
+  gradedAt        DateTime?
+  
+  attemptNumber   Int            @default(1)
+  status          SubmissionStatus @default(submitted)
+  
+  @@unique([assignmentId, studentId]) 
+  @@unique([assignmentId, studentId, attemptNumber])
+  @@index([assignmentId])
+  @@index([studentId])
+  @@index([status])
+}
+
+enum SubmissionStatus {
+  submitted
+  graded
+  resubmitted
+  late
+}
+
+//////////////////////////
+// ENROLLMENT MODEL (tracks which students are enrolled in which courses)
+//////////////////////////
+
+model Enrollment {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courseId    Int
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  enrolledAt  DateTime @default(now())
+  completedAt DateTime?
+  progress    Int      @default(0) // Percentage of course completed
+  
+  status      EnrollmentStatus @default(enrolled)
+  contentProgress ContentProgress[]
+  lastAccessed DateTime @default(now())
+  
+  @@unique([studentId, courseId])
+  @@index([studentId])
+  @@index([courseId])
+  @@index([status])
+}
+
+enum EnrollmentStatus {
+  enrolled
+  in_progress
+  completed
+  dropped
+}
+
+//////////////////////////
+// CONTENT PROGRESS (tracks student progress through individual content items)
+//////////////////////////
+
+model ContentProgress {
+  id          Int      @id @default(autoincrement())
+  enrollmentId Int
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  contentId    Int
+  content      CourseContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  
+  isCompleted  Boolean  @default(false)
+  completedAt  DateTime?
+  lastPosition Int?     // For videos: last watched position in seconds
+  score        Float?   // For assignments: score achieved
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@unique([enrollmentId, contentId])
+  @@index([enrollmentId])
+  @@index([contentId])
+  @@index([isCompleted])
+}
+
+//////////////////////////
+// PAYMENT (Paystack Records) - SUPPORTS BOTH GUEST & REGISTERED USERS
+//////////////////////////
+
+model Payment {
+  id             Int      @id @default(autoincrement())
+  userId         Int?     // 👈 OPTIONAL - NULL for guest payments, REQUIRED for registered users
+  email          String   // 👈 REQUIRED for ALL payments (guest + registered)
+  semester       String
+  installment    String
+  firstName      String?
+  lastName       String?
+  phoneNumber    String?
+  status         String?  @default("pending")
+  amount         Float?
+  amountPaid     Float?
+  transactionId  String?  @unique
+  paidAt         DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Optional relation to User (only for registered users)
+  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Link to course if payment is for a course
+  courseId       Int?
+  course         Course?  @relation(fields: [courseId], references: [id])
+
+  @@index([email])
+  @@index([userId])
+  @@index([status])
+  @@index([transactionId])
+  @@index([courseId])
+}
+
+model AssignmentNotification {
+  id             Int      @id @default(autoincrement())
+  adminId        Int      // Which admin receives it
+  submissionId   Int      // Link to the submission
+  studentName    String
+  assignmentTitle String
+  programName    String
+  read           Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  
+  @@index([adminId])
+  @@index([read])
+  @@index([createdAt])
+}
+
+
+model SystemSetting {
+  id          Int      @id @default(autoincrement())
+  category    String   // "system", "security"
+  key         String   @unique
+  value       String
+  description String?
+  isSensitive Boolean  @default(false)  // For passwords/keys (hide in UI)
+  updatedAt   DateTime @updatedAt
+  
+  @@index([category])
+  @@index([key])
+}

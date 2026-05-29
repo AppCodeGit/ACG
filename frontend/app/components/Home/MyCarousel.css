@@ -1,0 +1,56 @@
+.carousel-item {
+  animation-duration: 4s;
+}
+
+.carousel-item.active {
+  animation-name: bounceInBottom;
+}
+
+@keyframes bounceInBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(5%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+/* General carousel styling */
+.carousel .carousel-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Next and Previous button styles */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 8%; /* Adjust width of controls */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6); 
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Darken on hover */
+  transform: scale(1.1); /* Slight zoom effect */
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+/* Ensure buttons are always visible */
+.carousel-control-prev,
+.carousel-control-next {
+  opacity: 1;
+}

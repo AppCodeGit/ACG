@@ -1,0 +1,856 @@
+.dashboard-section {
+  color: #333;
+}
+
+.dashboard-section .dashboard-card {
+  display: none;
+}
+
+.dashboard-section .profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 10px;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+}
+
+@media (max-width: 768px) {
+  .dashboard-section {
+    padding: 15px;
+  }
+
+  .dashboard-section .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-section .section-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Welcome Container */
+.dashboard-section .welcome-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 20px;
+}
+
+/* Welcome Banner */
+.dashboard-section .welcome-banner {
+  display: flex;
+  height: 60vh;
+  background: #f5f7fa;
+  border-radius: 12px;
+  overflow: hidden;
+  grid-column: 1 / 3;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section .welcome-banner::before {
+  content: "";
+  flex: 1;
+  background: url("../images/Head-1.jpg") center/cover no-repeat;
+}
+
+.dashboard-section .welcome-banner .text-container {
+  flex: 1;
+  padding: 40px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333;
+}
+
+.dashboard-section .welcome-banner .welcome-greeting {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.dashboard-section .welcome-banner .user-name {
+  color: #e9691e;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.dashboard-section .welcome-banner .text-container h1 {
+  margin: 40px 0;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  gap: 20px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dashboard-section .welcome-banner .banner-item::before {
+  content: "🎓";
+  font-size: 4rem;
+  align-self: start;
+  background: #ffffff20;
+  color: #fff;
+  background-color: #e9691e;
+  padding: 10px 13px;
+  border-radius: 12px;
+}
+
+.dashboard-section .welcome-banner .text-container p {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Student Dashboard */
+.dashboard-section .dashboard-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-section .dashboard-tile {
+  background-color: #fff;
+  color: #343a40;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: justify;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-section .dashboard-tile:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-section .dashboard-tile i {
+  margin-bottom: 15px;
+  padding: 1.1rem;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Consistent Orange Theme for All Icons */
+.dashboard-section .dashboard-tile .bi-book-half,
+.dashboard-section .dashboard-tile .bi-journal-bookmark-fill,
+.dashboard-section .dashboard-tile .bi-emoji-smile,
+.dashboard-section .dashboard-tile .bi-bar-chart-fill {
+  color: #e9691e;
+  background: #ffe0cf;
+}
+
+/* ============================================
+   YOUR PROGRESS SECTION
+   ============================================ */
+
+.dashboard-section .dashboard-tile.progress-tracker {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border: 1px solid rgba(233, 105, 30, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-section .dashboard-tile.progress-tracker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
+}
+
+.dashboard-section .progress-tracker .progress {
+  background-color: #f1f5f9;
+  border-radius: 12px;
+  height: 12px;
+  margin: 15px 0 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section .progress-tracker .progress-bar {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  border-radius: 12px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.dashboard-section .progress-tracker .progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.dashboard-section .progress-stats {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dashboard-section .progress-stats p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard-section .progress-stats p:first-child {
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #e9691e;
+}
+
+.dashboard-section .progress-stats p:last-child {
+  background: #dcfce7;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #166534;
+}
+
+/* ============================================
+   CURRENT MODULE SECTION
+   ============================================ */
+
+.dashboard-section .dashboard-tile.daily-schedule {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border: 1px solid rgba(233, 105, 30, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-section .dashboard-tile.daily-schedule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
+}
+
+.dashboard-section .module-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 12px 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.dashboard-section .module-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.dashboard-section .module-progress {
+  margin: 12px 0;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.dashboard-section .module-progress .progress {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-bottom: 8px;
+}
+
+.dashboard-section .module-progress .progress-bar {
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+  border-radius: 3px;
+}
+
+.dashboard-section .module-progress small {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+.dashboard-section .concepts-list {
+  margin: 12px 0;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.dashboard-section .concepts-list strong {
+  display: block;
+  font-size: 0.8rem;
+  color: #e9691e;
+  margin-bottom: 8px;
+}
+
+.dashboard-section .concepts-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-section .concepts-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.8rem;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-section .concepts-list li:last-child {
+  border-bottom: none;
+}
+
+.dashboard-section .next-module {
+  margin-top: 12px;
+  padding: 10px;
+  background: #fef9f5;
+  border-radius: 12px;
+  border-left: 3px solid #e9691e;
+}
+
+.dashboard-section .next-module strong {
+  font-size: 0.75rem;
+  color: #e9691e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-section .next-module p {
+  margin: 5px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* ============================================
+   MOTIVATIONAL QUOTE SECTION
+   ============================================ */
+
+.dashboard-section .dashboard-tile.motivation {
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-section .dashboard-tile.motivation .title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dashboard-section .dashboard-tile.motivation .title h4 {
+  color: white;
+}
+
+.dashboard-section .dashboard-tile.motivation .bi-emoji-smile {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.dashboard-section .quote-content {
+  margin-top: 15px;
+}
+
+.dashboard-section .quote-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 10px;
+}
+
+.dashboard-section .quote-author {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.dashboard-section .quote-refresh {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ============================================
+   ACADEMIC UPDATES SECTION
+   ============================================ */
+
+.dashboard-section .dashboard-tile.quick-actions {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border: 1px solid rgba(233, 105, 30, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-section .dashboard-tile.quick-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
+}
+
+.dashboard-section .academic-section {
+  margin-bottom: 20px;
+}
+
+.dashboard-section .academic-section h5 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard-section .grade-list,
+.dashboard-section .assignment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-section .grade-list li,
+.dashboard-section .assignment-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dashboard-section .grade-list li:last-child,
+.dashboard-section .assignment-list li:last-child {
+  border-bottom: none;
+}
+
+.dashboard-section .grade-title {
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.dashboard-section .grade-score {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #10b981;
+  background: #dcfce7;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.dashboard-section .pending-badge {
+  font-size: 0.7rem;
+  color: #e9691e;
+  background: #ffe0cf;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.dashboard-section .academic-section p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+  padding: 15px 0;
+  margin: 0;
+}
+
+/* ============================================
+   ANNOUNCEMENTS SECTION
+   ============================================ */
+
+.dashboard-section .announcement-date {
+  display: flex;
+  gap: 20px;
+  grid-column: 1/3;
+}
+
+.dashboard-section .announcement-date .announcement-banner {
+  background: #ffffff;
+  border-left: 6px solid #e9691e;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.6s ease-in-out;
+  width: 100%;
+}
+
+.dashboard-section .announcement-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-section .announcement-section {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-section .announcement-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.dashboard-section .announcement-section h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e9691e;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-section .announcement-date .announcement-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-section .announcement-date .announcement-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.dashboard-section .announcement-date .announcement-list li:hover {
+  transform: translateX(5px);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #e9691e;
+}
+
+.dashboard-section .announcement-date .announcement-list li .icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.dashboard-section .announcement-date .announcement-list li div {
+  flex: 1;
+}
+
+.dashboard-section .announcement-date .announcement-list li strong {
+  color: #1e293b;
+  font-size: 0.85rem;
+}
+
+.dashboard-section .announcement-date .announcement-list li .Text {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.dashboard-section .announcement-date .announcement-list li .highlight {
+  background-color: #ffe0cf;
+  color: #e9691e;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.dashboard-section .announcement-date .announcement-list li .feedback {
+  display: block;
+  font-size: 0.75rem;
+  color: #e9691e;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.dashboard-section .announcement-date .announcement-list li .course-date {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.dashboard-section .announcement-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #e2e8f0;
+  text-align: center;
+}
+
+.dashboard-section .announcement-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dashboard-section .announcement-footer p::before {
+  content: "🔔";
+  font-size: 1rem;
+}
+
+/* Profile Card */
+.dashboard-section .profile-card {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: #333;
+  transition: transform 0.3s;
+}
+
+.dashboard-section .profile-card:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-section .profile-card .profile-header {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dashboard-section .profile-card .profile-image {
+  width: 100px;
+  height: 100px;
+  border: 4px solid #fff;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dashboard-section .profile-card .student-profile-header .student-name {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 5px;
+}
+
+.dashboard-section .profile-card .student-profile-header .student-id {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.dashboard-section .profile-card .student-profile-header .student-name i,
+.dashboard-section .profile-card .student-profile-header .student-id i {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.dashboard-section .profile-body {
+  padding: 20px;
+}
+
+.dashboard-section .profile-body .detail-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  margin: 10px 0;
+  padding: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-section .profile-body .detail-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-section .profile-body .icon-wrapper {
+  width: 35px;
+  height: 35px;
+  background: #ffe0cf;
+  border-radius: 8px;
+  color: #e9691e;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section .profile-body .info-text strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dashboard-section .profile-body .info-text p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-section .welcome-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-section .welcome-banner {
+    grid-column: 1;
+    height: auto;
+    flex-direction: column;
+  }
+  
+  .dashboard-section .announcement-date {
+    grid-column: 1;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-section {
+    padding: 15px;
+  }
+  
+  .dashboard-section .dashboard-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-section .progress-stats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .dashboard-section .grade-list li,
+  .dashboard-section .assignment-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .dashboard-section .announcement-date .announcement-list li {
+    flex-direction: column;
+  }
+  
+  .dashboard-section .announcement-date .announcement-list li .icon {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-section .welcome-banner .text-container {
+    padding: 20px;
+  }
+  
+  .dashboard-section .welcome-banner .text-container h1 {
+    font-size: 1.2rem;
+    margin: 20px 0;
+  }
+  
+  .dashboard-section .profile-card .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .dashboard-section .student-profile-header .student-name,
+  .dashboard-section .student-profile-header .student-id {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-section .dashboard-tile {
+    padding: 15px;
+  }
+  
+  .dashboard-section .welcome-banner .banner-item::before {
+    font-size: 2rem;
+    padding: 8px 10px;
+  }
+  
+  .dashboard-section .module-title {
+    font-size: 1rem;
+  }
+  
+  .dashboard-section .quote-text {
+    font-size: 0.9rem;
+  }
+}

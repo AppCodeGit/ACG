@@ -1,0 +1,303 @@
+/* ====================
+   Main Navigation Container (.navbar)
+   ==================== */
+.nav-bar {
+  background: #fff;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  color: #495057;
+  top: 0;
+  position: sticky;
+  padding: 0;
+  width: 100%;
+  z-index: 9;
+}
+
+.nav-bar .container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ====================
+   Mobile Hamburger Menu
+   ==================== */
+.nav-bar .navbar-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.nav-bar .hamburger {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+/* ====================
+   Navigation Links Container
+   ==================== */
+.nav-bar .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+}
+
+/* Mobile active state */
+.nav-bar .nav-links.active {
+  display: flex;
+}
+
+/* ====================
+   Regular Navigation Links (Direct p > a)
+   ==================== */
+.nav-bar .nav-links p {
+  margin: 0;
+  display: flex;
+  color: #333;
+}
+
+.nav-bar .nav-links p a {
+cursor: pointer;
+  color: #495057;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Active state for all links */
+.nav-bar .nav-links a.active {
+  color: #e9691e;
+}
+
+/* Hover animation for direct links */
+.nav-bar .nav-links p a::before,
+.nav-bar .nav-links p a::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transition: transform 0.4s;
+}
+
+.nav-bar .nav-links p a::before {
+  top: 0;
+  transform: translateY(0);
+}
+
+.nav-bar .nav-links p a::after {
+  top: 0;
+  transform: translateY(100%);
+  color: #e9691e;
+}
+
+.nav-bar .nav-links p a:hover::before {
+  transform: translateY(-100%);
+}
+
+.nav-bar .nav-links p a:hover::after {
+  transform: translateY(0);
+}
+
+/* ====================
+   Dropdown Containers (Link-dropdown)
+   ==================== */
+.nav-bar .nav-links .Link-dropdown {
+  position: relative;
+  display: inline-block;
+  padding: 15px 0;
+}
+
+/* Dropdown toggle button */
+.nav-bar .nav-links .drop-toggle {
+  cursor: pointer;
+  color: #495057;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dropdown arrow icon */
+.nav-bar .nav-links .drop-toggle span {
+  margin: 0;
+  display: flex;
+  padding: 0;
+  font-size: 18px;
+  transition: all 300ms ease-in-out;
+}
+
+/* Dropdown hover effects */
+.nav-bar .Link-dropdown:hover .drop-toggle {
+  color: #e9691e;
+}
+
+.nav-bar .nav-links .drop-toggle:hover span {
+  transform: rotate(180deg);
+  color: #e9691e;
+}
+
+.nav-bar .Link-dropdown:hover span {
+  transform: rotate(180deg);
+  color: #e9691e;
+}
+
+/* Hover animation for dropdown toggle */
+.nav-bar .Link-dropdown p::before,
+.nav-bar .Link-dropdown p::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transition: transform 0.4s;
+}
+
+.nav-bar .Link-dropdown p::before {
+  top: 0;
+  transform: translateY(0);
+}
+
+.nav-bar .Link-dropdown p::after {
+  top: 0;
+  transform: translateY(100%);
+  color: #e9691e;
+}
+
+.nav-bar .Link-dropdown p:hover::before {
+  transform: translateY(-100%);
+}
+
+.nav-bar .Link-dropdown p:hover::after {
+  transform: translateY(0);
+}
+
+/* ====================
+   Dropdown Menu (The actual dropdown)
+   ==================== */
+.nav-bar .nav-links .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  width: 400px;
+}
+
+/* Show dropdown on hover */
+.nav-bar .nav-links .Link-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Dropdown menu links */
+.nav-bar .nav-links .dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #000;
+  font-size: 0.8rem;
+}
+
+.nav-bar .nav-links .dropdown-menu a span {
+  font-size: 18px;
+}
+
+.nav-bar .nav-links .dropdown-menu a:hover {
+  color: #e9691e;
+}
+
+/* Active state for dropdown links */
+.nav-bar .nav-links .Link-dropdown a.active {
+  color: #e9691e;
+  background-color: #f0f0f0;
+}
+
+/* Dropdown description text */
+.nav-bar .Link-dropdown .dropdown-menu .description {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: #868686;
+  margin-top: 20px;
+}
+
+/* ====================
+   Apply Now Button
+   ==================== */
+.nav-bar .btn-container .btn {
+  font-size: 0.8rem;
+  width: 110px;
+  padding: 8px 4px;
+}
+
+.nav-bar .btn-container .btn span {
+  font-size: 18px;
+}
+
+/* ====================
+   Top Header Strip (grid-header)
+   ==================== */
+.grid-header {
+  background: #e9691e;
+}
+
+.grid-header .container {
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.grid-header .container p {
+  font-size: 0.9rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grid-header .container p span {
+  font-size: 17px;
+}
+
+/* ====================
+   Mobile Responsive Styles
+   ==================== */
+@media (max-width: 768px) {
+  .nav-bar .navbar-toggle {
+    display: flex;
+  }
+
+  .nav-bar .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-bar .nav-links.active {
+    display: flex;
+  }
+
+  .nav-bar .nav-links p {
+    margin: 1rem 0;
+    font-size: 0.7rem;
+  }
+}

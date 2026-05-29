@@ -1,0 +1,158 @@
+/* Parent container - PaymentPage.css */
+.payment-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+  padding: 50px 50px;
+}
+
+.payment-page .image-container {
+  flex: 1; /* Add to control image container width */
+  margin-bottom: 30px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.payment-page .logo-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px; /* Add subtle rounding for better aesthetics */
+}
+
+.payment-page .payment-container {
+  flex: 1; /* Add to control payment container width */
+  background-color: #fff;
+  padding: 40px; /* Increased from 20px for better spacing */
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  animation: fadeInUp 0.6s ease;
+  border-radius: 16px; /* Add rounding for consistency */
+}
+
+.payment-page .payment-container strong{
+  color: #4d4d4d;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.payment-page .payment-title {
+  font-size: 2rem;
+  color: #e9691e;
+  margin-bottom: 24px; /* Increased from 12px */
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Note: These classes need .payment-page prefix for consistency */
+.payment-page .payment-description {
+  background-color: #fef4f4;
+  border-left: 5px solid #e9691e;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem; /* Slightly increased for readability */
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.payment-page .payment-info {
+  background-color: #f6fff6;
+  padding: 14px 20px;
+  border-left: 5px solid #e9691e;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 18px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.payment-page .payment-note {
+  background-color: #fff8e1;
+  padding: 14px 20px;
+  border-left: 5px solid #e9691e;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin: 25px 0 30px 0; /* Added bottom margin */
+  text-align: left;
+  line-height: 1.5;
+}
+
+.payment-page .highlight-paystack {
+  font-weight: bold;
+  color: #0f9d58;
+}
+
+.payment-page .btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Add spacing above button */
+}
+
+/* ISSUE: Class mismatch - TSX uses "btn" but CSS uses "pay-button" */
+.payment-page .btn {
+  font-size: 0.8rem;
+}
+
+.payment-page .material-symbols-outlined {
+  font-size: 1.2rem;
+  vertical-align: middle; /* Better alignment with text */
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .payment-page {
+    flex-direction: column;
+    gap: 40px;
+    min-height: auto;
+    padding: 20px;
+  }
+  
+  .payment-page .image-container {
+    width: 100%;
+    max-width: 500px; /* Limit image size on mobile */
+    margin: 0 auto 20px;
+  }
+  
+  .payment-page .payment-container {
+    padding: 30px 20px;
+  }
+  
+  .payment-page .payment-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-page .payment-title {
+    font-size: 1.5rem;
+  }
+  
+  .payment-page .btn {
+    width: 100%; /* Full width button on mobile */
+    justify-content: center;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

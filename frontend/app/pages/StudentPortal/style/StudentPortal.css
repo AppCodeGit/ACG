@@ -1,0 +1,1173 @@
+/* ============================================
+   SIDEBAR STYLES
+   ============================================ */
+
+.d-flex {
+  position: relative;
+  padding: 20px;
+  height: auto;
+  background-color: #f5f4f4;
+  font-weight: 500;
+}
+
+
+.sidebar {
+  position: fixed;
+  width: 250px;
+  height: 93vh;
+  background: #fff;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #e9691e transparent;
+  transition: width 0.3s ease;
+  z-index: 100;
+  border-radius: 10px;
+}
+
+/* Chrome, Edge, and Safari */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #e9691e;
+  border-radius: 4px;
+}
+
+.sidebar .p-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #d3d3d3;
+  gap: 15px;
+}
+
+.sidebar .p-container .p-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #e9691e;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.sidebar .p-container .name {
+  font-size: 14px;
+  margin: 0;
+  color: #5f5f5f;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.sidebar .nav {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sidebar .nav-link {
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #292e30;
+  width: 100%;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar .nav-link .arrow-icon {
+  position: absolute;
+  right: 0;
+  left: 6em;
+}
+
+.sidebar .nav-link .bi {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+/* Active link styling */
+.sidebar .nav-link.active {
+  background: #ffeee4;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(253, 121, 13, 0.2);
+  color: #e9691e;
+}
+
+.sidebar .nav-link.active .bi {
+  color: #e9691e;
+}
+
+/* Hover effects for sidebar links */
+.sidebar .nav-link:hover {
+  text-decoration: none;
+  color: #e9691e;
+}
+
+/* Sidebar Dropdown Styles */
+.sidebar-item .dropdown-header .nav-link {
+  transition: all 600ms ease-in-out;
+}
+
+/* Dropdown arrow icon */
+.sidebar-item .dropdown-header .arrow-icon {
+  transition: transform 0.3s ease;
+  margin-left: 40px;
+  font-size: 20px;
+}
+
+.sidebar-item .dropdown-header .arrow-icon.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown list - expanded mode */
+.sidebar-item .dropdown-list {
+  background-color: #f5f4f4;
+  margin-top: 10px;
+  border-left: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+/* Dropdown item */
+.sidebar-item .dropdown-item {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-item .dropdown-item:hover {
+  background-color: #e9691e;
+  color: #fff;
+}
+
+.sidebar-item .dropdown-item.active {
+  background-color: #ffeee4;
+  color: #e9691e;
+  border-left-color: #e9691e;
+}
+
+/* ============================================
+   EXPAND/COLLAPSE MODIFICATIONS
+   ============================================ */
+
+/* Collapsed sidebar state */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* Center content in p-container when collapsed */
+.sidebar.collapsed .p-container {
+  justify-content: center;
+  padding: 20px 10px;
+}
+
+/* Slightly larger image when collapsed */
+.sidebar.collapsed .p-image {
+  width: 45px;
+  height: 45px;
+}
+
+/* Hide name text when collapsed */
+.sidebar.collapsed .name {
+  display: none;
+}
+
+/* Center nav links when collapsed */
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 12px;
+}
+
+/* Hide text and adjust icon when collapsed */
+.sidebar.collapsed .nav-link .me-2 {
+  margin-right: 0 !important;
+}
+
+/* Make icons larger when collapsed */
+.sidebar.collapsed .nav-link .bi {
+  font-size: 22px;
+  margin: 0;
+}
+
+/* Dropdown container positioning for collapsed mode */
+.sidebar.collapsed .sidebar-item {
+  position: relative;
+}
+
+/* Floating dropdown for collapsed mode */
+.sidebar.collapsed .dropdown-list.collapsed-dropdown {
+  position: fixed;
+  left: 90px;
+  background-color: #ffffff;
+  min-width: 200px;
+  margin-top: -10px;
+  border-left: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  z-index: 1000;
+  display: block;
+  animation: fadeIn 0.2s ease;
+  border: 1px solid #e0e0e0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Ensure dropdown items in collapsed mode look good */
+.sidebar.collapsed .dropdown-list.collapsed-dropdown .dropdown-item {
+  padding: 12px 16px;
+  white-space: nowrap;
+  border-left: none;
+}
+
+.sidebar.collapsed .dropdown-list.collapsed-dropdown .dropdown-item:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.sidebar.collapsed .dropdown-list.collapsed-dropdown .dropdown-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+/* Make dropdown header clickable in collapsed mode */
+.sidebar.collapsed .dropdown-header {
+  cursor: pointer;
+  position: relative;
+}
+
+.sidebar.collapsed .dropdown-header .nav-link {
+  pointer-events: auto;
+}
+
+/* Hide arrow in collapsed mode */
+.sidebar.collapsed .dropdown-header .arrow-icon {
+  display: none;
+}
+
+/* Active state for dropdown header in collapsed mode */
+.sidebar.collapsed .dropdown-header.active .nav-link {
+  background: #ffeee4;
+  color: #e9691e;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  position: absolute;
+  top: 27px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: #e9691e;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-toggle:hover {
+  background: #d45a12;
+  transform: scale(1.1);
+}
+
+.sidebar-toggle .bi {
+  color: white;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Rotate icon when collapsed */
+.sidebar.collapsed .sidebar-toggle .bi {
+  transform: rotate(180deg);
+}
+
+/* Adjust main content margin */
+.main-content {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content,
+.sidebar.collapsed + .main-content {
+  margin-left: 80px;
+}
+
+/* Ensure proper z-index layering */
+.sidebar.collapsed .sidebar-item .dropdown-list.collapsed-dropdown {
+  position: fixed;
+  z-index: 1050;
+}
+
+/* Additional fix for dropdown positioning */
+@media (max-width: 768px) {
+  .sidebar.collapsed .dropdown-list.collapsed-dropdown {
+    left: 80px;
+  }
+}
+
+/* ============================================
+   MAIN CONTENT STYLES
+   ============================================ */
+
+.main-content {
+  width: 100%;
+  margin-left: 18em;
+  padding-left: 20px;
+  position: relative;
+}
+
+.main-content .footer {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
+  color: #5f5f5f;
+  margin-top: 20px;
+}
+
+.main-content .footer p {
+  margin: 0;
+}
+
+
+/* ============================================
+   NAVBAR STYLES
+   ============================================ */
+
+.navba {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 25px;
+}
+
+/* Navbar Left Section */
+.navbar-left .logo {
+  width: 200px;
+}
+
+/* Admin Icons Container */
+.student-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Notification Container */
+.notification-container {
+  position: relative;
+}
+
+.notification-button {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.notification-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
+}
+
+.notification-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.notification-button:hover .material-symbols-outlined {
+  color: #e9691e;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  background: #e9691e;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(233, 105, 30, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0);
+  }
+}
+
+/* Search Bar Container */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Search Icon Button */
+.search-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.search-icon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
+}
+
+.search-icon-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.search-icon-button:hover .material-symbols-outlined {
+  color: #e9691e;
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Search Input */
+.search-input {
+  padding: 8px 16px;
+  height: 40px;
+  width: 240px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #1a202c;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.search-input:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+  width: 280px;
+}
+
+.search-input::placeholder {
+  color: #a0aec0;
+}
+
+/* Close Icon Button */
+.close-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-icon-button:hover {
+  background: #fee2e2;
+  transform: rotate(90deg);
+}
+
+.close-icon-button .material-symbols-outlined {
+  font-size: 18px;
+  color: #e9691e;
+}
+
+
+/* ============================================
+   NOTIFICATION & SEARCH TOOLTIPS
+   ============================================ */
+
+/* Optional: Tooltip styling for better UX */
+.notification-container::before {
+  content: "Notifications";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a202c;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+}
+
+.notification-container:hover::before {
+  opacity: 1;
+}
+
+.search-icon-button:hover::before {
+  content: "Search";
+  position: absolute;
+  top: -30px;
+  background: #1a202c;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Optional: Add a subtle glow effect on active elements */
+.notification-button:active,
+.search-icon-button:active {
+  transform: translateY(0);
+}
+
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+
+.d-flex .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Box */
+.d-flex .modal-content {
+  background: white;
+  padding: 20px;
+  width: 60%;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh;
+  overflow-y: auto; /* only shows scrollbar when needed */
+  overflow-x: hidden; /* hides horizontal bar */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #e9691e transparent; /* Firefox */
+}
+
+/* Chrome, Edge, and Safari */
+.d-flex .modal-content::-webkit-scrollbar {
+  width: 6px; /* slim scrollbar */
+}
+
+.d-flex .modal-content::-webkit-scrollbar-track {
+  background: transparent; /* no track */
+}
+
+.d-flex .modal-content::-webkit-scrollbar-thumb {
+  background-color: #e9691e; /* scrollbar thumb */
+  border-radius: 4px;
+}
+
+/* Close Button */
+.d-flex .modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* ============================================
+   PROFILE MANAGER STYLES
+   ============================================ */
+
+.profile-manager-container {
+  padding: 20px;
+  position: relative;
+}
+
+.profile-manager-container .loading {
+  text-align: center;
+  padding: 1rem;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.profile-manager-container .message {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.profile-manager-container .message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.profile-manager-container .message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.profile-manager-container .user-info-section,
+.profile-manager-container .profile-section,
+.profile-manager-container .phone-section {
+  margin-bottom: 1.5rem;
+}
+
+.profile-manager-container .profile-section h3,
+.profile-manager-container .phone-section h3 {
+  color: #435d77;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.profile-manager-container .info-field {
+  margin-bottom: 1.5rem;
+}
+
+.profile-manager-container .info-field .btn{
+  padding: 4px;
+}
+
+.profile-manager-container .info-field label {
+  margin-bottom: 0.5rem;
+  text-align: left;
+  color: #495057;
+  width: 100%;
+}
+
+.profile-manager-container .edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.profile-manager-container .field-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.profile-manager-container .display-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.profile-manager-container .info-input {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #ffe0cf;
+  color: #575454;
+  transition: all 0.3s ease;
+  width: 100%;
+  outline: none;
+}
+
+.profile-manager-container .info-input:focus {
+  border: 2px solid #e9691e;
+  box-shadow: 0px 0px 5px rgba(79, 70, 229, 0.4);
+}
+
+.profile-manager-container .profile-section {
+  display: flex;
+  gap: 4rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.profile-manager-container .current-image,
+.profile-manager-container .update-section {
+  width: 100%;
+}
+
+.profile-manager-container .update-section .btn-container{
+  display: flex;
+  justify-content: center;
+}
+
+.profile-manager-container .profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e9ecef;
+}
+
+.profile-manager-container .no-image {
+  text-align: center;
+  color: #6c757d;
+}
+
+.profile-manager-container .default-avatar {
+  width: 100px;
+  height: 100px;
+  background: #dee2e6;
+  border-radius: 50%;
+  margin: 1rem auto;
+}
+
+.profile-manager-container .file-input-container {
+  margin-bottom: 1rem;
+}
+
+.profile-manager-container .file-input-container input[type="file"] {
+  display: none;
+}
+
+.profile-manager-container .file-name {
+  display: block;
+  font-size: 0.9rem;
+  color: #31577a;
+  margin-top: 2rem;
+}
+
+.profile-manager-container .preview h4{
+  font-size: 1.2rem;
+  color: #435d77;
+}
+
+.profile-manager-container .preview {
+  margin: 1rem 0;
+}
+
+.profile-manager-container .preview-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #e9691e;
+}
+
+.profile-manager-container .upload-btn {
+  background: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  align-self: flex-start;
+}
+
+.profile-manager-container .upload-btn:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.profile-manager-container .phone-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-manager-container .phone-input {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.profile-manager-container .phone-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.profile-manager-container .phone-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.profile-manager-container .phone-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.profile-manager-container .phone-number {
+  margin: 0;
+  color: #495057;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;  
+  color: #e9691e;
+  user-select: none;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
+.profile-manager-container .user-info-section .btn{
+  font-size: 0.9rem;
+}
+
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .admin-icons {
+    gap: 0.75rem;
+  }
+
+  .search-input {
+    width: 160px;
+  }
+
+  .search-input:focus {
+    width: 180px;
+  }
+
+  .notification-button,
+  .search-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-button .material-symbols-outlined,
+  .search-icon-button .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+
+/* ============================================
+   MAINTENANCE PAGE STYLES
+   Matches your dashboard color scheme
+   ============================================ */
+
+/* Maintenance Page Container */
+.maintenance-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fb 0%, #e2e8f0 100%);
+  margin: 0;
+  padding: 20px;
+}
+
+/* Maintenance Card */
+.maintenance-content {
+  text-align: center;
+  background: #ffffff;
+  padding: 48px 40px;
+  border-radius: 28px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Top accent bar */
+.maintenance-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Icon Container */
+.maintenance-icon {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #fef3c7, #fed7aa);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 48px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 20px rgba(233, 105, 30, 0);
+  }
+}
+
+/* Title */
+.maintenance-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+/* Description text */
+.maintenance-content p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  line-height: 1.6;
+}
+
+/* Admin notice */
+.maintenance-content small {
+  display: block;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  color: #e9691e;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.maintenance-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #e9691e;
+  border-right-color: #f08b4a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.maintenance-loading p {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 640px) {
+  .maintenance-content {
+    padding: 32px 24px;
+  }
+  
+  .maintenance-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .maintenance-content h1 {
+    font-size: 24px;
+  }
+  
+  .maintenance-content p {
+    font-size: 14px;
+  }
+  
+  .maintenance-content small {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .maintenance-page {
+    padding: 16px;
+  }
+  
+  .maintenance-content {
+    padding: 24px 20px;
+  }
+  
+  .maintenance-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    margin-bottom: 16px;
+  }
+  
+  .maintenance-content h1 {
+    font-size: 20px;
+  }
+  
+  .maintenance-content p {
+    font-size: 13px;
+  }
+}
+
+/* Loading Spinner */
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #ffe0cf;
+  border-top-color: #e9691e;
+  border-right-color: #f08b4a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

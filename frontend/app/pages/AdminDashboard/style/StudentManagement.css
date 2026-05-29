@@ -1,0 +1,2349 @@
+/* StudentManagement.css */
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+
+.management-container {
+  padding: 22px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: #7f8c8d;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.management-container .management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.management-container .title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.management-container .subtitle {
+  margin: 4px 0 0 0;
+  font-size: 1rem;
+  color: #64748b;
+}
+
+/* Add Button */
+.management-container .btn-container {
+  display: flex;
+  align-items: center;
+}
+
+.management-container .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  width: 200px;
+  height: 42px;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.management-container .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.3);
+  background: linear-gradient(135deg, #d45a12 0%, #e9691e 100%);
+}
+
+.management-container .btn .icon {
+  font-size: 20px;
+}
+
+/* ============================================
+   SEARCH AND FILTER BAR
+   ============================================ */
+
+.management-container .search-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.management-container .search-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 250px;
+}
+
+.management-container .search-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  font-size: 20px;
+}
+
+.management-container .search-input-field {
+  width: 100%;
+  padding: 10px 12px 10px 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.management-container .search-input-field:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+}
+
+.management-container .filter-wrapper {
+  min-width: 150px;
+}
+
+.management-container .filter-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  background: #ffffff;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.management-container .filter-select:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+}
+
+/* ============================================
+   STATS GRID
+   ============================================ */
+
+.management-container .management-stats {
+  margin-bottom: 20px;
+}
+
+.management-container .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 780px) {
+  .management-container .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .management-container .stats-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Stat Cards */
+.management-container .stat-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(233, 105, 30, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.management-container .stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+}
+
+.management-container .stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(233, 105, 30, 0.15);
+}
+
+.management-container .stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.management-container .stat-label {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Stat Card Icons */
+.student-management .stat-card:nth-child(1)::after {
+  content: '👥';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.student-management .stat-card:nth-child(2)::after {
+  content: '✅';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.student-management .stat-card:nth-child(3)::after {
+  content: '⏸️';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.student-management .stat-card:nth-child(4)::after {
+  content: '📚';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+/* ============================================
+   TABLE STYLES
+   ============================================ */
+
+.management-container .table-wrap {
+  overflow-x: auto;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.management-container .students-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.management-container .students-table thead th {
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.management-container .students-table tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.management-container .students-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.management-container .students-table td {
+  padding: 14px 18px;
+  vertical-align: middle;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+/* Name Cell */
+.management-container .name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.management-container .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  box-shadow: 0 2px 8px rgba(233, 105, 30, 0.2);
+}
+
+.management-container .avatar-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.management-container .student-name {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.management-container .student-sub {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* ============================================
+   STATUS BADGES
+   ============================================ */
+
+.management-container .badge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.management-container .badge.active {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.management-container .badge.active::before {
+  content: "✓";
+  font-weight: bold;
+}
+
+.management-container .badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.management-container .badge.inactive::before {
+  content: "✗";
+  font-weight: bold;
+}
+
+.management-container .badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+
+.management-container .actions-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.management-container .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.management-container .icon-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.management-container .icon-btn.edit:hover {
+  background: #e0f2fe;
+  color: #0369a1;
+  transform: translateY(-2px);
+}
+
+.management-container .icon-btn.view:hover {
+  background: #dcfce7;
+  color: #15803d;
+  transform: translateY(-2px);
+}
+
+.management-container .icon-btn.delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+
+.management-container .management-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+  color: #64748b;
+  font-weight: 500;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.management-container .footer-left {
+  font-size: 0.85rem;
+}
+
+.management-container .pager {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.management-container .pager-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.management-container .pager-btn:not([disabled]):hover {
+  background: #e9691e;
+  border-color: #e9691e;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.management-container .pager-btn.active {
+  background: #e9691e;
+  color: white;
+  border-color: #e9691e;
+}
+
+.management-container .pager-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   LOADING & ERROR STATES
+   ============================================ */
+
+.management-container .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.management-container .spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #e9691e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.management-container .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+.management-container .error-state button {
+  padding: 8px 20px;
+  background: #e9691e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.management-container .error-state button:hover {
+  background: #d45a12;
+  transform: translateY(-1px);
+}
+
+.management-container .no-data-cell {
+  text-align: center;
+  padding: 3rem !important;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .management-container {
+    padding: 16px;
+  }
+  
+  .management-container .management-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .management-container .btn {
+    width: 100%;
+  }
+  
+  .management-container .search-filter-bar {
+    flex-direction: column;
+  }
+  
+  .management-container .search-wrapper {
+    min-width: 100%;
+  }
+  
+  .management-container .filter-wrapper {
+    min-width: 100%;
+  }
+  
+  .management-container .students-table td,
+  .management-container .students-table th {
+    padding: 10px 12px;
+  }
+  
+  .management-container .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  
+  .management-container .management-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .management-container .pager {
+    justify-content: center;
+  }
+  
+  .management-container .pager-btn {
+    padding: 0.35rem 0.7rem;
+    min-width: 36px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .management-container {
+    padding: 12px;
+  }
+  
+  .management-container .title {
+    font-size: 1.2rem;
+  }
+  
+  .management-container .subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .management-container .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .management-container .actions-cell {
+    gap: 4px;
+  }
+  
+  .management-container .icon-btn {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .management-container .icon-btn .material-symbols-outlined {
+    font-size: 16px;
+  }
+}
+
+
+/* StudentManagement.css - View Modal Styles */
+
+/* ============================================
+   VIEW MODAL STYLES (with student-management parent)
+   ============================================ */
+
+.student-management .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: studentModalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes studentModalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.student-management .modal-container {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border-radius: 28px;
+  width: 90%;
+  max-width: 750px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: studentModalSlideUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  position: relative;
+}
+
+.student-management .modal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a, #e9691e);
+  border-radius: 28px 28px 0 0;
+}
+
+@keyframes studentModalSlideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.student-management .modal-container.view-modal {
+  max-width: 750px;
+}
+
+/* Modal Header */
+.student-management .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem 1rem;
+  border-bottom: 2px solid rgba(233, 105, 30, 0.1);
+}
+
+.student-management .modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.student-management .modal-close {
+  background: rgba(233, 105, 30, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #e9691e;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.student-management .modal-close:hover {
+  background: #e9691e;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* Modal Body */
+.student-management .modal-body {
+  padding: 1.5rem 2rem;
+}
+
+/* Student Profile Header */
+.student-management .student-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(233, 105, 30, 0.05), rgba(240, 139, 74, 0.08));
+  border-radius: 24px;
+  border: 1px solid rgba(233, 105, 30, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-management .student-profile-header:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(233, 105, 30, 0.15);
+}
+
+.student-management .profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 8px 20px rgba(233, 105, 30, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.student-management .profile-avatar:hover {
+  transform: scale(1.05);
+}
+
+.student-management .profile-avatar.large {
+  width: 100px;
+  height: 100px;
+  font-size: 2.5rem;
+}
+
+.student-management .profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.student-management .profile-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.student-management .status-badge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #166534;
+  border: 1px solid #86efac;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Details Grid */
+.student-management .details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.student-management .detail-item {
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.student-management .detail-item:hover {
+  background: #ffffff;
+  border-color: rgba(233, 105, 30, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateX(4px);
+}
+
+.student-management .detail-item label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #e9691e;
+  margin-bottom: 0.25rem;
+}
+
+.student-management .detail-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #1e293b;
+  word-break: break-word;
+  font-weight: 500;
+}
+
+/* Enrollments Section */
+.student-management .enrollments-section,
+.student-management .guardian-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid rgba(233, 105, 30, 0.1);
+}
+
+.student-management .enrollments-section h4,
+.student-management .guardian-section h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e9691e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .enrollments-section h4::before {
+  content: '📚';
+  font-size: 1.1rem;
+}
+
+.student-management .guardian-section h4::before {
+  content: '👨‍👩‍👧';
+  font-size: 1.1rem;
+}
+
+.student-management .enrollments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.student-management .enrollment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  border-left: 3px solid #e9691e;
+}
+
+.student-management .enrollment-item:hover {
+  background: linear-gradient(135deg, #ffffff, #fef9f5);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(233, 105, 30, 0.1);
+}
+
+.student-management .course-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.student-management .course-progress {
+  font-size: 0.85rem;
+  color: #e9691e;
+  font-weight: 700;
+  background: rgba(233, 105, 30, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+/* Modal Footer */
+.student-management .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 2rem 1.5rem;
+  border-top: 1px solid rgba(233, 105, 30, 0.1);
+}
+
+/* Button Styles */
+.student-management .btn-secondary {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #475569;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.student-management .btn-secondary:hover {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .student-management .modal-container {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .student-management .details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .student-management .student-profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .student-management .modal-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .student-management .modal-header {
+    padding: 1rem 1.25rem;
+  }
+  
+  .student-management .modal-body {
+    padding: 1rem 1.25rem;
+  }
+  
+  .student-management .modal-footer {
+    padding: 1rem 1.25rem;
+  }
+  
+  .student-management .profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+  
+  .student-management .detail-item:hover {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .student-management .enrollment-item {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .student-management .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+}
+
+
+/* StudentManagement.css - Edit Modal Styles (Different from View Modal) */
+
+/* ============================================
+   EDIT MODAL STYLES - Different from View Modal
+   ============================================ */
+
+/* Edit Modal Overlay - Same but kept separate for control */
+.student-management .edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: editFadeIn 0.3s ease;
+}
+
+@keyframes editFadeIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(8px); }
+}
+
+/* Edit Modal Container - Wider than view modal */
+.student-management .edit-modal-container {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  animation: editSlideUp 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  position: relative;
+  border: 1px solid rgba(233, 105, 30, 0.2);
+}
+
+/* Different accent - orange bar on top (same as view but kept) */
+.student-management .edit-modal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+  border-radius: 24px 24px 0 0;
+}
+
+@keyframes editSlideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Edit Modal Header - Different styling */
+.student-management .edit-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.75rem;
+  background: linear-gradient(135deg, #fef9f5, #ffffff);
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.student-management .edit-modal-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .edit-modal-header h2::before {
+  content: '✏️';
+  font-size: 1.3rem;
+}
+
+.student-management .edit-modal-close {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-management .edit-modal-close:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Edit Modal Body - Different padding */
+.student-management .edit-modal-body {
+  padding: 1.75rem;
+}
+
+/* Form Grid - 2 columns for better layout */
+.student-management .edit-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+/* Form Groups - Different from view modal details */
+.student-management .edit-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.student-management .edit-form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.student-management .edit-form-group label .required {
+  color: #e9691e;
+  margin-left: 2px;
+}
+
+/* Form Inputs - Interactive, different from view modal text */
+.student-management .edit-form-group input {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  outline: none;
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.student-management .edit-form-group input:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+}
+
+.student-management .edit-form-group input:hover:not(:focus) {
+  border-color: #cbd5e1;
+}
+
+/* Edit Modal Footer - Different button styling */
+.student-management .edit-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.25rem 1.75rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0 0 24px 24px;
+  position: sticky;
+  bottom: 0;
+}
+
+/* Cancel Button */
+.student-management .edit-btn-cancel {
+  background: #ffffff;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.student-management .edit-btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Save Button - Different primary color treatment */
+.student-management .edit-btn-save {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(233, 105, 30, 0.2);
+}
+
+.student-management .edit-btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(233, 105, 30, 0.3);
+}
+
+.student-management .edit-btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .student-management .edit-form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .student-management .edit-modal-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .student-management .edit-modal-container {
+    max-width: 95%;
+  }
+  
+  .student-management .edit-modal-header,
+  .student-management .edit-modal-body,
+  .student-management .edit-modal-footer {
+    padding: 1rem;
+  }
+  
+  .student-management .edit-form-group input {
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Loading state for save button */
+.student-management .edit-btn-save.loading {
+  position: relative;
+  padding-left: 2.2rem;
+}
+
+.student-management .edit-btn-save.loading::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* StudentManagement.css - Delete Modal Styles */
+
+/* ============================================
+   DELETE CONFIRMATION MODAL STYLES
+   ============================================ */
+
+/* Delete Modal Overlay */
+.student-management .delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: deleteFadeIn 0.25s ease-out;
+}
+
+@keyframes deleteFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Delete Modal Container - Smaller, centered, alert-style */
+.student-management .delete-modal-container {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border-radius: 32px;
+  width: 90%;
+  max-width: 480px;
+  animation: deleteSlideIn 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+  position: relative;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  overflow: hidden;
+}
+
+/* Red accent bar at the top - different from other modals */
+.student-management .delete-modal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
+}
+
+@keyframes deleteSlideIn {
+  from {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Delete Modal Header */
+.student-management .delete-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 0.75rem;
+  border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+}
+
+.student-management .delete-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .delete-modal-header h2 i {
+  font-size: 1.3rem;
+}
+
+.student-management .delete-modal-close {
+  background: rgba(220, 38, 38, 0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #dc2626;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-management .delete-modal-close i {
+  font-size: 0.9rem;
+}
+
+.student-management .delete-modal-close:hover {
+  background: #dc2626;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* Delete Modal Body */
+.student-management .delete-modal-body {
+  padding: 1.5rem;
+}
+
+/* Warning Section */
+.student-management .delete-warning {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.student-management .warning-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  border: 2px solid #fca5a5;
+  animation: warningPulse 2s ease-in-out infinite;
+}
+
+@keyframes warningPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+.student-management .warning-icon-wrapper i {
+  font-size: 2.5rem;
+  color: #dc2626;
+}
+
+.student-management .warning-message {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.student-management .warning-message strong {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.student-management .warning-text {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.student-management .warning-text i {
+  color: #e9691e;
+  font-size: 0.9rem;
+}
+
+/* Delete Modal Footer */
+.student-management .delete-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Cancel Button */
+.student-management .delete-btn-cancel {
+  background: #ffffff;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .delete-btn-cancel i {
+  font-size: 1rem;
+}
+
+.student-management .delete-btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Confirm Delete Button - Red Danger Style */
+.student-management .delete-btn-confirm {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.student-management .delete-btn-confirm i {
+  font-size: 1rem;
+}
+
+.student-management .delete-btn-confirm:hover {
+  background: linear-gradient(135deg, #b91c1c, #dc2626);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.student-management .delete-btn-confirm:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .student-management .delete-modal-container {
+    max-width: 90%;
+    margin: 1rem;
+  }
+  
+  .student-management .delete-modal-header {
+    padding: 1rem 1.25rem 0.5rem;
+  }
+  
+  .student-management .delete-modal-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .student-management .delete-modal-body {
+    padding: 1.25rem;
+  }
+  
+  .student-management .warning-icon-wrapper {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .student-management .warning-icon-wrapper i {
+    font-size: 2rem;
+  }
+  
+  .student-management .warning-message {
+    font-size: 1rem;
+  }
+  
+  .student-management .delete-modal-footer {
+    padding: 0.875rem 1.25rem 1.25rem;
+  }
+  
+  .student-management .delete-btn-cancel,
+  .student-management .delete-btn-confirm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-management .delete-modal-footer {
+    flex-direction: column;
+  }
+  
+  .student-management .delete-btn-cancel,
+  .student-management .delete-btn-confirm {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .student-management .warning-text {
+    font-size: 0.75rem;
+  }
+}
+
+
+
+
+
+/* ============================================
+   NOTIFICATION TOAST STYLES
+   ============================================ */
+
+.student-management .notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.student-management .notification {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  animation: notificationSlideIn 0.3s ease-out;
+  transition: all 0.3s ease;
+  border-left: 4px solid;
+  overflow: hidden;
+}
+
+.student-management .notification:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes notificationSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.student-management .notification-success {
+  border-left-color: #10b981;
+}
+
+.student-management .notification-error {
+  border-left-color: #ef4444;
+}
+
+.student-management .notification-info {
+  border-left-color: #3b82f6;
+}
+
+.student-management .notification-warning {
+  border-left-color: #f59e0b;
+}
+
+.student-management .notification-content {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 12px;
+}
+
+.student-management .notification-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.student-management .notification-success .notification-icon {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.student-management .notification-error .notification-icon {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.student-management .notification-info .notification-icon {
+  background: #dbeafe;
+  color: #3b82f6;
+}
+
+.student-management .notification-warning .notification-icon {
+  background: #fed7aa;
+  color: #f59e0b;
+}
+
+.student-management .notification-text {
+  flex: 1;
+}
+
+.student-management .notification-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.student-management .notification-message {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.student-management .notification-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.student-management .notification-close:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* ============================================
+   STATUS CONFIRMATION MODAL STYLES
+   ============================================ */
+
+.student-management .status-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: statusFadeIn 0.25s ease-out;
+}
+
+@keyframes statusFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.student-management .status-modal-container {
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border-radius: 32px;
+  width: 90%;
+  max-width: 480px;
+  animation: statusSlideIn 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.student-management .status-modal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+}
+
+@keyframes statusSlideIn {
+  from {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.student-management .status-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 0.75rem;
+  border-bottom: 1px solid rgba(233, 105, 30, 0.1);
+}
+
+.student-management .status-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e9691e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .status-modal-header h2 i {
+  font-size: 1.3rem;
+}
+
+.student-management .status-modal-close {
+  background: rgba(233, 105, 30, 0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #e9691e;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.student-management .status-modal-close:hover {
+  background: #e9691e;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.student-management .status-modal-body {
+  padding: 1.5rem;
+}
+
+.student-management .status-warning {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.student-management .status-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  border: 2px solid #fca5a5;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(233, 105, 30, 0);
+  }
+}
+
+.student-management .status-icon-wrapper i {
+  font-size: 2.5rem;
+  color: #e9691e;
+}
+
+.student-management .status-message {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.student-management .status-message strong {
+  color: #e9691e;
+  font-weight: 700;
+}
+
+.student-management .status-message .student-name {
+  color: #e9691e;
+  font-weight: 700;
+}
+
+.student-management .status-text {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.student-management .status-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.student-management .status-btn-cancel {
+  background: #ffffff;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .status-btn-cancel i {
+  font-size: 1rem;
+}
+
+.student-management .status-btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.student-management .status-btn-confirm {
+  padding: 0.6rem 1.4rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.student-management .status-btn-confirm.active {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.student-management .status-btn-confirm.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.student-management .status-btn-confirm.inactive {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.student-management .status-btn-confirm.inactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Update the status badge cursor */
+.student-management .badge {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.student-management .badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+
+/* ============================================
+   ADD STUDENT MODAL STYLES
+   ============================================ */
+
+.student-management .add-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: addFadeIn 0.3s ease;
+}
+
+@keyframes addFadeIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(8px); }
+}
+
+.student-management .add-modal-container {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  animation: addSlideUp 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  position: relative;
+  border: 1px solid rgba(233, 105, 30, 0.2);
+}
+
+.student-management .add-modal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+  border-radius: 24px 24px 0 0;
+}
+
+@keyframes addSlideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.student-management .add-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.75rem;
+  background: linear-gradient(135deg, #fef9f5, #ffffff);
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.student-management .add-modal-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.student-management .add-modal-header h2::before {
+  content: '➕';
+  font-size: 1.3rem;
+}
+
+.student-management .add-modal-close {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-management .add-modal-close:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.student-management .add-modal-body {
+  padding: 1.75rem;
+}
+
+.student-management .form-section {
+  margin-bottom: 2rem;
+}
+
+.student-management .form-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e9691e;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(233, 105, 30, 0.2);
+}
+
+.student-management .add-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.student-management .add-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.student-management .add-form-group.full-width {
+  grid-column: span 2;
+}
+
+.student-management .add-form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.student-management .add-form-group label .required {
+  color: #e9691e;
+  margin-left: 2px;
+}
+
+.student-management .add-form-group input,
+.student-management .add-form-group select {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  outline: none;
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.student-management .add-form-group input:focus,
+.student-management .add-form-group select:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+}
+
+.student-management .add-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.25rem 1.75rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0 0 24px 24px;
+  position: sticky;
+  bottom: 0;
+}
+
+.student-management .add-btn-cancel {
+  background: #ffffff;
+  color: #64748b;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.student-management .add-btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.student-management .add-btn-submit {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(233, 105, 30, 0.2);
+}
+
+.student-management .add-btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(233, 105, 30, 0.3);
+}
+
+.student-management .add-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .student-management .add-form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .student-management .add-form-group.full-width {
+    grid-column: span 1;
+  }
+  
+  .student-management .add-modal-container {
+    max-width: 95%;
+  }
+  
+  .student-management .add-modal-header,
+  .student-management .add-modal-body,
+  .student-management .add-modal-footer {
+    padding: 1rem;
+  }
+}
+
+
+
+/* Profile Image Upload Styles */
+.student-management .profile-image-upload {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 16px;
+}
+
+.student-management .profile-image-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #e9691e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.student-management .profile-image-preview .preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-management .profile-image-preview .preview-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+.student-management .profile-image-preview .preview-placeholder .material-symbols-outlined {
+  font-size: 3rem;
+  color: #94a3b8;
+}
+
+.student-management .profile-image-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.student-management .upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: white;
+  border: 2px solid #e9691e;
+  border-radius: 10px;
+  color: #e9691e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.student-management .upload-btn:hover {
+  background: #e9691e;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.student-management .upload-btn .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.student-management .remove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: #fee2e2;
+  border: none;
+  border-radius: 10px;
+  color: #dc2626;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.student-management .remove-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+.student-management .upload-hint {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .student-management .profile-image-upload {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .student-management .profile-image-actions {
+    align-items: center;
+  }
+  
+  .student-management .upload-btn,
+  .student-management .remove-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

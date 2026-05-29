@@ -1,0 +1,175 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins";
+    font-size: 14px;
+}
+
+.btn-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.btn-container .btn {
+  border: 1px solid #e9691e;
+  background-color: #fff4ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px; /* Slightly rounded corners */
+  font-size: 0.1rem;
+  width: 170px;
+  padding: 15px 15px;
+  font-weight: 600;
+  color: #555;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Button hover effect - "Scan Line Sweep" */
+.btn-container .btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.6s ease;
+}
+
+.btn-container .btn:hover::after {
+  transform: translateX(200%);
+}
+
+/* Hover ripple animation from edges */
+.btn-container .btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition:
+    opacity 0.6s,
+    transform 0.6s;
+  transform: scale(0.5);
+}
+
+.btn-container .btn:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Hover - Button text "typing" effect */
+.btn-container .btn span {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  animation: typing 0.8s steps(10) infinite alternate;
+}
+
+@keyframes typing {
+  0% {
+    max-width: 0;
+  }
+  100% {
+    max-width: 100%;
+  }
+}
+
+/* Glitch effect on text */
+.btn-container .btn:hover span {
+  animation: glitch 1s infinite alternate;
+  color: #e9691e;
+  text-shadow:
+    5px 5px #e9691e,
+    -5px;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow:
+      2px 2px #e9691e,
+      -2px -2px #ffae42;
+  }
+  100% {
+    text-shadow:
+      -2px -2px #e9691e,
+      2px 2px #ffae42;
+  }
+}
+
+/* Button rotates and lifts slightly */
+.btn-container .btn:hover {
+  border: 1px solid #e9691e;
+  transform: translateY(-5px) rotate(3deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.btn-container .material-symbols-outlined {
+  margin: 0;
+}
+
+
+
+
+.navigate {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.navigate .items {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navigate .items a {
+  color: #494949;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.navigate .items a:hover {
+  color: #e9691e;
+}
+
+.navigate .material-symbols-outlined {
+  font-size: 18px;
+  transition: all 300ms ease-in-out;
+}
+
+.navigate span {
+  font-size: 0.9rem;
+}
+
+.navigate .items:hover .material-symbols-outlined {
+  color: #e9691e;
+  transform: rotate(-90deg);
+}

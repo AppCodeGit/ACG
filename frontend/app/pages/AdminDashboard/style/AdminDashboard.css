@@ -1,0 +1,649 @@
+/* AdminDashboard.css */
+
+/* ============================================
+   GLOBAL & LAYOUT
+   ============================================ */
+
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* ============================================
+   SIDEBAR STYLES
+   ============================================ */
+
+.admin-dashboard .admin-sidebar {
+  position: fixed;
+  width: 250px;
+  height: 93vh;
+  background: #fff;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #e9691e transparent;
+  transition: width 0.3s ease;
+  z-index: 100;
+  border-radius: 10px;
+}
+
+/* Sidebar Scrollbar - Chrome, Edge, Safari */
+.admin-dashboard .admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-dashboard .admin-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-dashboard .admin-sidebar::-webkit-scrollbar-thumb {
+  background-color: #e9691e;
+  border-radius: 4px;
+}
+
+/* Sidebar Header */
+.admin-dashboard .admin-sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #d3d3d3;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.admin-dashboard .admin-sidebar-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #e9691e;
+}
+
+.admin-dashboard .admin-sidebar-header p {
+  margin: 5px 0 0;
+  color: #808080;
+  font-size: 0.9rem;
+}
+
+.admin-dashboard .admin-icon-only {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-dashboard .admin-icon-only i {
+  font-size: 32px;
+  color: #e9691e;
+}
+
+/* Sidebar Navigation */
+.admin-dashboard .admin-sidebar .nav {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.admin-dashboard .admin-sidebar .nav-item {
+  margin-bottom: 8px;
+}
+
+/* Sidebar Navigation Links */
+.admin-dashboard .admin-sidebar .nav-link {
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #292e30;
+  width: 100%;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.admin-dashboard .admin-sidebar .nav-link .bi {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+/* Sidebar Link Active State */
+.admin-dashboard .admin-sidebar .nav-link.active {
+  background: #ffeee4;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(253, 121, 13, 0.2);
+  color: #e9691e;
+}
+
+.admin-dashboard .admin-sidebar .nav-link.active .bi {
+  color: #e9691e;
+}
+
+/* Sidebar Link Hover State */
+.admin-dashboard .admin-sidebar .nav-link:hover {
+  text-decoration: none;
+  color: #e9691e;
+}
+
+/* ============================================
+   EXPAND/COLLAPSE MODIFICATIONS
+   ============================================ */
+
+/* Collapsed sidebar state */
+.admin-dashboard .admin-sidebar.collapsed {
+  width: 80px;
+}
+
+/* Center content in header when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .admin-sidebar-header {
+  padding: 20px 10px;
+}
+
+/* Hide text in header when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .admin-sidebar-header h3,
+.admin-dashboard .admin-sidebar.collapsed .admin-sidebar-header p {
+  display: none;
+}
+
+/* Center nav links when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 12px;
+}
+
+/* Hide text and adjust icon when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .nav-link .me-2 {
+  margin-right: 0 !important;
+}
+
+/* Make icons larger when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .nav-link .bi {
+  font-size: 22px;
+  margin: 0;
+}
+
+/* Hide text content in collapsed mode */
+.admin-dashboard .admin-sidebar.collapsed .nav-link span:not(.bi) {
+  display: none;
+}
+
+/* Sidebar Toggle Button */
+.admin-dashboard .admin-sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  background: #e9691e;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 101;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.admin-dashboard .admin-sidebar-toggle:hover {
+  background: #d45a12;
+  transform: scale(1.1);
+}
+
+.admin-dashboard .admin-sidebar-toggle .bi {
+  color: white;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Rotate icon when collapsed */
+.admin-dashboard .admin-sidebar.collapsed .admin-sidebar-toggle .bi {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   MAIN CONTENT STYLES
+   ============================================ */
+
+.admin-dashboard .admin-main-content {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.admin-dashboard .admin-sidebar.collapsed ~ .admin-main-content,
+.admin-dashboard .admin-sidebar.collapsed + .admin-main-content {
+  margin-left: 80px;
+  width: calc(100% - 80px);
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+
+.admin-dashboard .admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+}
+
+.admin-dashboard .admin-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  letter-spacing: -0.3px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.admin-dashboard .admin-header h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 100%);
+  border-radius: 4px;
+}
+
+/* Logo Container */
+.admin-dashboard .logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.admin-dashboard .logo-container .logo {
+  object-fit: contain;
+}
+
+/* ============================================
+   RIGHT SIDE ICONS CONTAINER
+   ============================================ */
+
+.admin-dashboard .admin-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+/* Notification Container */
+.admin-dashboard .notification-container {
+  position: relative;
+}
+
+/* Search Bar Container */
+.admin-dashboard .search-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   SEARCH BUTTON STYLES
+   ============================================ */
+
+.admin-dashboard .search-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #e9ecef;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.admin-dashboard .search-icon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
+  border-color: #e9691e;
+}
+
+.admin-dashboard .search-icon-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard .search-icon-button:hover .material-symbols-outlined {
+  color: #e9691e;
+}
+
+/* ============================================
+   SEARCH WRAPPER & INPUT STYLES
+   ============================================ */
+
+.admin-dashboard .search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.admin-dashboard .search-input {
+  padding: 8px 16px;
+  height: 40px;
+  width: 260px;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.admin-dashboard .search-input:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+  width: 300px;
+}
+
+.admin-dashboard .search-input::placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+/* Close Icon Button */
+.admin-dashboard .close-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.admin-dashboard .close-icon-button:hover {
+  background: #fee2e2;
+  border-color: #f5c6cb;
+  transform: rotate(90deg);
+}
+
+.admin-dashboard .close-icon-button .material-symbols-outlined {
+  font-size: 18px;
+  color: #e9691e;
+}
+
+/* ============================================
+   CONTENT AREA STYLES
+   ============================================ */
+
+.admin-dashboard .admin-content {
+  background: transparent;
+  min-height: calc(100vh - 120px);
+}
+
+/* ============================================
+   TOOLTIP STYLES
+   ============================================ */
+
+.admin-dashboard .notification-container::before {
+  content: "Notifications";
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c3e50;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+}
+
+.admin-dashboard .notification-container:hover::before {
+  opacity: 1;
+}
+
+.admin-dashboard .search-icon-button {
+  position: relative;
+}
+
+.admin-dashboard .search-icon-button::before {
+  content: "Search";
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c3e50;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+}
+
+.admin-dashboard .search-icon-button:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet View */
+@media (max-width: 992px) {
+  .admin-dashboard .admin-sidebar {
+    width: 80px;
+  }
+
+  .admin-dashboard .admin-sidebar .admin-sidebar-header h3,
+  .admin-dashboard .admin-sidebar .admin-sidebar-header p,
+  .admin-dashboard .admin-sidebar .nav-link span:not(.bi) {
+    display: none;
+  }
+
+  .admin-dashboard .admin-sidebar .nav-link {
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .admin-dashboard .admin-sidebar .nav-link .bi {
+    margin-right: 0;
+    font-size: 1.3rem;
+  }
+
+  .admin-dashboard .admin-sidebar .admin-sidebar-header {
+    padding: 20px 10px;
+  }
+
+  .admin-dashboard .admin-icon-only i {
+    font-size: 32px;
+  }
+
+  .admin-dashboard .admin-main-content {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+  }
+
+  .admin-dashboard .admin-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .admin-dashboard .admin-header h2::before {
+    height: 18px;
+  }
+
+  .admin-dashboard .logo-container {
+    position: relative;
+    left: auto;
+    transform: none;
+  }
+
+  .admin-dashboard .admin-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .admin-dashboard .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .admin-dashboard .admin-sidebar.collapsed {
+    width: 100%;
+  }
+
+  .admin-dashboard .admin-main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .admin-dashboard .admin-sidebar.collapsed ~ .admin-main-content,
+  .admin-dashboard .admin-sidebar.collapsed + .admin-main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-dashboard .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-dashboard .admin-header h2 {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .admin-dashboard .admin-header h2::before {
+    display: none;
+  }
+
+  .admin-dashboard .admin-icons {
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .admin-dashboard .logo-container {
+    text-align: center;
+    order: -1;
+    margin-bottom: 12px;
+  }
+
+  .admin-dashboard .search-input {
+    width: 180px;
+  }
+
+  .admin-dashboard .search-input:focus {
+    width: 200px;
+  }
+
+  .admin-dashboard .search-wrapper {
+    flex: 1;
+  }
+
+  .admin-dashboard .search-icon-button,
+  .admin-dashboard .close-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .admin-dashboard .search-icon-button .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+/* Small Mobile View */
+@media (max-width: 576px) {
+  .admin-dashboard .admin-main-content {
+    padding: 12px;
+  }
+
+  .admin-dashboard .admin-header {
+    padding: 12px 16px;
+  }
+
+  .admin-dashboard .admin-header h2 {
+    font-size: 1rem;
+  }
+
+  .admin-dashboard .search-input {
+    width: 140px;
+    font-size: 12px;
+  }
+
+  .admin-dashboard .search-input:focus {
+    width: 160px;
+  }
+
+  .admin-dashboard .admin-icons {
+    gap: 0.5rem;
+  }
+
+  .admin-dashboard .search-icon-button,
+  .admin-dashboard .close-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .admin-dashboard .search-icon-button .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .admin-dashboard .notification-container::before,
+  .admin-dashboard .search-icon-button::before {
+    display: none;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Focus visible for accessibility */
+.admin-dashboard .admin-sidebar .nav-link:focus-visible,
+.admin-dashboard .search-icon-button:focus-visible,
+.admin-dashboard .close-icon-button:focus-visible,
+.admin-dashboard .search-input:focus-visible {
+  outline: 2px solid #e9691e;
+  outline-offset: 2px;
+}

@@ -1,0 +1,265 @@
+/* Admin Register Container */
+.admin-register-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  gap: 40px;
+  padding: 40px 0;
+}
+
+.admin-register-container .admin-register-image {
+  width: 570px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.admin-register-container .admin-register-wrapper {
+  width: 100%;
+  max-width: 450px;
+}
+
+.admin-register-container .admin-register-card {
+  padding: 40px;
+  background-color: #ffffff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.admin-register-container .logo-container {
+  margin-bottom: 24px;
+}
+
+.admin-register-container .logo-container img {
+  width: 160px;
+  height: auto;
+}
+
+.admin-register-container .admin-register-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: #333;
+  text-transform: capitalize;
+}
+
+/* Alert Messages */
+.admin-register-container .admin-register-alert {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.admin-register-container .admin-register-alert.error {
+  background-color: #fdecea;
+  color: #c62828;
+  font-weight: 500;
+  border: 1px solid #e57373;
+}
+
+.admin-register-container .admin-register-alert.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #81c784;
+}
+
+/* Form Styles */
+.admin-register-container .admin-register-form .form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.admin-register-container .form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.admin-register-container .form-input {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #ffe0cf;
+  color: #575454;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.admin-register-container .form-input:focus {
+  border-color: #e9691e;
+  outline: none;
+  background: #fff5ed;
+}
+
+.admin-register-container .form-hint {
+  display: block;
+  font-size: 0.7rem;
+  color: #999;
+  margin-top: 5px;
+}
+
+/* Password Group */
+.admin-register-container .password-group {
+  position: relative;
+}
+
+.admin-register-container .toggle-password {
+  position: absolute;
+  top: 70%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Password Strength */
+.admin-register-container .password-strength-wrapper {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-register-container .password-strength-bar {
+  flex: 1;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-register-container .password-strength-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Strength Levels */
+.admin-register-container .strength-0 {
+  width: 0%;
+  background: #e5e7eb;
+}
+
+.admin-register-container .strength-1 {
+  width: 25%;
+  background: #ef4444;
+}
+
+.admin-register-container .strength-2 {
+  width: 50%;
+  background: #f59e0b;
+}
+
+.admin-register-container .strength-3 {
+  width: 75%;
+  background: #3b82f6;
+}
+
+.admin-register-container .strength-4 {
+  width: 100%;
+  background: #22c55e;
+}
+
+.admin-register-container .password-strength-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  min-width: 70px;
+}
+
+/* Button Styles */
+.admin-register-container .btn-container {
+  margin-top: 24px;
+}
+
+.admin-register-container .btn {
+  width: 100%;
+  padding: 9px;
+  font-size: 0.9rem;
+}
+
+
+/* Resend Code */
+.admin-register-container .resend-code {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.admin-register-container .resend-btn {
+  background: none;
+  border: none;
+  color: #e9691e;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  padding: 5px;
+}
+
+.admin-register-container .resend-btn:hover:not(:disabled) {
+  color: #d55a1a;
+}
+
+.admin-register-container .resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Login Link */
+.admin-register-container .login-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.admin-register-container .login-link a {
+  color: #e9691e;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.admin-register-container .login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Text Center Utility */
+.admin-register-container .text-center {
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .admin-register-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .admin-register-container .admin-register-image {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .admin-register-container .admin-register-wrapper {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-register-container .admin-register-card {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-register-container .admin-register-title {
+    font-size: 18px;
+  }
+
+  .admin-register-container .form-input {
+    font-size: 14px;
+  }
+}

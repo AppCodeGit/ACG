@@ -1,0 +1,41 @@
+.circular-progress-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-90deg); 
+}
+
+.progress-ring {
+  position: relative;
+  transform: rotate(90deg); /* Re-adjust rotation */
+}
+
+.progress-ring__track {
+  stroke-linecap: round;
+  opacity: 0.2;
+}
+
+.progress-ring__progress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.percentage-text {
+  position: absolute;
+  transform: rotate(90deg); /* Ensure text is upright */
+  font-weight: 700;
+  color: #818181;
+  display: grid;
+  text-align: center;
+}
+
+.percentage-text span{
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #818181;
+}
+
+.percentage-text img{
+  width: 50px;
+}

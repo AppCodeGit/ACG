@@ -1,0 +1,348 @@
+
+/* ====================
+   Main Header Container (.site-header)
+   ==================== */
+.site-header {
+  padding: 1rem 0;              /* Vertical padding */
+  background-color: #fff;        /* White background */
+  color: #e9691e;                /* Primary orange color for text/icons */
+  position: relative;            /* For positioning child elements */
+  z-index: 10;                   /* Keeps header above other content */
+}
+
+/* Inner container - centers content and applies flex layout */
+.site-header .container {
+  display: flex;                 /* Flexbox layout */
+  justify-content: space-between; /* Logo left, header-contact right */
+  align-items: center;           /* Vertically center items */
+}
+
+/* Logo image sizing */
+.site-header .logo img {
+  height: 30px;                   /* Fixed height for logo */
+  width: auto;                    /* Maintain aspect ratio */
+  object-fit: contain;             /* Ensure logo fits within container */
+}
+
+/* Right side header section (contains search and auth) */
+.site-header .header-contact {
+  display: flex;                  /* Horizontal layout */
+  align-items: center;            /* Vertically center items */
+  gap: 20px;                      /* Space between search and auth */
+}
+
+/* ====================
+   Search Bar Section
+   ==================== */
+
+/* Container for search icon and expanded search bar */
+.site-header .search-bar-container {
+  position: relative;             /* For absolute positioning if needed */
+}
+
+/* Search toggle buttons (search/close icons) - shared styles */
+.site-header .search-icon-button,
+.site-header .close-icon-button {
+  background: none;               /* Remove default button background */
+  border: none;                   /* Remove default button border */
+  cursor: pointer;                /* Show pointer on hover */
+  color: #555;                    /* Dark gray icon color */
+  padding: 5px;                   /* Touch-friendly padding */
+  border-radius: 50%;             /* Circular buttons */
+  transition: background-color 0.3s; /* Smooth hover effect */
+  display: flex;                  /* Center icon */
+  align-items: center;            /* Vertically center icon */
+}
+
+/* Search icon specific styling */
+.site-header .search-icon-button .material-symbols-outlined {
+  margin: 0;                      /* Remove default margin */
+  font-size: 18px;                /* Icon size */
+  background-color: #ffeee4;       /* Light orange background */
+  padding: 10px;                   /* Padding around icon */
+  border-radius: 50px;             /* Pill shape */
+}
+
+/* Expanded search bar wrapper */
+.site-header .search-wrapper {
+  display: flex;                  /* Horizontal layout */
+  align-items: center;            /* Vertically center items */
+  justify-content: space-between;  /* Input left, close button right */
+  background: #ffeee4;             /* Light orange background */
+  width: 360px;                    /* Fixed width for search bar */
+  padding: 5px 10px;               /* Inner spacing */
+  animation: fadeIn 0.3s ease;     /* Smooth entrance animation */
+}
+
+/* Close icon inside search wrapper */
+.site-header .search-wrapper .close-icon-button .material-symbols-outlined {
+  font-size: 18px;                 /* Match search icon size */
+}
+
+/* Fade in animation for dropdowns and search */
+@keyframes fadeIn {
+  from {
+    opacity: 0;                     /* Start invisible */
+    transform: translateY(-10px);   /* Start slightly above */
+  }
+  to {
+    opacity: 1;                      /* End visible */
+    transform: translateY(0);        /* End at original position */
+  }
+}
+
+/* Search input field */
+.site-header .search-input {
+  border: none;                    /* Remove default border */
+  background: transparent;          /* Transparent background */
+  padding: 8px;                     /* Inner spacing */
+  width: 200px;                     /* Input width */
+  outline: none;                    /* Remove focus outline */
+}
+
+/* ====================
+   Authentication Section
+   ==================== */
+
+/* Container for login/account buttons */
+.site-header .login-container {
+  position: relative;              /* For dropdown positioning */
+}
+
+/* Container for auth buttons (Login/Admin/Logout) */
+.site-header .btn-container {
+  display: flex;                   /* Horizontal layout */
+  gap: 10px;                       /* Space between buttons */
+}
+
+/* Base button styling for all auth buttons */
+.site-header .btn {
+  height: 35px;                    /* Fixed height */
+  width: 120px;                     /* Fixed width */
+  display: flex;                    /* Flex for centering content */
+  align-items: center;              /* Vertically center text */
+  justify-content: center;          /* Horizontally center text */
+  text-decoration: none;            /* Remove underline from links */
+  font-size: 14px;                  /* Text size */
+  cursor: pointer;                  /* Show pointer on hover */
+  transition: all 0.3s ease;        /* Smooth hover effects */
+}
+
+/* Admin dashboard button */
+.site-header .admin-btn {
+  background-color: #e9691e;        /* Primary orange background */
+  color: white;                      /* White text */
+  border: none;                      /* No border */
+}
+
+/* Admin button hover state */
+.site-header .admin-btn:hover {
+  background-color: #d55a1a;        /* Darker orange on hover */
+}
+
+/* Logout button */
+.site-header .logout-btn {
+  background-color: transparent;     /* Transparent background */
+  border: 1px solid #e9691e;         /* Orange border */
+  color: #e9691e;                    /* Orange text */
+}
+
+/* Logout button hover state */
+.site-header .logout-btn:hover {
+  background-color: #ffeee4;         /* Light orange background on hover */
+}
+
+/* ====================
+   User Profile Dropdown
+   ==================== */
+
+/* Main dropdown container */
+.site-header .profile-dropdown {
+  position: relative;              /* For dropdown menu positioning */
+  padding: 0;                      /* Remove default padding */
+}
+
+/* Clickable profile area (image + arrow) */
+.site-header .profile-tri {
+  display: flex;                   /* Horizontal layout */
+  align-items: center;             /* Vertically center items */
+  cursor: pointer;                 /* Show pointer on hover */
+  gap: 0px;                        /* No gap between image and arrow */
+}
+
+/* Profile image */
+.site-header .profile-image {
+  width: 40px;                     /* Fixed width */
+  height: 40px;                    /* Fixed height (square for circle) */
+  border-radius: 50%;              /* Make it circular */
+  object-fit: cover;               /* Ensure image covers area without distortion */
+}
+
+/* Dropdown arrow icon */
+.site-header .arrow {
+  transition: transform 0.3s ease; /* Smooth rotation animation */
+  color: #e9691e;                   /* Orange color */
+}
+
+/* Rotated arrow when dropdown is open */
+.site-header .arrow.rotate {
+  transform: rotate(180deg);        /* Rotate 180 degrees */
+}
+
+/* ====================
+   Dropdown Menu
+   ==================== */
+
+/* Dropdown menu container */
+.site-header .dropdown-Menu {
+  position: absolute;               /* Position relative to profile-dropdown */
+  top: 100%;                        /* Place directly below the profile */
+  right: 0;                          /* Align to the right */
+  width: 250px;                      /* Fixed width */
+  background: white;                 /* White background */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 10px 0;                   /* Vertical padding only */
+  margin-top: 10px;                  /* Space from profile image */
+  animation: fadeIn 0.2s ease;       /* Quick fade in animation */
+  z-index: 99999;                     /* High z-index to appear above other content */
+  border-radius: 8px;                /* Rounded corners */
+}
+
+/* Show class to display dropdown */
+.site-header .dropdown-Menu.show {
+  display: block;                    /* Override any display:none */
+}
+
+/* Dropdown header with user info */
+.site-header .dropdown-header {
+  display: flex;                     /* Horizontal layout */
+  align-items: center;               /* Vertically center items */
+  padding: 10px 15px;                 /* Inner spacing */
+  gap: 10px;                          /* Space between image and text */
+}
+
+/* Profile image inside dropdown */
+.site-header .dropdown-profile-image {
+  width: 50px;                        /* Fixed width */
+  height: 50px;                       /* Fixed height */
+  border-radius: 50%;                 /* Circular */
+  object-fit: cover;                  /* Cover area without distortion */
+}
+
+/* User name in dropdown */
+.site-header .dropdown-user-info h4 {
+  margin: 0;                          /* Remove default margin */
+  font-size: 0.9rem;                  /* Relative font size */
+  color: #333;                         /* Dark gray */
+}
+
+/* User email in dropdown */
+.site-header .dropdown-user-info p {
+  margin: 2px 0 0;                    /* Small top margin only */
+  font-size: 0.8rem;                  /* Smaller font size */
+  color: #777;                         /* Medium gray */
+}
+
+/* Divider line between dropdown sections */
+.site-header .dropdown-divider {
+  height: 1px;                         /* Thin line */
+  background: #eee;                    /* Light gray */
+  margin: 8px 0;                       /* Vertical spacing */
+}
+
+/* Individual dropdown menu items */
+.site-header .dropdown-item {
+  display: flex;                       /* Flex layout */
+  align-items: center;                 /* Vertically center content */
+  padding: 12px 18px;                   /* Comfortable padding */
+  font-size: 0.9rem;                    /* Text size */
+  text-decoration: none;                /* Remove underline from links */
+  color: #4d6066;                       /* Dark teal-gray */
+  transition: all 0.3s ease;            /* Smooth hover effect */
+  font-weight: 500;                     /* Medium font weight */
+  background: white;                    /* White background */
+  border: none;                         /* No border for button elements */
+  width: 100%;                           /* Full width */
+  text-align: left;                      /* Left-align text */
+  cursor: pointer;                       /* Pointer cursor for buttons */
+}
+
+/* Hover effect for dropdown items */
+.site-header .dropdown-item:hover {
+  background: #ffeee4;                   /* Light orange background */
+  color: #e9691e;                         /* Orange text */
+}
+
+/* ====================
+   Loading State
+   ==================== */
+
+/* Loading placeholder during auth check */
+.site-header .loading-placeholder {
+  padding: 10px;                         /* Inner spacing */
+  color: #777;                            /* Medium gray text */
+}
+
+/* ====================
+   Responsive Design
+   ==================== */
+
+/* Tablet styles - max width 768px */
+@media (max-width: 768px) {
+  /* Reduce gap between header contact items */
+  .site-header .header-contact {
+    gap: 15px;
+  }
+
+  /* Narrower search input */
+  .site-header .search-input {
+    width: 150px;
+  }
+
+  /* Smaller dropdown menu */
+  .site-header .dropdown-Menu {
+    width: 220px;
+    right: -10px;                       /* Adjust positioning */
+  }
+}
+
+/* Mobile styles - max width 480px */
+@media (max-width: 480px) {
+  /* Reduce container padding */
+  .site-header .container {
+    padding: 0 10px;
+  }
+
+  /* Smaller logo on mobile */
+  .site-header .logo img {
+    height: 32px;
+  }
+
+  /* Position search absolutely on mobile to not break layout */
+  .site-header .search-wrapper {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 10px;
+    z-index: 1000;
+    width: 280px;                       /* Slightly narrower on mobile */
+  }
+
+  /* Adjust dropdown position on mobile */
+  .site-header .dropdown-Menu {
+    right: -20px;
+  }
+  
+  /* Stack buttons vertically on mobile */
+  .site-header .btn-container {
+    flex-direction: column;              /* Vertical stack */
+    gap: 5px;                            /* Smaller gap */
+  }
+  
+  /* Smaller buttons on mobile */
+  .site-header .btn {
+    width: 100px;                        /* Narrower */
+    height: 32px;                         /* Shorter */
+    font-size: 12px;                      /* Smaller text */
+  }
+}
