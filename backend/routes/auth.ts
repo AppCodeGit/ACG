@@ -8,8 +8,8 @@ const router = express.Router();
 // Set AWS region
 AWS.config.update({
   region: process.env.AWS_REGION || "us-east-1",
-});
-
+});  
+  
 // Create Cognito service instance
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
@@ -18,7 +18,7 @@ const COGNITO_CONFIG = {
   clientId: process.env.COGNITO_CLIENT_ID!,
   userPoolId: process.env.COGNITO_USER_POOL_ID!,
 };
-
+ 
 // Helper function to get settings from database
 async function getSettings() {
   const settings = await prisma.systemSetting.findMany();
