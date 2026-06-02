@@ -1,31 +1,27 @@
-// app/components/CoursePerformance.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// import "./style/CoursePerformance.css";
 import "./style/CoursePerformance.css";
 
 // Types
 interface OverallStats {
   averageScore: number;
   completionRate: number;
-  timeSpent: number;
   rank: number;
   totalStudents: number;
 }
 
 interface Course {
-  id: string;
+  id: number;
   title: string;
-  instructor: string;
+  programName: string;
   progress: number;
   grade: string;
   score: number;
-  timeSpent: number;
-  lastActivity: string;
   assignmentsCompleted: number;
   totalAssignments: number;
-  quizzesCompleted: number;
-  totalQuizzes: number;
+  lastActivity: string;
 }
 
 interface ProgressHistory {
@@ -39,18 +35,19 @@ interface AssignmentPerformance {
   score: number;
   average: number;
   type: string;
-}
-
-interface SkillMetric {
-  skill: string;
-  level: number;
-  trend: "up" | "down" | "stable";
+  feedback?: string;
 }
 
 interface WeeklyActivity {
   day: string;
-  hours: number;
   completed: number;
+}
+
+interface Recommendation {
+  icon: string;
+  title: string;
+  description: string;
+  action: string;
 }
 
 interface PerformanceData {
@@ -58,127 +55,56 @@ interface PerformanceData {
   courses: Course[];
   progressHistory: ProgressHistory[];
   assignmentPerformance: AssignmentPerformance[];
-  skillMetrics: SkillMetric[];
   weeklyActivity: WeeklyActivity[];
+  recommendations: Recommendation[];
 }
 
-// Type for grade colors
-type GradeColors = {
-  [key: string]: string;
-};
-
-// Type for trend icons
-type TrendIcons = {
-  [key in SkillMetric['trend']]: string;
-};
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const CoursePerformance = () => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<string>("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [performanceData, setPerformanceData] = useState<PerformanceData | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<string>("all");
 
-  // Sample performance data
-  const performanceData: PerformanceData = {
-    overallStats: {
-      averageScore: 87,
-      completionRate: 92,
-      timeSpent: 45,
-      rank: 15,
-      totalStudents: 1247
-    },
-    courses: [
-      {
-        id: "web-dev",
-        title: "Web Development",
-        instructor: "Dr. Sarah Chen",
-        progress: 95,
-        grade: "A",
-        score: 92,
-        timeSpent: 28,
-        lastActivity: "2024-01-25",
-        assignmentsCompleted: 8,
-        totalAssignments: 10,
-        quizzesCompleted: 5,
-        totalQuizzes: 5
-      },
-      {
-        id: "javascript",
-        title: "Advanced JavaScript",
-        instructor: "Prof. Michael Rodriguez",
-        progress: 88,
-        grade: "A-",
-        score: 86,
-        timeSpent: 32,
-        lastActivity: "2024-01-24",
-        assignmentsCompleted: 6,
-        totalAssignments: 8,
-        quizzesCompleted: 4,
-        totalQuizzes: 5
-      },
-      {
-        id: "react",
-        title: "React Masterclass",
-        instructor: "Dr. Emily Watson",
-        progress: 75,
-        grade: "B+",
-        score: 82,
-        timeSpent: 25,
-        lastActivity: "2024-01-22",
-        assignmentsCompleted: 5,
-        totalAssignments: 7,
-        quizzesCompleted: 3,
-        totalQuizzes: 4
-      },
-      {
-        id: "css",
-        title: "CSS & Design Systems",
-        instructor: "Prof. James Wilson",
-        progress: 100,
-        grade: "A",
-        score: 94,
-        timeSpent: 18,
-        lastActivity: "2024-01-20",
-        assignmentsCompleted: 6,
-        totalAssignments: 6,
-        quizzesCompleted: 4,
-        totalQuizzes: 4
+  useEffect(() => {
+    const fetchPerformanceData = async () => {
+      try {
+        const userStr = localStorage.getItem("user");
+        if (!userStr) {
+          setError("User not found");
+          setLoading(false);
+          return;
+        }
+        
+        const user = JSON.parse(userStr);
+        const email = user.email;
+        
+        const response = await fetch(`${API_URL}/api/course-performance/${encodeURIComponent(email)}`);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch performance data");
+        }
+        
+        const result = await response.json();
+        if (result.success) {
+          setPerformanceData(result.data);
+        } else {
+          setError(result.message);
+        }
+      } catch (err) {
+        console.error("Error fetching performance data:", err);
+        setError("Failed to load performance data");
+      } finally {
+        setLoading(false);
       }
-    ],
-    progressHistory: [
-      { month: "Sep", progress: 20, score: 72 },
-      { month: "Oct", progress: 45, score: 78 },
-      { month: "Nov", progress: 65, score: 82 },
-      { month: "Dec", progress: 80, score: 85 },
-      { month: "Jan", progress: 92, score: 87 }
-    ],
-    assignmentPerformance: [
-      { name: "HTML Basics", score: 95, average: 82, type: "assignment" },
-      { name: "CSS Layout", score: 88, average: 75, type: "assignment" },
-      { name: "JS Functions", score: 92, average: 78, type: "assignment" },
-      { name: "React Components", score: 85, average: 72, type: "assignment" },
-      { name: "Mid-term Exam", score: 90, average: 80, type: "exam" },
-      { name: "Final Project", score: 94, average: 76, type: "project" }
-    ],
-    skillMetrics: [
-      { skill: "HTML/CSS", level: 95, trend: "up" },
-      { skill: "JavaScript", level: 88, trend: "up" },
-      { skill: "React", level: 82, trend: "up" },
-      { skill: "UI/UX Design", level: 78, trend: "stable" },
-      { skill: "Backend Basics", level: 70, trend: "up" },
-      { skill: "Database", level: 65, trend: "stable" }
-    ],
-    weeklyActivity: [
-      { day: "Mon", hours: 3.5, completed: 4 },
-      { day: "Tue", hours: 2.8, completed: 3 },
-      { day: "Wed", hours: 4.2, completed: 5 },
-      { day: "Thu", hours: 3.1, completed: 3 },
-      { day: "Fri", hours: 2.5, completed: 2 },
-      { day: "Sat", hours: 5.0, completed: 6 },
-      { day: "Sun", hours: 1.8, completed: 2 }
-    ]
-  };
+    };
+    
+    fetchPerformanceData();
+  }, []);
 
   const getGradeColor = (grade: string): string => {
-    const colors: GradeColors = {
+    const colors: Record<string, string> = {
       "A": "#4CAF50",
       "A-": "#8BC34A",
       "B+": "#CDDC39",
@@ -192,23 +118,40 @@ const CoursePerformance = () => {
     return colors[grade] || "#666";
   };
 
-  const getTrendIcon = (trend: SkillMetric['trend']): string => {
-    const icons: TrendIcons = {
-      "up": "📈",
-      "down": "📉",
-      "stable": "➡️"
-    };
-    return icons[trend];
-  };
+  const filteredCourses = performanceData?.courses.filter(course => 
+    selectedCourse === "all" || course.id.toString() === selectedCourse
+  ) || [];
 
   const calculateOverallProgress = (): number => {
-    const total = performanceData.courses.reduce((sum: number, course: Course) => sum + course.progress, 0);
+    if (!performanceData?.courses.length) return 0;
+    const total = performanceData.courses.reduce((sum, course) => sum + course.progress, 0);
     return Math.round(total / performanceData.courses.length);
   };
 
-  const filteredCourses: Course[] = selectedCourse === "all" 
-    ? performanceData.courses 
-    : performanceData.courses.filter((course: Course) => course.id === selectedCourse);
+  if (loading) {
+    return (
+      <div className="course-performance-container">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading your performance data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !performanceData) {
+    return (
+      <div className="course-performance-container">
+        <div className="error-state">
+          <div className="error-icon">⚠️</div>
+          <p>{error || "Failed to load performance data"}</p>
+          <button onClick={() => window.location.reload()} className="retry-btn">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="course-performance-container">
@@ -220,21 +163,12 @@ const CoursePerformance = () => {
         </div>
         <div className="header-filters">
           <select 
-            value={selectedTimeframe} 
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTimeframe(e.target.value)}
-            className="time-filter"
-          >
-            <option value="all">All Time</option>
-            <option value="month">This Month</option>
-            <option value="week">This Week</option>
-          </select>
-          <select 
             value={selectedCourse} 
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCourse(e.target.value)}
+            onChange={(e) => setSelectedCourse(e.target.value)}
             className="course-filter"
           >
             <option value="all">All Courses</option>
-            {performanceData.courses.map((course: Course) => (
+            {performanceData.courses.map((course) => (
               <option key={course.id} value={course.id}>{course.title}</option>
             ))}
           </select>
@@ -248,7 +182,6 @@ const CoursePerformance = () => {
           <div className="stat-content">
             <h3>{performanceData.overallStats.averageScore}%</h3>
             <p>Average Score</p>
-            <span className="trend positive">+5% this month</span>
           </div>
         </div>
         
@@ -257,25 +190,15 @@ const CoursePerformance = () => {
           <div className="stat-content">
             <h3>{performanceData.overallStats.completionRate}%</h3>
             <p>Completion Rate</p>
-            <span className="trend positive">On track</span>
           </div>
         </div>
         
         <div className="stat-card info">
-          <div className="stat-icon">⏱️</div>
-          <div className="stat-content">
-            <h3>{performanceData.overallStats.timeSpent}h</h3>
-            <p>Time Spent</p>
-            <span className="trend positive">+12h this week</span>
-          </div>
-        </div>
-        
-        <div className="stat-card warning">
           <div className="stat-icon">🏆</div>
           <div className="stat-content">
             <h3>#{performanceData.overallStats.rank}</h3>
             <p>Class Rank</p>
-            <span className="trend positive">Top 2%</span>
+            <span className="stat-sub">of {performanceData.overallStats.totalStudents} students</span>
           </div>
         </div>
       </div>
@@ -292,11 +215,11 @@ const CoursePerformance = () => {
               </span>
             </div>
             <div className="courses-list">
-              {filteredCourses.map((course: Course) => (
+              {filteredCourses.map((course) => (
                 <div key={course.id} className="course-progress-item">
                   <div className="course-info">
                     <h4>{course.title}</h4>
-                    <p>Instructor: {course.instructor}</p>
+                    <p>{course.programName}</p>
                   </div>
                   <div className="progress-section">
                     <div className="progress-bar">
@@ -317,58 +240,28 @@ const CoursePerformance = () => {
                   </div>
                   <div className="course-meta">
                     <div className="meta-item">
-                      <i className="bi bi-clock"></i>
-                      <span>{course.timeSpent}h spent</span>
-                    </div>
-                    <div className="meta-item">
                       <i className="bi bi-check-circle"></i>
                       <span>{course.assignmentsCompleted}/{course.totalAssignments} assignments</span>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Skill Development */}
-          <div className="section-card">
-            <div className="section-header">
-              <h3>Skill Development</h3>
-              <span className="section-subtitle">Your proficiency levels</span>
-            </div>
-            <div className="skills-grid">
-              {performanceData.skillMetrics.map((skill: SkillMetric, index: number) => (
-                <div key={index} className="skill-item">
-                  <div className="skill-header">
-                    <span className="skill-name">{skill.skill}</span>
-                    <span className="skill-trend">{getTrendIcon(skill.trend)}</span>
-                  </div>
-                  <div className="skill-progress">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill"
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
+                    <div className="meta-item">
+                      <i className="bi bi-calendar"></i>
+                      <span>Score: {course.score}%</span>
                     </div>
-                    <span className="skill-level">{skill.level}%</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Right Column */}
-        <div className="right-column">
           {/* Progress Over Time */}
           <div className="section-card">
             <div className="section-header">
               <h3>Progress Over Time</h3>
-              <span className="section-subtitle">Monthly progression</span>
+              <span className="section-subtitle">Last 6 months</span>
             </div>
             <div className="progress-chart">
               <div className="chart-bars">
-                {performanceData.progressHistory.map((month: ProgressHistory, index: number) => (
+                {performanceData.progressHistory.map((month, index) => (
                   <div key={index} className="chart-bar-container">
                     <div className="chart-bar-group">
                       <div 
@@ -389,7 +282,7 @@ const CoursePerformance = () => {
               <div className="chart-legend">
                 <div className="legend-item">
                   <div className="legend-color progress-color"></div>
-                  <span>Course Progress</span>
+                  <span>Content Progress</span>
                 </div>
                 <div className="legend-item">
                   <div className="legend-color score-color"></div>
@@ -398,7 +291,10 @@ const CoursePerformance = () => {
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Right Column */}
+        <div className="right-column">
           {/* Assignment Performance */}
           <div className="section-card">
             <div className="section-header">
@@ -406,7 +302,7 @@ const CoursePerformance = () => {
               <span className="section-subtitle">Your scores vs class average</span>
             </div>
             <div className="assignment-performance">
-              {performanceData.assignmentPerformance.map((assignment: AssignmentPerformance, index: number) => (
+              {performanceData.assignmentPerformance.map((assignment, index) => (
                 <div key={index} className="assignment-item">
                   <div className="assignment-info">
                     <h5>{assignment.name}</h5>
@@ -439,45 +335,49 @@ const CoursePerformance = () => {
                       )}
                     </div>
                   </div>
+                  {assignment.feedback && (
+                    <div className="assignment-feedback">
+                      <i className="bi bi-chat"></i>
+                      <span>"{assignment.feedback}"</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Weekly Activity */}
+          {/* Weekly Activity - Content Completion */}
           <div className="section-card">
             <div className="section-header">
               <h3>Weekly Activity</h3>
-              <span className="section-subtitle">Study hours and completed items</span>
+              <span className="section-subtitle">Content completed this week</span>
             </div>
             <div className="weekly-activity">
               <div className="activity-chart">
-                {performanceData.weeklyActivity.map((day: WeeklyActivity, index: number) => (
-                  <div key={index} className="activity-day">
-                    <div className="activity-bars">
-                      <div 
-                        className="activity-bar hours-bar"
-                        style={{ height: `${(day.hours / 6) * 100}%` }}
-                        title={`${day.hours} hours`}
-                      ></div>
-                      <div 
-                        className="activity-bar completed-bar"
-                        style={{ height: `${(day.completed / 6) * 100}%` }}
-                        title={`${day.completed} items completed`}
-                      ></div>
+                {performanceData.weeklyActivity.map((day, index) => {
+                  const maxCompleted = Math.max(...performanceData.weeklyActivity.map(d => d.completed), 1);
+                  const height = (day.completed / maxCompleted) * 100;
+                  return (
+                    <div key={index} className="activity-day">
+                      <div className="activity-bar-container">
+                        <div 
+                          className="activity-bar"
+                          style={{ height: `${height}%` }}
+                        >
+                          <span className="activity-value">{day.completed}</span>
+                        </div>
+                      </div>
+                      <span className="day-label">{day.day}</span>
                     </div>
-                    <span className="day-label">{day.day}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-              <div className="activity-legend">
-                <div className="legend-item">
-                  <div className="legend-color hours-color"></div>
-                  <span>Study Hours</span>
-                </div>
-                <div className="legend-item">
-                  <div className="legend-color completed-color"></div>
-                  <span>Completed Items</span>
+              <div className="activity-stats">
+                <div className="stat-item">
+                  <span className="stat-label">Total Completed</span>
+                  <span className="stat-value">
+                    {performanceData.weeklyActivity.reduce((sum, day) => sum + day.completed, 0)} items
+                  </span>
                 </div>
               </div>
             </div>
@@ -489,28 +389,18 @@ const CoursePerformance = () => {
       <div className="recommendations-section">
         <div className="section-card">
           <div className="section-header">
-            <h3>Performance Recommendations</h3>
-            <span className="section-subtitle">Tips to improve your learning</span>
+            <h3>Personalized Recommendations</h3>
+            <span className="section-subtitle">Based on your performance</span>
           </div>
           <div className="recommendations-grid">
-            <div className="recommendation-card">
-              <div className="rec-icon">📚</div>
-              <h4>Review React Concepts</h4>
-              <p>Your React score is 8% below your average. Consider reviewing component lifecycle and state management.</p>
-              <button className="rec-action">Start Review</button>
-            </div>
-            <div className="recommendation-card">
-              <div className="rec-icon">⏰</div>
-              <h4>Increase Study Consistency</h4>
-              <p>Try to maintain more consistent study hours throughout the week rather than concentrating on weekends.</p>
-              <button className="rec-action">Set Schedule</button>
-            </div>
-            <div className="recommendation-card">
-              <div className="rec-icon">🎯</div>
-              <h4>Focus on Backend Skills</h4>
-              <p>Your backend development skills are developing. Practice with database concepts and API development.</p>
-              <button className="rec-action">Practice Now</button>
-            </div>
+            {performanceData.recommendations.map((rec, index) => (
+              <div key={index} className="recommendation-card">
+                <div className="rec-icon">{rec.icon}</div>
+                <h4>{rec.title}</h4>
+                <p>{rec.description}</p>
+                <button className="rec-action">{rec.action}</button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
