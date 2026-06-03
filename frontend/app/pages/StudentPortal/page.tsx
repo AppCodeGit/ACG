@@ -1180,65 +1180,67 @@ const StudentPortal = () => {
   };
 
   // Check session expiry on component mount
-useEffect(() => {
-  const checkSessionExpiry = () => {
-    const sessionExpiry = localStorage.getItem("sessionExpiry");
-    const sessionLifetimeHours = localStorage.getItem("sessionLifetimeHours");
-    
-    if (sessionExpiry) {
-      const expiryTime = parseInt(sessionExpiry);
-      const now = new Date().getTime();
-      
-      console.log(`Session expiry check: Now=${now}, Expiry=${expiryTime}, Hours=${sessionLifetimeHours || 'unknown'}`);
-      
-      if (now > expiryTime) {
-        // Session expired, logout
-        console.log("Session expired! Logging out...");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("sessionExpiry");
-        localStorage.removeItem("sessionLifetimeHours");
-        localStorage.removeItem("loginTime");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userData");
-        localStorage.removeItem("studentData");
-        setSessionExpired(true);
-        router.push("/login?expired=true");
-        return false;
-      }
-    }
-    return true;
-  };
-  
-  // Only check if not already checking maintenance
-  if (!checkingMaintenance) {
-    checkSessionExpiry();
-  }
-}, [checkingMaintenance, router]);
+  useEffect(() => {
+    const checkSessionExpiry = () => {
+      const sessionExpiry = localStorage.getItem("sessionExpiry");
+      const sessionLifetimeHours = localStorage.getItem("sessionLifetimeHours");
 
-// Also add a periodic check every minute to catch expiry while user is active
-useEffect(() => {
-  const interval = setInterval(() => {
-    const sessionExpiry = localStorage.getItem("sessionExpiry");
-    if (sessionExpiry) {
-      const expiryTime = parseInt(sessionExpiry);
-      const now = new Date().getTime();
-      
-      if (now > expiryTime) {
-        console.log("Session expired during active session!");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("sessionExpiry");
-        localStorage.removeItem("sessionLifetimeHours");
-        localStorage.removeItem("loginTime");
-        router.push("/login?expired=true");
+      if (sessionExpiry) {
+        const expiryTime = parseInt(sessionExpiry);
+        const now = new Date().getTime();
+
+        console.log(
+          `Session expiry check: Now=${now}, Expiry=${expiryTime}, Hours=${sessionLifetimeHours || "unknown"}`,
+        );
+
+        if (now > expiryTime) {
+          // Session expired, logout
+          console.log("Session expired! Logging out...");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("sessionExpiry");
+          localStorage.removeItem("sessionLifetimeHours");
+          localStorage.removeItem("loginTime");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("userEmail");
+          localStorage.removeItem("userData");
+          localStorage.removeItem("studentData");
+          setSessionExpired(true);
+          router.push("/login?expired=true");
+          return false;
+        }
       }
+      return true;
+    };
+
+    // Only check if not already checking maintenance
+    if (!checkingMaintenance) {
+      checkSessionExpiry();
     }
-  }, 60000); // Check every minute
-  
-  return () => clearInterval(interval);
-}, [router]);
+  }, [checkingMaintenance, router]);
+
+  // Also add a periodic check every minute to catch expiry while user is active
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const sessionExpiry = localStorage.getItem("sessionExpiry");
+      if (sessionExpiry) {
+        const expiryTime = parseInt(sessionExpiry);
+        const now = new Date().getTime();
+
+        if (now > expiryTime) {
+          console.log("Session expired during active session!");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("sessionExpiry");
+          localStorage.removeItem("sessionLifetimeHours");
+          localStorage.removeItem("loginTime");
+          router.push("/login?expired=true");
+        }
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [router]);
 
   useEffect(() => {
     const checkMaintenanceMode = async () => {
@@ -1280,48 +1282,48 @@ useEffect(() => {
   }, [isSidebarExpanded, isPaymentDropdownOpen, isCoursesDropdownOpen]);
 
   // Update the fetchStudentData function - FIXED: Now properly sets studentData
-  const fetchStudentData = useCallback(async (): Promise<void> => {
-    if (!user?.email) return;
+ // Update the fetchStudentData function - FIXED
+const fetchStudentData = useCallback(async (): Promise<void> => {
+  if (!user?.email) return;
 
-    try {
-      const API_URL =
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const token = localStorage.getItem("token");
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const token = localStorage.getItem("token");
 
-      console.log("Fetching profile image for:", user.email);
+    console.log("Fetching profile image for:", user.email);
 
-      // Fetch profile image directly
-      let profileImage: string | null = null;
-      const imageResponse = await fetch(
-        `${API_URL}/api/profile/profile-image/${user.email}`,
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
+    // Fetch profile image directly
+    let profileImage: string | null = null;
+    const imageResponse = await fetch(
+      `${API_URL}/api/profile/profile-image/${user.email}`,
+      {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
         },
-      );
-      const imageData: ProfileImageResponse = await imageResponse.json();
-      console.log("Profile image response:", imageData);
+      },
+    );
+    const imageData: ProfileImageResponse = await imageResponse.json();
+    console.log("Profile image response:", imageData);
 
-      if (imageData.success && imageData.profileImage) {
-        profileImage = imageData.profileImage;
-      }
-
-      setStudentData({
-        id: user.id || "",
-        name: user.name || "",
-        email: user.email,
-        profileImage: profileImage,
-      });
-    } catch (err: unknown) {
-      console.error("Error fetching student data:", err);
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to fetch student data";
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
+    if (imageData.success && imageData.profileImage) {
+      profileImage = imageData.profileImage;
     }
-  }, [user?.email, user?.id, user?.name]);
+
+    setStudentData({
+  id: user.id ? parseInt(user.id) : undefined,
+  name: user.name || "",
+  email: user.email,
+  profileImage: profileImage || undefined,  // ← Convert null to undefined
+});
+  } catch (err: unknown) {
+    console.error("Error fetching student data:", err);
+    const errorMessage =
+      err instanceof Error ? err.message : "Failed to fetch student data";
+    setError(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+}, [user?.email, user?.id, user?.name]);
 
   // Refresh data when modal closes
   useEffect(() => {
@@ -1370,16 +1372,16 @@ useEffect(() => {
   }
 
   // Update the loading return section (around line ~550)
-if (loading || checkingMaintenance) {
-  return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="loading-spinner-container">
-        <div className="loading-spinner"></div>
-        <p>Loading...</p>
+  if (loading || checkingMaintenance) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="loading-spinner-container">
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
   if (error)
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">

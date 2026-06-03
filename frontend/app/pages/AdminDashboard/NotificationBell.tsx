@@ -676,7 +676,7 @@ const NotificationBell = () => {
             >
               ✕
             </button>
-            <AssignmentManagement submissionId={selectedSubmissionId} />
+            <AssignmentManagement />
           </div>
         </div>
       )}
