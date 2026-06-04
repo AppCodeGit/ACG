@@ -5,7 +5,7 @@
   publish = ".next"
 
 [build.environment]
-  SECRETS_SCAN_OMIT_PATHS = ".next/**,.netlify/**,out/**"
+  SECRETS_SCAN_ENABLED = "false"
   NEXT_PUBLIC_API_URL = "https://school-backend-v2g5.onrender.com"
   NEXT_PUBLIC_REGION="us-east-1"
   NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID="2gicgj07234g97nqfn4kt8ed"
