@@ -6,10 +6,10 @@
 
 [build.environment]
   NEXT_PUBLIC_API_URL = "https://school-backend-v2g5.onrender.com"
-  NEXT_PUBLIC_REGION=us-east-1
-  NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID=2gicgj07234g97nqfn4kt8ed
-  NEXT_PUBLIC_COGNITO_USER_POOL_ID=us-east-1_RvrcECOT5
-  NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_test_e6e23011d3049cd68fc9dde62853a047620eaf85
+  NEXT_PUBLIC_REGION="us-east-1"
+  NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID="2gicgj07234g97nqfn4kt8ed"
+  NEXT_PUBLIC_COGNITO_USER_POOL_ID="us-east-1_RvrcECOT5"
+  NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY="pk_test_e6e23011d3049cd68fc9dde62853a047620eaf85"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
