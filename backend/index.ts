@@ -35,7 +35,7 @@ const server = createServer(app);
 
 // CORS configuration - MUST come BEFORE Socket.io
 const allowedOrigins = [
-  "https://main.d2qiaka43ozgqd.amplifyapp.com",
+  "https://appcodeacadamy.netlify.app/",
   "https://school-backend-v2g5.onrender.com",
   "http://localhost:5000",
   "http://localhost:3000",
