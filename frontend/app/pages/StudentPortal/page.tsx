@@ -11,11 +11,10 @@ import Dashboard from "./Dashboard";
 import FeesPayment from "./FeesPayment";
 import CourseModule from "./CourseModule";
 import CoursePerformance from "./CoursePerformance";
-import CourseAssignment from "./CourseAssignment";
 import CourseGrade from "./CourseGrade";
-import CourseQuiz from "./CourseQuiz";
 import Settings from "./Settings";
 import { getSetting } from "../../../lib/settings"; // Add this import
+import StudentNotificationBell from "./StudentNotificationBell";
 
 // Define interfaces for type safety
 interface StudentData {
@@ -1553,24 +1552,6 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                   >
                     Grade
                   </div>
-                  <div
-                    className={`dropdown-item ${activeSection === "Assignment" ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveSection("Assignment");
-                      setIsCoursesDropdownOpen(false);
-                    }}
-                  >
-                    Assignment
-                  </div>
-                  <div
-                    className={`dropdown-item ${activeSection === "quiz" ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveSection("quiz");
-                      setIsCoursesDropdownOpen(false);
-                    }}
-                  >
-                    Quiz
-                  </div>
                 </div>
               )}
               {/* For collapsed mode - dropdown shows as floating menu */}
@@ -1603,24 +1584,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                   >
                     Grade
                   </div>
-                  <div
-                    className={`dropdown-item ${activeSection === "Assignment" ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveSection("Assignment");
-                      setIsCoursesDropdownOpen(false);
-                    }}
-                  >
-                    Assignment
-                  </div>
-                  <div
-                    className={`dropdown-item ${activeSection === "quiz" ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveSection("quiz");
-                      setIsCoursesDropdownOpen(false);
-                    }}
-                  >
-                    Quiz
-                  </div>
+                 
                 </div>
               )}
             </div>
@@ -1664,12 +1628,9 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
             <div className="student-icons">
               {/* Notification Bell */}
               <div className="notification-container">
-                <div className="notification-button">
-                  <span className="material-symbols-outlined">
-                    notifications
-                  </span>
-                  <span className="notification-badge"></span>
-                </div>
+                                 <span className="notification-badge"></span>
+
+                  <StudentNotificationBell />
               </div>
 
               {/* Search Bar */}
@@ -1727,16 +1688,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
             <CourseGrade />
           </div>
         )}
-        {activeSection === "Assignment" && (
-          <div className="section">
-            <CourseAssignment />
-          </div>
-        )}
-        {activeSection === "quiz" && (
-          <div className="section">
-            <CourseQuiz />
-          </div>
-        )}
+      
         {activeSection === "settings" && (
           <div className="mb-4 section">
             <Settings />

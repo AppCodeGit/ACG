@@ -128,13 +128,20 @@
 }
 
 .dashboard-section .dashboard-tile i {
-  margin-bottom: 15px;
   padding: 1.1rem;
   border-radius: 12px;
   font-size: 1.3rem;
+  background: #f1f5f9;
+}
+
+.dashboard-section .dashboard-tile .title{
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #1e293b;
 }
 
 /* Consistent Orange Theme for All Icons */
@@ -666,14 +673,41 @@
 }
 
 .dashboard-section .profile-card .profile-header {
+  background: linear-gradient(135deg, #e9691e 0%, #0f172a 100%);
+  position: relative;
+  overflow: hidden;
   text-align: center;
   padding: 20px;
-  background: linear-gradient(135deg, #e9691e, #f08b4a);
   color: #fff;
   display: flex;
   align-items: center;
   gap: 20px;
 }
+
+.dashboard-section .profile-card .profile-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 70%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(0, 0, 255, 0.1), rgba(236, 72, 153, 0.1));
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+
+.dashboard-section .profile-card .profile-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 50%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.507), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
 
 .dashboard-section .profile-card .profile-image {
   width: 100px;
@@ -690,7 +724,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0 0 5px;
+  margin-bottom: 10px;
+text-transform: capitalize;
 }
 
 .dashboard-section .profile-card .student-profile-header .student-id {
@@ -703,11 +738,6 @@
   margin: 0;
 }
 
-.dashboard-section .profile-card .student-profile-header .student-name i,
-.dashboard-section .profile-card .student-profile-header .student-id i {
-  color: #ffffff;
-  font-size: 1.2rem;
-}
 
 .dashboard-section .profile-body {
   padding: 20px;
@@ -853,4 +883,136 @@
   .dashboard-section .quote-text {
     font-size: 0.9rem;
   }
+}
+
+/* Module Contents List Styles */
+.dashboard-section .module-contents-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.dashboard-section .module-contents-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin: 4px 0;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.dashboard-section .module-contents-list li:hover {
+  background: #f1f5f9;
+  transform: translateX(2px);
+}
+
+.dashboard-section .module-contents-list li.completed {
+  border-left-color: #10b981;
+  background: #f0fdf4;
+}
+
+.dashboard-section .content-icon {
+  font-size: 1rem;
+  width: 28px;
+  text-align: center;
+}
+
+.dashboard-section .content-title {
+  flex: 1;
+  color: #1e293b;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.dashboard-section .content-type-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  background: #e2e8f0;
+  border-radius: 12px;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.dashboard-section .completed-check {
+  color: #10b981;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Completion Message */
+.dashboard-section .completion-message {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  border-radius: 16px;
+  margin-top: 10px;
+}
+
+.dashboard-section .completion-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.dashboard-section .completion-message p {
+  margin: 5px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #166534;
+}
+
+.dashboard-section .completion-subtext {
+  font-size: 0.85rem;
+  color: #15803d;
+}
+
+/* Update the .title section */
+.dashboard-section .dashboard-tile .title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.dashboard-section .dashboard-tile .title h6 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Refresh button styles */
+.dashboard-section .refresh-module-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #64748b;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.dashboard-section .refresh-module-btn:hover {
+  background: #f1f5f9;
+  color: #e9691e;
+}
+
+.dashboard-section .refresh-module-btn i {
+  font-size: 1rem;
+  background: none;
+  padding: 0;
+  margin: 0;
 }

@@ -99,6 +99,8 @@ model Student {
   
   enrollments     Enrollment[]
   assignmentSubmissions AssignmentSubmission[] 
+  finalGrade      FinalGrade?
+  studentNotifications StudentNotification[]  
 }
 
 model Program {
@@ -128,7 +130,8 @@ model Course {
   category    String?      // Course category
   instructorId Int?        // User ID of the instructor/admin who created it
   instructor  User?        @relation(fields: [instructorId], references: [id])
-  
+  credits     Int?     @default(3)  // Course credit value (e.g., 3 credits)
+
   status      ContentStatus @default(draft)
   isPublished Boolean     @default(false)
   publishedAt DateTime?
@@ -312,11 +315,11 @@ model Payment {
   status         String?  @default("pending")
   amount         Float?
   amountPaid     Float?
-  transactionId  String?  @unique
+  dueDate        DateTime?  
   paidAt         DateTime?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-
+  transactionId  String?
   // Optional relation to User (only for registered users)
   user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   
@@ -346,6 +349,32 @@ model AssignmentNotification {
   @@index([createdAt])
 }
 
+// Add this after your existing AssignmentNotification model
+
+model StudentNotification {
+  id             Int      @id @default(autoincrement())
+  studentId      Int
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  type           StudentNotificationType
+  title          String
+  message        String
+  data           Json?    // Store additional data like { assignmentId: 123, grade: 85, courseId: 456 }
+  read           Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  
+  @@index([studentId])
+  @@index([type])
+  @@index([read])
+  @@index([createdAt])
+}
+
+enum StudentNotificationType {
+  GRADE_POSTED          // When assignment is graded
+  ASSIGNMENT_REMINDER   // Upcoming assignment deadline
+  SYSTEM_ANNOUNCEMENT   // Important system updates
+  COURSE_ENROLLMENT     // When enrolled in a new course
+  PAYMENT_CONFIRMATION  // When payment is successful
+}
 
 model SystemSetting {
   id          Int      @id @default(autoincrement())
@@ -358,4 +387,22 @@ model SystemSetting {
   
   @@index([category])
   @@index([key])
+}
+
+// Add new model for Final Project/Grade
+model FinalGrade {
+  id              Int      @id @default(autoincrement())
+  studentId       Int      @unique  // 👈 ADD @unique HERE
+  student         Student  @relation(fields: [studentId], references: [id])
+  programName     String
+  projectTitle    String
+  projectScore    Float    // Score out of 100
+  weightedScore   Float?   // Calculated final score
+  certificateIssued Boolean @default(false)
+  certificateUrl  String?
+  issuedAt        DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@unique([studentId, programName])
 }

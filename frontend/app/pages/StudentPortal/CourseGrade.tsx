@@ -1,25 +1,27 @@
-// app/components/CourseGrade.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./style/CourseGrade.css";
 
 // Types
 interface Assignment {
+  id: number;
   name: string;
   weight: number;
   score: number;
   maxScore: number;
+  grade?: number;
+  feedback?: string;
 }
 
 interface Course {
-  id: string;
+  id: number;
   code: string;
   name: string;
-  instructor: string;
   credits: number;
   grade: string;
   points: number;
+  averageScore: number;
   assignments?: Assignment[];
 }
 
@@ -49,6 +51,16 @@ interface GPAProgression {
   gpa: number;
 }
 
+interface FinalGradeData {
+  id: number;
+  programName: string;
+  projectTitle: string;
+  projectScore: number;
+  weightedScore: number;
+  certificateIssued: boolean;
+  certificateUrl?: string;
+}
+
 interface GradeData {
   overallGPA: number;
   cumulativeCredits: number;
@@ -62,215 +74,58 @@ interface GradeData {
   semesters: Semester[];
   gradeDistribution: GradeDistribution;
   gpaProgression: GPAProgression[];
+  finalGrade?: FinalGradeData;
 }
 
-// Type for grade colors
-type GradeColors = {
-  [key: string]: string;
-};
-
-// Type for GPA status
-interface GPAStatus {
-  status: string;
-  color: string;
-  icon: string;
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const CourseGrade = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [gradeData, setGradeData] = useState<GradeData | null>(null);
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
-  const [selectedCourse, setSelectedCourse] = useState<string>("all");
-  const [viewMode, setViewMode] = useState<string>("detailed"); // 'detailed' or 'summary'
+  const [viewMode, setViewMode] = useState<string>("detailed");
+  const [showFinalGradeModal, setShowFinalGradeModal] = useState(false);
 
-  // Sample grade data
-  const gradeData: GradeData = {
-    overallGPA: 3.75,
-    cumulativeCredits: 45,
-    completedCourses: 12,
-    currentSemester: {
-      name: "Spring 2024",
-      gpa: 3.82,
-      credits: 15,
-      courses: 4
-    },
-    semesters: [
-      {
-        id: "spring2024",
-        name: "Spring 2024",
-        gpa: 3.82,
-        credits: 15,
-        status: "current",
-        courses: [
-          {
-            id: "cs401",
-            code: "CS401",
-            name: "Advanced Web Development",
-            instructor: "Dr. Sarah Chen",
-            credits: 4,
-            grade: "A",
-            points: 4.0,
-            assignments: [
-              { name: "React Project", weight: 25, score: 95, maxScore: 100 },
-              { name: "Midterm Exam", weight: 30, score: 88, maxScore: 100 },
-              { name: "Final Project", weight: 35, score: 92, maxScore: 100 },
-              { name: "Participation", weight: 10, score: 100, maxScore: 100 }
-            ]
-          },
-          {
-            id: "cs402",
-            code: "CS402",
-            name: "Database Systems",
-            instructor: "Prof. Michael Rodriguez",
-            credits: 3,
-            grade: "A-",
-            points: 3.7,
-            assignments: [
-              { name: "SQL Queries", weight: 20, score: 90, maxScore: 100 },
-              { name: "Database Design", weight: 25, score: 85, maxScore: 100 },
-              { name: "Final Exam", weight: 40, score: 82, maxScore: 100 },
-              { name: "Labs", weight: 15, score: 95, maxScore: 100 }
-            ]
-          },
-          {
-            id: "math301",
-            code: "MATH301",
-            name: "Advanced Statistics",
-            instructor: "Dr. Emily Watson",
-            credits: 4,
-            grade: "B+",
-            points: 3.3,
-            assignments: [
-              { name: "Problem Sets", weight: 30, score: 85, maxScore: 100 },
-              { name: "Midterm", weight: 30, score: 78, maxScore: 100 },
-              { name: "Final Project", weight: 40, score: 82, maxScore: 100 }
-            ]
-          },
-          {
-            id: "eng201",
-            code: "ENG201",
-            name: "Technical Writing",
-            instructor: "Prof. James Wilson",
-            credits: 4,
-            grade: "A",
-            points: 4.0,
-            assignments: [
-              { name: "Research Paper", weight: 40, score: 94, maxScore: 100 },
-              { name: "Documentation", weight: 35, score: 96, maxScore: 100 },
-              { name: "Presentations", weight: 25, score: 92, maxScore: 100 }
-            ]
-          }
-        ]
-      },
-      {
-        id: "fall2023",
-        name: "Fall 2023",
-        gpa: 3.68,
-        credits: 16,
-        status: "completed",
-        courses: [
-          {
-            id: "cs301",
-            code: "CS301",
-            name: "Data Structures",
-            instructor: "Dr. Sarah Chen",
-            credits: 4,
-            grade: "A-",
-            points: 3.7
-          },
-          {
-            id: "cs302",
-            code: "CS302",
-            name: "Algorithms",
-            instructor: "Prof. Robert Kim",
-            credits: 4,
-            grade: "B+",
-            points: 3.3
-          },
-          {
-            id: "math202",
-            code: "MATH202",
-            name: "Linear Algebra",
-            instructor: "Dr. Emily Watson",
-            credits: 4,
-            grade: "A",
-            points: 4.0
-          },
-          {
-            id: "phys101",
-            code: "PHYS101",
-            name: "Physics I",
-            instructor: "Prof. David Lee",
-            credits: 4,
-            grade: "B+",
-            points: 3.3
-          }
-        ]
-      },
-      {
-        id: "spring2023",
-        name: "Spring 2023",
-        gpa: 3.72,
-        credits: 14,
-        status: "completed",
-        courses: [
-          {
-            id: "cs201",
-            code: "CS201",
-            name: "OOP Programming",
-            instructor: "Dr. Sarah Chen",
-            credits: 4,
-            grade: "A-",
-            points: 3.7
-          },
-          {
-            id: "cs202",
-            code: "CS202",
-            name: "Computer Architecture",
-            instructor: "Prof. Michael Rodriguez",
-            credits: 4,
-            grade: "B+",
-            points: 3.3
-          },
-          {
-            id: "math201",
-            code: "MATH201",
-            name: "Calculus III",
-            instructor: "Dr. Emily Watson",
-            credits: 4,
-            grade: "A",
-            points: 4.0
-          },
-          {
-            id: "hist101",
-            code: "HIST101",
-            name: "World History",
-            instructor: "Prof. Anna Scott",
-            credits: 2,
-            grade: "A",
-            points: 4.0
-          }
-        ]
+  // Fetch grade data from backend
+  useEffect(() => {
+    const fetchGradeData = async () => {
+      try {
+        const userStr = localStorage.getItem("user");
+        if (!userStr) {
+          setError("User not found");
+          setLoading(false);
+          return;
+        }
+
+        const user = JSON.parse(userStr);
+        const email = user.email;
+
+        const response = await fetch(`${API_URL}/api/grades/${encodeURIComponent(email)}`);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch grade data");
+        }
+        
+        const result = await response.json();
+        if (result.success) {
+          setGradeData(result.data);
+        } else {
+          setError(result.message);
+        }
+      } catch (err) {
+        console.error("Error fetching grade data:", err);
+        setError("Failed to load grade data");
+      } finally {
+        setLoading(false);
       }
-    ],
-    gradeDistribution: {
-      "A": 8,
-      "A-": 3,
-      "B+": 4,
-      "B": 2,
-      "B-": 1,
-      "C+": 0,
-      "C": 0,
-      "D": 0,
-      "F": 0
-    },
-    gpaProgression: [
-      { semester: "Spr 23", gpa: 3.72 },
-      { semester: "Fall 23", gpa: 3.68 },
-      { semester: "Spr 24", gpa: 3.82 }
-    ]
-  };
+    };
+    
+    fetchGradeData();
+  }, []);
 
   const getGradeColor = (grade: string): string => {
-    const colors: GradeColors = {
+    const colors: Record<string, string> = {
       "A": "#4CAF50",
       "A-": "#8BC34A",
       "B+": "#CDDC39",
@@ -284,27 +139,43 @@ const CourseGrade = () => {
     return colors[grade] || "#666";
   };
 
-  const getGPAStatus = (gpa: number): GPAStatus => {
+  const getGPAStatus = (gpa: number) => {
     if (gpa >= 3.7) return { status: "Excellent", color: "#4CAF50", icon: "🏆" };
     if (gpa >= 3.3) return { status: "Very Good", color: "#8BC34A", icon: "👍" };
     if (gpa >= 3.0) return { status: "Good", color: "#FFC107", icon: "✅" };
     return { status: "Needs Improvement", color: "#F44336", icon: "📈" };
   };
 
-  const calculateCourseAverage = (assignments?: Assignment[]): number | null => {
-    if (!assignments) return null;
-    const totalWeightedScore = assignments.reduce((sum: number, assignment: Assignment) => {
-      return sum + (assignment.score * assignment.weight) / 100;
-    }, 0);
-    return Math.round(totalWeightedScore);
-  };
+  if (loading) {
+    return (
+      <div className="course-grade-container">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading your grades...</p>
+        </div>
+      </div>
+    );
+  }
 
+  if (error || !gradeData) {
+    return (
+      <div className="course-grade-container">
+        <div className="error-state">
+          <div className="error-icon">⚠️</div>
+          <p>{error || "Failed to load grade data"}</p>
+          <button onClick={() => window.location.reload()} className="retry-btn">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const gpaStatus = getGPAStatus(gradeData.overallGPA);
+  const currentSemester = gradeData.semesters.find(s => s.status === "current");
   const filteredSemesters = selectedSemester === "all" 
     ? gradeData.semesters 
-    : gradeData.semesters.filter((sem: Semester) => sem.id === selectedSemester);
-
-  const currentSemester = gradeData.semesters.find((sem: Semester) => sem.status === "current");
-  const gpaStatus = getGPAStatus(gradeData.overallGPA);
+    : gradeData.semesters.filter(s => s.id === selectedSemester);
 
   return (
     <div className="course-grade-container">
@@ -331,6 +202,15 @@ const CourseGrade = () => {
               Detailed
             </button>
           </div>
+          {gradeData.finalGrade && (
+            <button 
+              className="certificate-btn"
+              onClick={() => setShowFinalGradeModal(true)}
+            >
+              <i className="bi bi-award"></i>
+              View Final Score
+            </button>
+          )}
         </div>
       </div>
 
@@ -341,7 +221,7 @@ const CourseGrade = () => {
             <div className="gpa-icon">📊</div>
             <div className="gpa-info">
               <h3>Overall GPA</h3>
-              <div className="gpa-score">{gradeData.overallGPA}</div>
+              <div className="gpa-score">{gradeData.overallGPA.toFixed(2)}</div>
               <div 
                 className="gpa-status"
                 style={{ color: gpaStatus.color }}
@@ -405,7 +285,7 @@ const CourseGrade = () => {
             <div className="stat-icon">⭐</div>
             <div className="stat-info">
               <span className="stat-number">
-                {gradeData.gradeDistribution["A"] + gradeData.gradeDistribution["A-"]}
+                {gradeData.gradeDistribution.A + gradeData.gradeDistribution["A-"]}
               </span>
               <span className="stat-label">A Grades</span>
             </div>
@@ -419,32 +299,20 @@ const CourseGrade = () => {
           <label>Semester:</label>
           <select 
             value={selectedSemester} 
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSemester(e.target.value)}
+            onChange={(e) => setSelectedSemester(e.target.value)}
           >
             <option value="all">All Semesters</option>
-            {gradeData.semesters.map((semester: Semester) => (
+            {gradeData.semesters.map((semester) => (
               <option key={semester.id} value={semester.id}>
                 {semester.name} {semester.status === "current" && "(Current)"}
               </option>
             ))}
           </select>
         </div>
-        <div className="filter-group">
-          <label>Course:</label>
-          <select 
-            value={selectedCourse} 
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCourse(e.target.value)}
-          >
-            <option value="all">All Courses</option>
-            {currentSemester?.courses.map((course: Course) => (
-              <option key={course.id} value={course.id}>{course.code}</option>
-            ))}
-          </select>
-        </div>
       </div>
 
+      {/* View Content */}
       {viewMode === "summary" ? (
-        /* Summary View */
         <div className="summary-view">
           {/* Semester Overview */}
           <div className="section-card">
@@ -453,7 +321,7 @@ const CourseGrade = () => {
               <span className="section-subtitle">Your academic performance by semester</span>
             </div>
             <div className="semesters-grid">
-              {gradeData.semesters.map((semester: Semester) => (
+              {gradeData.semesters.map((semester) => (
                 <div key={semester.id} className={`semester-card ${semester.status}`}>
                   <div className="semester-header">
                     <h4>{semester.name}</h4>
@@ -462,7 +330,7 @@ const CourseGrade = () => {
                     )}
                   </div>
                   <div className="semester-gpa">
-                    <span className="gpa-value">{semester.gpa}</span>
+                    <span className="gpa-value">{semester.gpa.toFixed(2)}</span>
                     <span className="gpa-label">GPA</span>
                   </div>
                   <div className="semester-meta">
@@ -476,7 +344,7 @@ const CourseGrade = () => {
                     </div>
                   </div>
                   <div className="course-grades">
-                    {semester.courses.slice(0, 3).map((course: Course) => (
+                    {semester.courses.slice(0, 3).map((course) => (
                       <div key={course.id} className="course-grade-item">
                         <span className="course-code">{course.code}</span>
                         <span 
@@ -533,7 +401,7 @@ const CourseGrade = () => {
             </div>
             <div className="gpa-chart">
               <div className="chart-area">
-                {gradeData.gpaProgression.map((point: GPAProgression, index: number) => (
+                {gradeData.gpaProgression.map((point, index) => (
                   <div key={index} className="chart-point">
                     <div 
                       className="point-value"
@@ -556,14 +424,13 @@ const CourseGrade = () => {
           </div>
         </div>
       ) : (
-        /* Detailed View */
         <div className="detailed-view">
-          {filteredSemesters.map((semester: Semester) => (
+          {filteredSemesters.map((semester) => (
             <div key={semester.id} className="semester-detailed">
               <div className="semester-header-detailed">
                 <h3>{semester.name}</h3>
                 <div className="semester-stats">
-                  <span className="gpa-badge">GPA: {semester.gpa}</span>
+                  <span className="gpa-badge">GPA: {semester.gpa.toFixed(2)}</span>
                   <span className="credits-badge">{semester.credits} Credits</span>
                   {semester.status === "current" && (
                     <span className="current-badge">In Progress</span>
@@ -572,12 +439,12 @@ const CourseGrade = () => {
               </div>
               
               <div className="courses-grid">
-                {semester.courses.map((course: Course) => (
+                {semester.courses.map((course) => (
                   <div key={course.id} className="course-grade-card">
                     <div className="course-header">
                       <div className="course-info">
                         <h4>{course.code} - {course.name}</h4>
-                        <p>Instructor: {course.instructor}</p>
+                        <p>{course.credits} credits • {course.averageScore}% average</p>
                       </div>
                       <div className="course-grade">
                         <div 
@@ -586,7 +453,7 @@ const CourseGrade = () => {
                         >
                           {course.grade}
                         </div>
-                        <div className="grade-points">{course.points} GPA</div>
+                        <div className="grade-points">{course.points.toFixed(2)} GPA</div>
                       </div>
                     </div>
                     
@@ -597,40 +464,9 @@ const CourseGrade = () => {
                       </div>
                       <div className="meta-item">
                         <i className="bi bi-bar-chart"></i>
-                        <span>Grade Points: {course.points}</span>
+                        <span>Average: {course.averageScore}%</span>
                       </div>
                     </div>
-
-                    {/* Assignment Breakdown */}
-                    {course.assignments && (
-                      <div className="assignments-breakdown">
-                        <h5>Assignment Breakdown</h5>
-                        <div className="assignments-list">
-                          {course.assignments.map((assignment: Assignment, index: number) => (
-                            <div key={index} className="assignment-item">
-                              <div className="assignment-info">
-                                <span className="assignment-name">{assignment.name}</span>
-                                <span className="assignment-weight">{assignment.weight}%</span>
-                              </div>
-                              <div className="assignment-score">
-                                <div className="score-bar">
-                                  <div 
-                                    className="score-fill"
-                                    style={{ width: `${assignment.score}%` }}
-                                  ></div>
-                                </div>
-                                <span className="score-value">
-                                  {assignment.score}/{assignment.maxScore}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="course-average">
-                          <span>Course Average: {calculateCourseAverage(course.assignments)}%</span>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -639,41 +475,93 @@ const CourseGrade = () => {
         </div>
       )}
 
-      {/* Academic Standing */}
-      <div className="academic-standing">
-        <div className="section-card">
-          <div className="section-header">
-            <h3>Academic Standing</h3>
-            <span className="section-subtitle">Your current academic status and achievements</span>
-          </div>
-          <div className="standing-content">
-            <div className="standing-card good">
-              <div className="standing-icon">✅</div>
-              <div className="standing-info">
-                <h4>Good Academic Standing</h4>
-                <p>You are meeting all academic requirements and making satisfactory progress.</p>
-              </div>
+      {/* Final Grade Modal */}
+      {showFinalGradeModal && gradeData.finalGrade && (
+        <div className="modal-overlay" onClick={() => setShowFinalGradeModal(false)}>
+          <div className="final-grade-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>
+                <i className="bi bi-award-fill"></i>
+                Final Program Score
+              </h2>
+              <button className="modal-close" onClick={() => setShowFinalGradeModal(false)}>
+                ✕
+              </button>
             </div>
-            <div className="achievements">
-              <h5>Recent Achievements</h5>
-              <div className="achievement-list">
-                <div className="achievement-item">
-                  <span className="achievement-icon">🏆</span>
-                  <span>Dean's List - Fall 2023</span>
+            <div className="modal-body">
+              <div className="final-grade-card">
+                <div className="program-info">
+                  <h3>{gradeData.finalGrade.programName}</h3>
+                  <p>Project: {gradeData.finalGrade.projectTitle}</p>
                 </div>
-                <div className="achievement-item">
-                  <span className="achievement-icon">⭐</span>
-                  <span>4.0 GPA in Technical Writing</span>
+                <div className="final-score-display">
+                  <div className="score-circle">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                      <circle 
+                        cx="60" 
+                        cy="60" 
+                        r="54" 
+                        stroke="#e9ecef" 
+                        strokeWidth="12" 
+                        fill="none"
+                      />
+                      <circle 
+                        cx="60" 
+                        cy="60" 
+                        r="54" 
+                        stroke={gradeData.finalGrade.weightedScore >= 70 ? "#4CAF50" : "#FF9800"} 
+                        strokeWidth="12" 
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeDasharray="339.3"
+                        strokeDashoffset={339.3 - (339.3 * gradeData.finalGrade.weightedScore) / 100}
+                        transform="rotate(-90 60 60)"
+                      />
+                    </svg>
+                    <div className="score-text">
+                      <span className="percentage">{gradeData.finalGrade.weightedScore}%</span>
+                      <span className="label">Final Score</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="achievement-item">
-                  <span className="achievement-icon">📈</span>
-                  <span>GPA Improvement This Semester</span>
+                <div className="grade-breakdown">
+                  <div className="breakdown-item">
+                    <span>Project Score:</span>
+                    <strong>{gradeData.finalGrade.projectScore}%</strong>
+                  </div>
+                  <div className="breakdown-item">
+                    <span>Certificate Status:</span>
+                    <strong className={gradeData.finalGrade.certificateIssued ? "success" : "pending"}>
+                      {gradeData.finalGrade.certificateIssued ? "✓ Issued" : "Pending"}
+                    </strong>
+                  </div>
+                  {gradeData.finalGrade.certificateUrl && (
+                    <div className="breakdown-item">
+                      <a 
+                        href={gradeData.finalGrade.certificateUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="certificate-link"
+                      >
+                        <i className="bi bi-download"></i> Download Certificate
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div className="grade-message">
+                  {gradeData.finalGrade.weightedScore >= 70 ? (
+                    <p>🎉 Congratulations! You have successfully completed the program with a score of {gradeData.finalGrade.weightedScore}%. Your certificate is ready.</p>
+                  ) : gradeData.finalGrade.weightedScore >= 50 ? (
+                    <p>📚 Good effort! Your final score is {gradeData.finalGrade.weightedScore}%. Keep improving!</p>
+                  ) : (
+                    <p>📖 Keep working hard! Your current score is {gradeData.finalGrade.weightedScore}%. Focus on improving your skills.</p>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

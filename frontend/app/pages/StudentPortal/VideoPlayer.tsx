@@ -37,15 +37,24 @@ const VideoPlayer = ({
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
   const [buffering, setBuffering] = useState(false);
 
-  // ✅ FIXED ROUTE HERE
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+  // Get auth token
+  const getAuthToken = () => {
+    return localStorage.getItem("token");
+  };
+
+  // ✅ FIXED: Save progress with authentication
   const saveProgress = async (position: number, completed: boolean) => {
     try {
-      const API_URL =
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
+      const token = getAuthToken();
+      
       const response = await fetch(`${API_URL}/api/video-progress/progress`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": token ? `Bearer ${token}` : "",
+        },
         body: JSON.stringify({
           email: studentEmail,
           contentId,
@@ -53,38 +62,54 @@ const VideoPlayer = ({
           isCompleted: completed,
         }),
       });
+      
       if (!response.ok) {
         const error = await response.json();
         console.error("Failed to save progress:", error);
+      } else {
+        console.log(`✅ Progress saved: ${Math.floor(position)}s, completed: ${completed}`);
       }
     } catch (error) {
       console.error("Error saving progress:", error);
     }
   };
 
-  // ✅ FIXED ROUTE HERE
-const loadSavedProgress = async () => {
-  try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    const response = await fetch(
-      `${API_URL}/api/video-progress/progress/${encodeURIComponent(studentEmail)}/${contentId}`,
-    );
-    const data = await response.json();
-    // FIX: Check if data.progress exists directly
-    if (data.progress && data.progress.lastPosition !== undefined && videoRef.current) {
-      videoRef.current.currentTime = data.progress.lastPosition;
-      setCurrentTime(data.progress.lastPosition);
-      if (data.progress.isCompleted) {
-        setIsCompleted(true);
-        if (onProgressUpdate) onProgressUpdate(100, true);
+  // ✅ FIXED: Load saved progress with authentication
+  const loadSavedProgress = async () => {
+    try {
+      const token = getAuthToken();
+      
+      const response = await fetch(
+        `${API_URL}/api/video-progress/progress/${encodeURIComponent(studentEmail)}/${contentId}`,
+        {
+          headers: {
+            "Authorization": token ? `Bearer ${token}` : "",
+          },
+        }
+      );
+      
+      if (!response.ok) {
+        console.error("Failed to load progress:", response.status);
+        return;
       }
+      
+      const data = await response.json();
+      
+      if (data.progress && data.progress.lastPosition !== undefined && videoRef.current) {
+        videoRef.current.currentTime = data.progress.lastPosition;
+        setCurrentTime(data.progress.lastPosition);
+        if (data.progress.isCompleted) {
+          setIsCompleted(true);
+          if (onProgressUpdate) onProgressUpdate(100, true);
+        }
+        console.log(`✅ Loaded progress: ${data.progress.lastPosition}s, completed: ${data.progress.isCompleted}`);
+      }
+    } catch (error) {
+      console.error("Error loading saved progress:", error);
     }
-  } catch (error) {
-    console.error("Error loading saved progress:", error);
-  }
-};
+  };
 
-  // EVERYTHING BELOW IS 100% UNCHANGED
+  // Hide controls after inactivity
   const hideControls = () => {
     if (controlsTimeout) clearTimeout(controlsTimeout);
     const timeout = setTimeout(() => {
@@ -112,6 +137,7 @@ const loadSavedProgress = async () => {
         if (onProgressUpdate) onProgressUpdate(100, true);
       }
 
+      // Debounce save to avoid too many API calls
       if (saveTimeout) clearTimeout(saveTimeout);
       const timeout = setTimeout(() => saveProgress(current, completed), 5000);
       setSaveTimeout(timeout);
@@ -209,13 +235,23 @@ const loadSavedProgress = async () => {
 
   useEffect(() => {
     loadSavedProgress();
+    
+    // Fullscreen change listener
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    
     return () => {
       if (saveTimeout) clearTimeout(saveTimeout);
       if (controlsTimeout) clearTimeout(controlsTimeout);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
 
   const formatTime = (seconds: number) => {
+    if (isNaN(seconds)) return "0:00";
     const hours = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
@@ -271,7 +307,7 @@ const loadSavedProgress = async () => {
             <input
               type="range"
               min="0"
-              max={duration}
+              max={duration || 100}
               value={currentTime}
               onChange={handleSeek}
               className="seek-bar"

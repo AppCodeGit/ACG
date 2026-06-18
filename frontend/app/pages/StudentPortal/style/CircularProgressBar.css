@@ -1,41 +1,323 @@
-.circular-progress-bar {
+/* ============================================
+   CIRCULAR PROGRESS BAR - REDESIGNED
+   ============================================ */
+
+.circular-progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.circular-progress-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: rotate(-90deg); 
+  filter: drop-shadow(0 8px 20px rgba(233, 105, 30, 0.15));
+  transition: all 0.3s ease;
 }
 
-.progress-ring {
-  position: relative;
-  transform: rotate(90deg); /* Re-adjust rotation */
+.circular-progress-wrapper:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 12px 28px rgba(233, 105, 30, 0.25));
 }
 
+.progress-ring-svg {
+  transform: rotate(-90deg);
+  transition: transform 0.3s ease;
+}
+
+.circular-progress-wrapper:hover .progress-ring-svg {
+  transform: rotate(-90deg) scale(1.01);
+}
+
+/* Track circle */
 .progress-ring__track {
   stroke-linecap: round;
-  opacity: 0.2;
+  opacity: 0.15;
+  transition: opacity 0.3s ease;
+}
+
+.circular-progress-wrapper:hover .progress-ring__track {
+  opacity: 0.25;
+}
+
+/* Progress circle */
+.progress-ring__progress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(233, 105, 30, 0.3));
+}
+
+/* Inner decorative circle */
+.progress-ring__inner {
+  stroke-dasharray: 4 8;
+  animation: rotateDash 20s linear infinite;
+}
+
+@keyframes rotateDash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 100;
+  }
+}
+
+/* Shadow circle */
+.progress-ring__shadow {
+  opacity: 0.5;
+}
+
+/* Center Content */
+.circular-progress-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.percentage-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.percentage-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b, #475569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.percentage-symbol {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-left: 2px;
+}
+
+.percentage-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #e9691e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.progress-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.stats-value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e9691e;
+}
+
+.stats-label {
+  font-size: 0.6rem;
+  color: #6b85aa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Floating Decoration */
+.progress-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.decoration-ring {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e9691e;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.decoration-dot {
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+  width: 8px;
+  height: 8px;
+  background: #f59e0b;
+  border-radius: 50%;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Footer with Strawberry */
+.circular-progress-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.strawberry-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fef9f5, #ffffff);
+  padding: 8px 16px;
+  border-radius: 40px;
+  border: 1px solid rgba(233, 105, 30, 0.2);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.strawberry-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.15);
+  border-color: #e9691e;
+}
+
+.strawberry-icon {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+.strawberry-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #e9691e;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .percentage-number {
+    font-size: 1.8rem;
+  }
+  
+  .percentage-symbol {
+    font-size: 0.9rem;
+  }
+  
+  .percentage-label {
+    font-size: 0.6rem;
+  }
+  
+  .stats-value {
+    font-size: 0.7rem;
+  }
+  
+  .strawberry-text {
+    font-size: 0.7rem;
+  }
+  
+  .decoration-ring,
+  .decoration-dot {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .percentage-number {
+    font-size: 1.5rem;
+  }
+  
+  .percentage-symbol {
+    font-size: 0.8rem;
+  }
+  
+  .strawberry-wrapper {
+    padding: 6px 12px;
+  }
+  
+  .strawberry-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .strawberry-text {
+    font-size: 0.65rem;
+  }
+}
+
+/* Animation for when percentage changes */
+@keyframes progressPulse {
+  0% {
+    stroke-width: 12;
+  }
+  50% {
+    stroke-width: 16;
+  }
+  100% {
+    stroke-width: 12;
+  }
 }
 
 .progress-ring__progress {
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.5s ease;
+  animation: progressPulse 0.5s ease-out;
 }
 
-.percentage-text {
-  position: absolute;
-  transform: rotate(90deg); /* Ensure text is upright */
-  font-weight: 700;
-  color: #818181;
-  display: grid;
-  text-align: center;
-}
-
-.percentage-text span{
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #818181;
-}
-
-.percentage-text img{
-  width: 50px;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .percentage-number {
+    background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  
+  .strawberry-wrapper {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+  }
+  
+  .stats-value {
+    color: #f08b4a;
+  }
 }

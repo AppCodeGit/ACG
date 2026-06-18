@@ -126,6 +126,8 @@ router.get("/courses/:programName/content", async (req, res) => {
   }
 });
 
+
+
 // =====================
 // UPLOAD CONTENT WITH THUMBNAIL AND MODULE ASSIGNMENT
 // =====================
@@ -144,6 +146,41 @@ router.post("/upload-content", upload.single("file"), async (req, res) => {
 
     console.log("Uploading:", { programName, moduleId, title, type, fileSize: file.size });
 
+    // ✅ STEP 1: Find or create the Program
+    let program = await prisma.program.findUnique({
+      where: { name: programName }
+    });
+    
+    if (!program) {
+      // Create the program if it doesn't exist
+      program = await prisma.program.create({
+        data: {
+          name: programName,
+          description: `${programName} program`,
+        },
+      });
+      console.log(`✅ Created new program: ${programName}`);
+    }
+
+    // ✅ STEP 2: Find or create a Course for this Program
+    let course = await prisma.course.findFirst({
+      where: { programId: program.id }
+    });
+    
+    if (!course) {
+      // Create a default course for this program
+      course = await prisma.course.create({
+        data: {
+          name: `${programName} Course`,
+          programId: program.id,
+          isPublished: true,
+          status: "published",
+          credits: 3,
+        },
+      });
+      console.log(`✅ Created new course: ${course.name} for program: ${programName}`);
+    }
+
     // Upload original file to S3
     const uploadResult = await uploadToS3(file, type);
     
@@ -155,14 +192,12 @@ router.post("/upload-content", upload.single("file"), async (req, res) => {
         console.log("Generating thumbnail for video...");
         const thumbnailBuffer = await generateThumbnailWithTempFile(file.buffer);
         
-        // Upload thumbnail to S3
         const thumbnailFileName = `course-content/${type}/thumbnails/thumb-${Date.now()}.jpg`;
         const thumbnailUpload = await uploadToS3FromBuffer(thumbnailBuffer, thumbnailFileName, 'image/jpeg');
         thumbnailUrl = thumbnailUpload.url;
         console.log("Thumbnail generated and uploaded:", thumbnailUrl);
       } catch (error) {
         console.error("Thumbnail generation failed:", error);
-        // Continue without thumbnail
       }
     }
 
@@ -174,15 +209,15 @@ router.post("/upload-content", upload.single("file"), async (req, res) => {
         _max: { order: true },
       });
     } catch (error) {
-      console.log("Note: programName might not exist in schema yet");
       maxOrderResult = { _max: { order: null } };
     }
 
-    // Save to database - INCLUDING moduleId
+    // ✅ STEP 3: Save content with courseId
     const content = await prisma.courseContent.create({
       data: {
         programName: programName,
-        moduleId: moduleId ? parseInt(moduleId) : null,  // ← ADD THIS LINE
+        courseId: course.id,  // ✅ NOW courseId will ALWAYS be set
+        moduleId: moduleId ? parseInt(moduleId) : null,
         title: title,
         type: type,
         description: description || null,

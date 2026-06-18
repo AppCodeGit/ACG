@@ -1,0 +1,258 @@
+/* ============================================
+   STUDENT NOTIFICATION BELL - COMPLETE STYLES
+   ============================================ */
+
+.student-notification-bell {
+  position: relative;
+  display: inline-block;
+}
+
+/* ============================================
+   NOTIFICATION BUTTON
+   ============================================ */
+.student-notification-bell .notification-button {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-notification-bell .notification-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
+  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
+}
+
+.student-notification-bell .notification-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.student-notification-bell .notification-button:hover .material-symbols-outlined {
+  color: #e9691e;
+}
+
+/* ============================================
+   NOTIFICATION BADGE
+   ============================================ */
+.student-notification-bell .notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #f44336;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: studentPulse 2s infinite;
+}
+
+@keyframes studentPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(244, 67, 54, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
+}
+
+/* ============================================
+   NOTIFICATION DROPDOWN
+   ============================================ */
+.student-notification-bell .notification-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 380px;
+  max-height: 500px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: studentSlideDown 0.3s ease;
+}
+
+@keyframes studentSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown Header */
+.student-notification-bell .notification-dropdown .dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.student-notification-bell .notification-dropdown .dropdown-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.student-notification-bell .mark-all-read {
+  background: none;
+  border: none;
+  color: #e9691e;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.student-notification-bell .mark-all-read:hover {
+  background: rgba(233, 105, 30, 0.1);
+}
+
+/* Dropdown Body */
+.student-notification-bell .dropdown-body {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Notification Items */
+.student-notification-bell .notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #f1f5f9;
+  position: relative;
+}
+
+.student-notification-bell .notification-item:hover {
+  background: #f8fafc;
+}
+
+.student-notification-bell .notification-item.unread {
+  background: #fef9f5;
+}
+
+/* Notification Icon */
+.student-notification-bell .notification-icon-wrapper {
+  flex-shrink: 0;
+}
+
+.student-notification-bell .notification-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffe0cf;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+/* Notification Content */
+.student-notification-bell .notification-content {
+  flex: 1;
+}
+
+.student-notification-bell .notification-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.student-notification-bell .notification-message {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.student-notification-bell .notification-time {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.student-notification-bell .unread-dot {
+  width: 8px;
+  height: 8px;
+  background: #e9691e;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* Loading State */
+.student-notification-bell .loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.student-notification-bell .loading-spinner-small {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e2e8f0;
+  border-top-color: #e9691e;
+  border-right-color: #f08b4a;
+  border-radius: 50%;
+  animation: studentSpin 0.6s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes studentSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty State */
+.student-notification-bell .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.student-notification-bell .empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media (max-width: 480px) {
+  .student-notification-bell .notification-dropdown {
+    width: 350px;
+    right: -50px;
+  }
+}

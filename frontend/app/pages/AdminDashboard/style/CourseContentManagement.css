@@ -308,8 +308,7 @@
 /* Module List (Fallback) */
 .module-list {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .module-item {
@@ -336,10 +335,6 @@
 .module-icon .material-symbols-outlined {
   font-size: 32px;
   color: #e9691e;
-}
-
-.module-details {
-  flex: 1;
 }
 
 .module-title {
@@ -1253,4 +1248,18 @@
 .confirm-btn-cancel:hover,
 .confirm-btn-confirm:hover {
   transform: translateY(-1px);
+}
+
+/* Video Count Badge */
+.video-count-badge {
+  background: #e9691e20;
+  color: #e9691e;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }

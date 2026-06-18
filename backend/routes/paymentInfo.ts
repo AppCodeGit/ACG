@@ -5,12 +5,71 @@ import { PrismaClient } from '@prisma/client';
 const router = Router();
 const prisma = new PrismaClient();
 
-// GET /fees/:email
+// Add this helper function to determine the next due date
+const calculateNextDueDate = (payments: any[]): { dueDate: string | null, semester: string | null, installment: string | null } => {
+  // Define the payment structure
+  const semesters = ['First Semester', 'Second Semester', 'Third Semester'];
+  const installments = ['First Installment', 'Second Installment', 'Third Installment'];
+  
+  // Define expected amounts (you can move this to a config)
+  const expectedAmounts = {
+    'First Semester': { 'First Installment': 2000, 'Second Installment': 2000, 'Third Installment': 1920 },
+    'Second Semester': { 'First Installment': 2000, 'Second Installment': 2000, 'Third Installment': 1920 },
+    'Third Semester': { 'First Installment': 2000, 'Second Installment': 2000, 'Third Installment': 1920 },
+  };
+
+  // Find the next unpaid installment
+  for (const semester of semesters) {
+    for (const installment of installments) {
+      const existingPayment = payments.find(
+        p => p.semester === semester && p.installment === installment
+      );
+      
+      // If this installment hasn't been paid
+      if (!existingPayment) {
+        // Calculate due date (e.g., 30 days from now for first installment, 60 for second, etc.)
+        const installmentIndex = installments.indexOf(installment);
+        const daysToAdd = (installmentIndex + 1) * 30; // 30, 60, 90 days
+        const dueDate = new Date();
+        
+        // If this is the first installment and no payments exist, due in 30 days
+        // For subsequent installments, due date can be based on last payment date
+        if (payments.length > 0 && installmentIndex > 0) {
+          // Get the last payment date for previous installments
+          const lastPaid = payments
+            .filter(p => p.semester === semester)
+            .sort((a, b) => new Date(b.paidAt || b.createdAt).getTime() - new Date(a.paidAt || a.createdAt).getTime())[0];
+          
+          if (lastPaid) {
+            const lastPaidDate = new Date(lastPaid.paidAt || lastPaid.createdAt);
+            dueDate.setTime(lastPaidDate.getTime() + (daysToAdd * 24 * 60 * 60 * 1000));
+          }
+        } else {
+          // First ever payment or first installment
+          dueDate.setDate(dueDate.getDate() + daysToAdd);
+        }
+        
+        return {
+          dueDate: dueDate.toISOString(),
+          semester,
+          installment
+        };
+      }
+    }
+  }
+  
+  // All payments are complete
+  return {
+    dueDate: null,
+    semester: null,
+    installment: null
+  };
+};
+
+// Modified GET /fees/:email route
 router.get('/fees/:email', async (req: Request, res: Response) => {
   try {
     const { email } = req.params;
-    
-    // Convert to string and handle potential array
     const emailAddress = Array.isArray(email) ? email[0] : email;
 
     if (!emailAddress) {
@@ -35,7 +94,10 @@ router.get('/fees/:email', async (req: Request, res: Response) => {
       include: { studentProfile: true },
     });
 
-    // Format response to match your component's expected structure
+    // Calculate next due date
+    const nextDue = calculateNextDueDate(payments);
+
+    // Format response
     const formattedResponse = {
       userForm: {
         paystack: {
@@ -45,8 +107,8 @@ router.get('/fees/:email', async (req: Request, res: Response) => {
             amountPaid: p.amountPaid,
             status: p.status,
             transactionId: p.transactionId,
-            // Return full ISO string with date AND time (removed .split('T')[0])
             date: p.paidAt?.toISOString() || p.createdAt.toISOString(),
+            dueDate: p.dueDate?.toISOString() || null, // Include the stored due date
           })),
         },
       },
@@ -54,6 +116,11 @@ router.get('/fees/:email', async (req: Request, res: Response) => {
         name: user.name,
         email: user.email,
       } : null,
+      nextPayment: {
+        dueDate: nextDue.dueDate,
+        semester: nextDue.semester,
+        installment: nextDue.installment,
+      }
     };
 
     return res.status(200).json(formattedResponse);
@@ -62,7 +129,6 @@ router.get('/fees/:email', async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 // GET /payment-progress/:email
 router.get('/payment-progress/:email', async (req: Request, res: Response) => {
   try {
@@ -168,5 +234,9 @@ router.post('/create-payment', async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
+
 
 export default router;

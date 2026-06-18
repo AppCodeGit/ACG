@@ -24,6 +24,10 @@ import dashboardOverviewRoutes from "./routes/dashboardOverview";
 import reportsRoutes from "./routes/reports";
 import settingsRoutes from "./routes/settings";
 import coursePerformanceRoutes from "./routes/coursePerformance";
+import gradesRoutes from "./routes/grades";
+import studentSettingsRoutes from "./routes/studentSettings";
+import studentNotificationsRoutes from "./routes/studentNotifications";
+import enrollmentRoutes from "./routes/enrollment";
 
 
 
@@ -180,7 +184,10 @@ app.use("/api/dashboard", dashboardOverviewRoutes);
 app.use("/api/reports", reportsRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/course-performance", coursePerformanceRoutes);
-
+app.use("/api/grades", gradesRoutes);
+app.use("/api/student-settings", studentSettingsRoutes);
+app.use("/api/student-notifications", studentNotificationsRoutes);
+app.use("/api/enrollment", enrollmentRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

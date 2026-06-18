@@ -975,3 +975,199 @@
     width: 20px;
   }
 }
+
+/* Final Grade Modal Styles */
+.final-grade-modal {
+  background: white;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 500px;
+  animation: modalSlideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.final-grade-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: white;
+}
+
+.final-grade-modal .modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.final-grade-modal .modal-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.final-grade-modal .modal-close:hover {
+  background: #ef4444;
+  transform: rotate(90deg);
+}
+
+.final-grade-modal .modal-body {
+  padding: 24px;
+}
+
+.final-grade-card {
+  text-align: center;
+}
+
+.program-info {
+  margin-bottom: 24px;
+}
+
+.program-info h3 {
+  font-size: 1.2rem;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.program-info p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.final-score-display {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.score-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.score-text .percentage {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.score-text .label {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+.grade-breakdown {
+  text-align: left;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.breakdown-item:last-child {
+  border-bottom: none;
+}
+
+.breakdown-item strong.success {
+  color: #10b981;
+}
+
+.breakdown-item strong.pending {
+  color: #f59e0b;
+}
+
+.certificate-link {
+  color: #e9691e;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.certificate-link:hover {
+  text-decoration: underline;
+}
+
+.grade-message {
+  background: #fef9f5;
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid #e9691e;
+}
+
+.grade-message p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Certificate Button */
+.certificate-btn {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.certificate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.3);
+}

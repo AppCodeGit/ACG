@@ -50,21 +50,22 @@ const FeesDetailsPage = () => {
 
   const fetchPaymentStatus = async (userEmail: string) => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const token = localStorage.getItem('token');
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${API_URL}/api/fees/payment-status/${userEmail}`,
         {
           headers: {
-            'Authorization': token ? `Bearer ${token}` : '',
-          }
-        }
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        },
       );
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch payment status');
+        throw new Error("Failed to fetch payment status");
       }
-      
+
       const data = await response.json();
       console.log("Payment status received:", data);
       setPaymentStatus(data);
@@ -73,7 +74,11 @@ const FeesDetailsPage = () => {
     }
   };
 
-  const handlePayment = (amount: number, semester: string, installment: string) => {
+  const handlePayment = (
+    amount: number,
+    semester: string,
+    installment: string,
+  ) => {
     setAmount(amount);
     setSemester(semester);
     setInstallment(installment);
@@ -82,9 +87,10 @@ const FeesDetailsPage = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    
+
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const token = localStorage.getItem("token");
 
       // 1️⃣ Save pending payment in DB FIRST (same as your working code)
@@ -112,11 +118,10 @@ const FeesDetailsPage = () => {
       // 3️⃣ Redirect with metadata as URL parameter (THIS IS THE KEY!)
       const metadata = { email, semester, installment, amount };
       const redirectUrl = `${paymentLink}?metadata=${encodeURIComponent(
-        JSON.stringify(metadata)
+        JSON.stringify(metadata),
       )}`;
-      
+
       window.location.href = redirectUrl;
-      
     } catch (error) {
       console.error("Payment initialization error:", error);
       setIsLoading(false);
@@ -124,44 +129,67 @@ const FeesDetailsPage = () => {
   };
 
   // Check if installment is paid
-  const isInstallmentPaid = (semester: string, installment: string): boolean => {
-    return paymentStatus[semester] && 
-           (paymentStatus[semester][installment] === "paid" || 
-            paymentStatus[semester][installment] === "success");
+  const isInstallmentPaid = (
+    semester: string,
+    installment: string,
+  ): boolean => {
+    return (
+      paymentStatus[semester] &&
+      (paymentStatus[semester][installment] === "paid" ||
+        paymentStatus[semester][installment] === "success")
+    );
   };
 
   // Check if ALL installments in a semester are paid
   const isSemesterCompleted = (semester: string): boolean => {
-    const installments = ["First Installment", "Second Installment", "Third Installment"];
-    return installments.every(installment => isInstallmentPaid(semester, installment));
+    const installments = [
+      "First Installment",
+      "Second Installment",
+      "Third Installment",
+    ];
+    return installments.every((installment) =>
+      isInstallmentPaid(semester, installment),
+    );
   };
 
   // Check if previous installment is paid (to enable next one)
-  const isInstallmentAvailable = (semester: string, installment: string): boolean => {
-    const installments = ["First Installment", "Second Installment", "Third Installment"];
+  const isInstallmentAvailable = (
+    semester: string,
+    installment: string,
+  ): boolean => {
+    const installments = [
+      "First Installment",
+      "Second Installment",
+      "Third Installment",
+    ];
     const currentIndex = installments.indexOf(installment);
-    
+
     if (currentIndex === 0) {
       // For first installment of Semester 1, always available
       if (semester === "First Semester") return true;
-      
+
       // For first installment of other semesters, check if previous semester is completed
-      const previousSemester = semester === "Second Semester" ? "First Semester" : "Second Semester";
+      const previousSemester =
+        semester === "Second Semester" ? "First Semester" : "Second Semester";
       return isSemesterCompleted(previousSemester);
     }
-    
+
     // For subsequent installments, check if previous installment is paid
     const previousInstallment = installments[currentIndex - 1];
     return isInstallmentPaid(semester, previousInstallment);
   };
 
   // Render payment button with appropriate status
-  const renderPaymentButton = (amount: number, semester: string, installmentName: string) => {
+  const renderPaymentButton = (
+    amount: number,
+    semester: string,
+    installmentName: string,
+  ) => {
     const isPaid = isInstallmentPaid(semester, installmentName);
     const isAvailable = isInstallmentAvailable(semester, installmentName);
-    
+
     return (
-      <button 
+      <button
         className={`btn ${isPaid ? "btn-paid" : !isAvailable ? "btn-disabled" : ""}`}
         onClick={() => handlePayment(amount, semester, installmentName)}
         disabled={isPaid || !isAvailable}
@@ -177,22 +205,75 @@ const FeesDetailsPage = () => {
       <main className="fees-content">
         <section className="fees-overview">
           <div className="overview-cards">
-            <div className="header-container">
-              <div className="header-text">
-                <h2>Hey there, Welcome to Our Installment Fees Structure</h2>
-                <p>
-                  This initial payment includes admission processing fees,
-                  administrative costs, and other essential onboarding
-                  services. AppCode academic year consists of three semesters.
-                </p>
+            <div className="fees-header-container">
+              <div className="fees-header-content">
+                <div className="header-badge">
+                  <span className="badge-icon">💰</span>
+                  <span className="badge-text">Payment Plans</span>
+                </div>
+
+                <h1 className="fees-title">
+                  <span className="title-highlight">Flexible</span> Installment
+                  Fees Structure
+                </h1>
+
+                <div className="fees-description">
+                  <p>
+                    This initial payment includes admission processing fees,
+                    administrative costs, and other essential onboarding
+                    services. AppCode's academic year consists of
+                    <span className="highlight-text"> three (3) semesters</span>
+                    .
+                  </p>
+                </div>
+
+                <div className="feature-list">
+                  <div className="feature-item">
+                    <div className="feature-icon">✅</div>
+                    <span>Admission Processing</span>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">📚</div>
+                    <span>Administrative Costs</span>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">🎓</div>
+                    <span>Onboarding Services</span>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">📅</div>
+                    <span>3 Semesters per Year</span>
+                  </div>
+                </div>
               </div>
-              <Image 
-                src={logo} 
-                alt="Cybersecurity Analyst" 
-                width={400} 
-                height={300}
-                priority
-              />
+
+              <div className="fees-header-image">
+                <div className="image-wrapper">
+                  <div className="image-glow"></div>
+                  <Image
+                    src={logo}
+                    alt="Cybersecurity Analyst"
+                    width={400}
+                    height={300}
+                    priority
+                    className="header-image"
+                  />
+                  <div className="image-floating-cards">
+                    <div className="floating-card card-1">
+                      <span className="card-icon">🎯</span>
+                      <span>Easy Payment</span>
+                    </div>
+                    <div className="floating-card card-2">
+                      <span className="card-icon">💳</span>
+                      <span>No Hidden Fees</span>
+                    </div>
+                    <div className="floating-card card-3">
+                      <span className="card-icon">🛡️</span>
+                      <span>Secure</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Semester 1 */}
@@ -208,43 +289,62 @@ const FeesDetailsPage = () => {
               <div className="installment-container">
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>First Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "First Semester", "First Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "First Semester",
+                      "First Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Second Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "First Semester", "Second Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "First Semester",
+                      "Second Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Third Installment</p>
                       <span>Ghc 1,920.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(1920, "First Semester", "Third Installment")}
+                    {renderPaymentButton(
+                      1920,
+                      "First Semester",
+                      "Third Installment",
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-
+          </div>
+          <div className="overview-cards">
             {/* Semester 2 */}
             <div className="overview-card">
               <div className="card-header">
@@ -258,38 +358,56 @@ const FeesDetailsPage = () => {
               <div className="installment-container">
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>First Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "Second Semester", "First Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "Second Semester",
+                      "First Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Second Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "Second Semester", "Second Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "Second Semester",
+                      "Second Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Third Installment</p>
                       <span>Ghc 1,920.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(1920, "Second Semester", "Third Installment")}
+                    {renderPaymentButton(
+                      1920,
+                      "Second Semester",
+                      "Third Installment",
+                    )}
                   </div>
                 </div>
               </div>
@@ -308,38 +426,56 @@ const FeesDetailsPage = () => {
               <div className="installment-container">
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>First Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "Third Semester", "First Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "Third Semester",
+                      "First Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Second Installment</p>
                       <span>Ghc 2,000.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(2000, "Third Semester", "Second Installment")}
+                    {renderPaymentButton(
+                      2000,
+                      "Third Semester",
+                      "Second Installment",
+                    )}
                   </div>
                 </div>
                 <div className="installment">
                   <div className="text-container">
-                    <span className="material-symbols-outlined icon-text">dialpad</span>
+                    <span className="material-symbols-outlined icon-text">
+                      dialpad
+                    </span>
                     <div className="text">
                       <p>Third Installment</p>
                       <span>Ghc 1,920.00</span>
                     </div>
                   </div>
                   <div className="btn-container">
-                    {renderPaymentButton(1920, "Third Semester", "Third Installment")}
+                    {renderPaymentButton(
+                      1920,
+                      "Third Semester",
+                      "Third Installment",
+                    )}
                   </div>
                 </div>
               </div>
@@ -355,11 +491,13 @@ const FeesDetailsPage = () => {
             <div className="payment-summary">
               <div className="summary-header">
                 <div className="summary-icon">
-                  <span className="material-symbols-outlined">receipt_long</span>
+                  <span className="material-symbols-outlined">
+                    receipt_long
+                  </span>
                 </div>
                 <h3>Payment Summary</h3>
               </div>
-              
+
               <div className="summary-content">
                 <div className="summary-item">
                   <div className="item-icon">
@@ -370,7 +508,7 @@ const FeesDetailsPage = () => {
                     <span className="item-value">{semester}</span>
                   </div>
                 </div>
-                
+
                 <div className="summary-item">
                   <div className="item-icon">
                     <span className="material-symbols-outlined">payments</span>
@@ -380,18 +518,20 @@ const FeesDetailsPage = () => {
                     <span className="item-value">{installment}</span>
                   </div>
                 </div>
-                
+
                 <div className="summary-total">
                   <div className="total-icon">
                     <span className="material-symbols-outlined">payments</span>
                   </div>
                   <div className="total-details">
                     <span className="total-label">Total Amount Due</span>
-                    <span className="total-amount">Ghc {amount?.toLocaleString()}</span>
+                    <span className="total-amount">
+                      Ghc {amount?.toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="summary-footer">
                 <div className="secure-notice">
                   <span className="material-symbols-outlined">lock</span>

@@ -4,10 +4,8 @@
 import { useState, useEffect } from "react";
 import "./style/PaymentInfo.css";
 import CircularProgressBar from "./CircularProgressBar";
-import Image from "next/image";
-import PaymentImage from "./images/software-tester-tech-journalist.jpg";
 
-// Types
+// Types - Updated
 interface PaymentRecord {
   semester: string;
   installment: string;
@@ -15,7 +13,8 @@ interface PaymentRecord {
   status: string;
   transactionId: string;
   date: string;
-  time?: string; // Added time field
+  time?: string;
+  dueDate?: string; // Add this
 }
 
 interface PaymentDetails {
@@ -33,6 +32,13 @@ interface PaymentProgress {
 interface UserData {
   email: string;
   name?: string;
+}
+
+// NEW: Next payment interface
+interface NextPayment {
+  dueDate: string | null;
+  semester: string | null;
+  installment: string | null;
 }
 
 interface PaymentInfoProps {
@@ -53,6 +59,11 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
   });
   const [totalPaid, setTotalPaid] = useState(0);
   const [remainingBalance, setRemainingBalance] = useState(0);
+  const [nextPayment, setNextPayment] = useState<NextPayment>({
+    dueDate: null,
+    semester: null,
+    installment: null,
+  });
 
   // Get user from localStorage
   useEffect(() => {
@@ -119,6 +130,11 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
 
           setPaymentDetails(detailsData.userForm);
           setPaymentProgress(progressData);
+          
+          // Set next payment info
+          if (detailsData.nextPayment) {
+            setNextPayment(detailsData.nextPayment);
+          }
 
           // Calculate totals
           calculateTotals(detailsData.userForm);
@@ -154,7 +170,6 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
     setTotalPaid(totalAmountPaid);
 
     // Calculate expected total based on paid records
-    // This should be adjusted based on your actual fee structure
     const totalExpected = 5920 * 3; // 5920 per semester * 3 semesters = 17,760
     const remaining = totalExpected - totalAmountPaid;
     setRemainingBalance(remaining > 0 ? remaining : 0);
@@ -177,6 +192,72 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
     });
 
     return { date: formattedDate, time: formattedTime };
+  };
+
+  // NEW: Helper to format due date
+  const formatDueDate = (dueDate: string | null): string => {
+    if (!dueDate) {
+      // Check if all payments are complete
+      const totalExpected = 5920 * 3;
+      if (totalPaid >= totalExpected) {
+        return "All payments complete! 🎉";
+      }
+      return "Enrollment required";
+    }
+
+    const date = new Date(dueDate);
+    const now = new Date();
+    const diffDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) {
+      return `Overdue by ${Math.abs(diffDays)} days`;
+    } else if (diffDays === 0) {
+      return "Due today!";
+    } else if (diffDays <= 7) {
+      return `Due in ${diffDays} day${diffDays > 1 ? 's' : ''}`;
+    } else {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+  };
+
+  // NEW: Get semester and installment text for due date
+  const getNextPaymentText = (): string => {
+    if (!nextPayment.dueDate) {
+      const totalExpected = 5920 * 3;
+      if (totalPaid >= totalExpected) {
+        return "🎉 All payments completed!";
+      }
+      return "Contact admin for enrollment";
+    }
+
+    if (nextPayment.semester && nextPayment.installment) {
+      return `${nextPayment.semester} - ${nextPayment.installment}`;
+    }
+    
+    return formatDueDate(nextPayment.dueDate);
+  };
+
+  // NEW: Get CSS class for due date status
+  const getDueDateClass = (): string => {
+    if (!nextPayment.dueDate) {
+      const totalExpected = 5920 * 3;
+      if (totalPaid >= totalExpected) {
+        return "completed";
+      }
+      return "pending";
+    }
+
+    const date = new Date(nextPayment.dueDate);
+    const now = new Date();
+    const diffDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return "overdue";
+    if (diffDays <= 7) return "upcoming";
+    return "future";
   };
 
   // Loading state
@@ -314,11 +395,20 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
                 </span>
               </div>
             </div>
+            
+            {/* UPDATED: Dynamic Next Payment Due */}
             <div className="detail">
               <span className="icon material-symbols-outlined">event</span>
               <div className="detail-content">
                 <span className="label">Next Payment Due:</span>
-                <span className="value">Upon enrollment</span>
+                <span className={`value ${getDueDateClass()}`}>
+                  {formatDueDate(nextPayment.dueDate)}
+                </span>
+                {nextPayment.dueDate && (
+                  <span className="payment-detail" style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: '4px' }}>
+                    {getNextPaymentText()}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -330,24 +420,11 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
           <div className="progress-history">
             <CircularProgressBar
               percentage={calculateOverallProgress()}
-              size={190}
-              strokeWidth={17}
+              size={250}
+              strokeWidth={27}
               trackColor="#d9d9d9"
               progressColor="#e9691e"
             />
-            <div className="progress-label">
-              <div className="percentage-display">
-                <span className="progress-percentage">
-                  {Math.round(calculateOverallProgress())}
-                </span>
-                <span className="percent-symbol">%</span>
-              </div>
-              <span className="progress-text">Overall Completion</span>
-              <div className="progress-subtext">
-                <span className="material-symbols-outlined">trending_up</span>
-                Great progress!
-              </div>
-            </div>
           </div>
 
           <div className="payment-progress-section">
@@ -373,6 +450,7 @@ const PaymentInfo = ({ email }: PaymentInfoProps) => {
           </div>
         </div>
       </div>
+
       <br />
       <div className="semester-column-layout">
         {Object.entries(semesterGroups).map(([semester, installmentGroups]) => (

@@ -8,21 +8,6 @@
   margin-bottom: 20px;
 }
 
-.fees-page .fees-overview .header-container {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  background-color: #fff;
-  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.fees-page .fees-overview .header-container img {
-  width: 200px;
-  height: 200px;
-}
-
 .fees-page .fees-overview .header-text .btn-container .bn {
   font-size: 0.8rem;
   width: 160px;
@@ -60,8 +45,7 @@
 }
 
 .fees-page .overview-cards {
-  display: grid;
-  grid-template-columns: 2fr 2fr;
+  display: flex;
   flex-flow: wrap;
   gap: 40px;
 }
@@ -71,6 +55,320 @@
   border-radius: 12px;
   text-align: center;
   box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.1);
+  flex: 1;
+  margin: 20px 0;
+}
+
+/* ============================================
+   FEES HEADER STYLES
+   ============================================ */
+
+.fees-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
+  border-radius: 32px;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animated Background Pattern */
+.fees-header-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(233, 105, 30, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  animation: slowRotate 30s linear infinite;
+}
+
+@keyframes slowRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Left Content */
+.fees-header-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ffe0cf, #fff5ed);
+  padding: 6px 16px 6px 12px;
+  border-radius: 40px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(233, 105, 30, 0.2);
+}
+
+.badge-icon {
+  font-size: 20px;
+}
+
+.badge-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e9691e;
+  letter-spacing: 0.5px;
+}
+
+/* Title */
+.fees-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+  color: #1e293b;
+}
+
+.title-highlight {
+  background: linear-gradient(135deg, #e9691e, #f08b4a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.title-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #e9691e, transparent);
+  border-radius: 3px;
+}
+
+/* Description */
+.fees-description {
+  margin-bottom: 28px;
+}
+
+.fees-description p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0;
+}
+
+.highlight-text {
+  font-weight: 700;
+  color: #e9691e;
+  background: rgba(233, 105, 30, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* Feature List */
+.feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-3px);
+  border-color: #e9691e;
+  box-shadow: 0 8px 20px rgba(233, 105, 30, 0.12);
+}
+
+.feature-icon {
+  font-size: 18px;
+}
+
+.feature-item span:last-child {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Right Image Section */
+.fees-header-image {
+  flex: 0.8;
+  position: relative;
+  z-index: 2;
+}
+
+.image-wrapper {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fef9f5, #ffffff);
+  padding: 20px;
+}
+
+.image-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(233, 105, 30, 0.15), transparent 70%);
+  pointer-events: none;
+  border-radius: 28px;
+}
+
+.header-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover .header-image {
+  transform: scale(1.02);
+}
+
+/* Floating Cards */
+.image-floating-cards {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.floating-card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  animation: float 3s ease-in-out infinite;
+  border: 1px solid rgba(233, 105, 30, 0.2);
+  pointer-events: auto;
+  cursor: default;
+}
+
+.card-1 {
+  top: 10%;
+  right: -10px;
+  animation-delay: 0s;
+}
+
+.card-2 {
+  bottom: 20%;
+  left: -20px;
+  animation-delay: 1s;
+}
+
+.card-3 {
+  top: 40%;
+  right: -5px;
+  animation-delay: 0.5s;
+}
+
+.card-icon {
+  font-size: 16px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .fees-header-container {
+    flex-direction: column;
+    padding: 32px;
+    text-align: center;
+  }
+  
+  .fees-title {
+    font-size: 2.2rem;
+  }
+  
+  .feature-list {
+    justify-content: center;
+  }
+  
+  .fees-header-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .floating-card {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .fees-header-container {
+    padding: 24px;
+  }
+  
+  .fees-title {
+    font-size: 1.8rem;
+  }
+  
+  .feature-item {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+  
+  .header-badge {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-list {
+    gap: 10px;
+  }
+  
+  .feature-item span:last-child {
+    font-size: 0.75rem;
+  }
 }
 
 .fees-page .fees-overview .card-header {

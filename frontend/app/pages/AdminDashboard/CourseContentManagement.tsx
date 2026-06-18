@@ -42,34 +42,43 @@ interface Notification {
 }
 
 // Confirmation Modal Component
-const ConfirmModal = ({ 
-  isOpen, 
-  onClose, 
-  onConfirm, 
-  title, 
-  message 
-}: { 
-  isOpen: boolean; 
-  onClose: () => void; 
-  onConfirm: () => void; 
-  title: string; 
+const ConfirmModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
   message: string;
 }) => {
   if (!isOpen) return null;
 
   return (
     <div className="confirm-modal-overlay" onClick={onClose}>
-      <div className="confirm-modal-container" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="confirm-modal-container"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="confirm-modal-header">
           <h3>{title}</h3>
-          <button className="confirm-modal-close" onClick={onClose}>✕</button>
+          <button className="confirm-modal-close" onClick={onClose}>
+            ✕
+          </button>
         </div>
         <div className="confirm-modal-body">
           <p>{message}</p>
         </div>
         <div className="confirm-modal-footer">
-          <button className="confirm-btn-cancel" onClick={onClose}>Cancel</button>
-          <button className="confirm-btn-confirm" onClick={onConfirm}>Delete</button>
+          <button className="confirm-btn-cancel" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="confirm-btn-confirm" onClick={onConfirm}>
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -417,15 +426,15 @@ const Notification = ({
 };
 
 // Accordion Module Item Component
-const AccordionModuleItem = ({ 
-  module, 
-  isOpen, 
+const AccordionModuleItem = ({
+  module,
+  isOpen,
   onToggle,
   onViewDetails,
   onEditClick,
   onDeleteClick,
-  onStatusChange
-}: { 
+  onStatusChange,
+}: {
   module: Module;
   isOpen: boolean;
   onToggle: () => void;
@@ -436,19 +445,27 @@ const AccordionModuleItem = ({
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "draft": return "#f59e0b";
-      case "published": return "#4caf50";
-      case "archived": return "#f44336";
-      default: return "#666";
+      case "draft":
+        return "#f59e0b";
+      case "published":
+        return "#4caf50";
+      case "archived":
+        return "#f44336";
+      default:
+        return "#666";
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "video": return "🎬";
-      case "document": return "📄";
-      case "assignment": return "📋";
-      default: return "📄";
+      case "video":
+        return "🎬";
+      case "document":
+        return "📄";
+      case "assignment":
+        return "📋";
+      default:
+        return "📄";
     }
   };
 
@@ -459,14 +476,16 @@ const AccordionModuleItem = ({
           <span className="accordion-icon">📦</span>
           <div>
             <h4>{module.title}</h4>
-            <p className="accordion-description">{module.description || "No description"}</p>
+            <p className="accordion-description">
+              {module.description || "No description"}
+            </p>
           </div>
         </div>
         <div className="accordion-stats-section">
           <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
         </div>
       </div>
-      
+
       {isOpen && (
         <div className="accordion-module-content">
           {module.contents && module.contents.length > 0 ? (
@@ -482,7 +501,11 @@ const AccordionModuleItem = ({
                     />
                   ) : (
                     <span className="material-symbols-outlined">
-                      {item.type === "video" ? "play_circle" : item.type === "document" ? "description" : "assignment"}
+                      {item.type === "video"
+                        ? "play_circle"
+                        : item.type === "document"
+                          ? "description"
+                          : "assignment"}
                     </span>
                   )}
                 </div>
@@ -493,7 +516,13 @@ const AccordionModuleItem = ({
                     {item.duration && (
                       <span className="module-duration">{item.duration}</span>
                     )}
-                    <span className={`module-status ${item.status === "draft" ? "status-draft" : item.status === "published" ? "status-published" : "status-archived"}`}>
+                    {/* Add video count badge for modules with multiple videos */}
+                    {item.type === "video" && (
+                      <span className="video-count-badge">🎬 Video</span>
+                    )}
+                    <span
+                      className={`module-status ${item.status === "draft" ? "status-draft" : item.status === "published" ? "status-published" : "status-archived"}`}
+                    >
                       {item.status}
                     </span>
                   </div>
@@ -505,7 +534,10 @@ const AccordionModuleItem = ({
                       className="file-link-btn"
                       onClick={() => onViewDetails(item.id)}
                     >
-                      <span className="material-symbols-outlined">visibility</span> View Details
+                      <span className="material-symbols-outlined">
+                        visibility
+                      </span>{" "}
+                      View Details
                     </button>
                   )}
                 </div>
@@ -538,7 +570,10 @@ const AccordionModuleItem = ({
             ))
           ) : (
             <div className="empty-module-contents">
-              <p>No content yet. Upload video, document, and assignment for this module.</p>
+              <p>
+                No content yet. Upload video, document, and assignment for this
+                module.
+              </p>
             </div>
           )}
         </div>
@@ -571,7 +606,9 @@ const CourseContentManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [contentToDelete, setContentToDelete] = useState<number | null>(null);
-  const [openModules, setOpenModules] = useState<{ [key: number]: boolean }>({});
+  const [openModules, setOpenModules] = useState<{ [key: number]: boolean }>(
+    {},
+  );
 
   const programOptions = [
     "Software Engineering",
@@ -595,7 +632,7 @@ const CourseContentManagement = () => {
   };
 
   const toggleModule = (moduleId: number) => {
-    setOpenModules(prev => ({ ...prev, [moduleId]: !prev[moduleId] }));
+    setOpenModules((prev) => ({ ...prev, [moduleId]: !prev[moduleId] }));
   };
 
   const fetchModules = async (programName: string) => {
@@ -604,7 +641,7 @@ const CourseContentManagement = () => {
       setModules(fetchedModules);
       // Initialize all modules as closed
       const initialOpenState: { [key: number]: boolean } = {};
-      fetchedModules.forEach(module => {
+      fetchedModules.forEach((module) => {
         initialOpenState[module.id] = false;
       });
       setOpenModules(initialOpenState);
@@ -742,13 +779,13 @@ const CourseContentManagement = () => {
       (c) => c.type === "assignment",
     ).length;
 
-    if (contentType === "video" && videoCount >= 1) {
-      addNotification(
-        `Module "${selectedModule.title}" already has a video. Each module can only have 1 video.`,
-        "error",
-      );
-      return false;
-    }
+    // if (contentType === "video" && videoCount >= 1) {
+    //   addNotification(
+    //     `Module "${selectedModule.title}" already has a video. Each module can only have 1 video.`,
+    //     "error",
+    //   );
+    //   return false;
+    // }
     if (contentType === "document" && documentCount >= 1) {
       addNotification(
         `Module "${selectedModule.title}" already has a document. Each module can only have 1 document.`,
@@ -767,26 +804,29 @@ const CourseContentManagement = () => {
     return true;
   };
 
- const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  if (!selectedProgram) {
-    addNotification("Please select a program first", "warning");
-    return;
-  }
-  if (!contentTitle) {
-    addNotification("Please enter a title for your content", "warning");
-    return;
-  }
-  if (!selectedFile) {
-    addNotification("Please select a file to upload", "warning");
-    return;
-  }
-  
-  // NEW: Check if module is selected
-  if (!selectedModuleId) {
-    addNotification("Please select a module first. Content must be assigned to a module.", "error");
-    return;
-  }
+  const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedProgram) {
+      addNotification("Please select a program first", "warning");
+      return;
+    }
+    if (!contentTitle) {
+      addNotification("Please enter a title for your content", "warning");
+      return;
+    }
+    if (!selectedFile) {
+      addNotification("Please select a file to upload", "warning");
+      return;
+    }
+
+    // NEW: Check if module is selected
+    if (!selectedModuleId) {
+      addNotification(
+        "Please select a module first. Content must be assigned to a module.",
+        "error",
+      );
+      return;
+    }
 
     if (selectedModuleId) {
       const canUpload = await checkModuleContentLimit(
@@ -1191,6 +1231,10 @@ const CourseContentManagement = () => {
                           <span className="module-duration">
                             {item.duration}
                           </span>
+                        )}
+                        {/* Add video count badge for modules with multiple videos */}
+                        {item.type === "video" && (
+                          <span className="video-count-badge">🎬 Video</span>
                         )}
                         <span
                           className={`module-status ${getStatusColor(item.status)}`}

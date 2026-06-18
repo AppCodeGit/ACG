@@ -247,6 +247,13 @@ const ModuleManagement = ({
               <div className="module-card-header">
                 <span className="module-order">Module {idx + 1}</span>
                 <div className="module-header-actions">
+                  <button
+                    className="delete-module"
+                    onClick={() => handleDeleteModule(module.id)}
+                    title="Delete module (must be empty)"
+                  >
+                    🗑️
+                  </button>
                   <select
                     value={module.status}
                     onChange={(e) => handleModuleStatusChange(module.id, e.target.value)}
@@ -257,13 +264,7 @@ const ModuleManagement = ({
                     <option value="published">✅ Published</option>
                     <option value="archived">📦 Archived</option>
                   </select>
-                  <button
-                    className="delete-module"
-                    onClick={() => handleDeleteModule(module.id)}
-                    title="Delete module (must be empty)"
-                  >
-                    🗑️
-                  </button>
+                  
                 </div>
               </div>
               <h5>{module.title}</h5>
@@ -456,6 +457,7 @@ const ModuleManagement = ({
           background: white;
           font-weight: 500;
           transition: all 0.3s ease;
+          margin-right: 50px; 
         }
         .module-status-select:hover {
           transform: translateY(-1px);

@@ -1,11 +1,10 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, StudentNotificationType } from "@prisma/client";
 import { upload, uploadToS3, deleteFromS3 } from "../config/s3";
 import nodemailer from "nodemailer";
+
 const router = express.Router();
 const prisma = new PrismaClient();
-
-
 
 // ============================================
 // GET STUDENT BY EMAIL
@@ -56,7 +55,9 @@ router.get("/content/:contentId/details", async (req, res) => {
     }
 
     if (content.type !== "assignment") {
-      return res.status(400).json({ error: "This content is not an assignment" });
+      return res
+        .status(400)
+        .json({ error: "This content is not an assignment" });
     }
 
     let studentId = null;
@@ -111,7 +112,6 @@ router.get("/content/:contentId/details", async (req, res) => {
   }
 });
 
-
 // Configure email transporter with Gmail-specific settings
 const emailTransporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -121,47 +121,93 @@ const emailTransporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  // Gmail-specific settings
-  service: 'gmail',
+  service: "gmail",
   tls: {
-    rejectUnauthorized: false
+    rejectUnauthorized: false,
   },
   connectionTimeout: 30000,
   greetingTimeout: 30000,
   socketTimeout: 30000,
 });
 
-// Verify transporter configuration (add this before using it)
+// ============================================
+// CREATE STUDENT NOTIFICATION (For students)
+// ============================================
+async function createStudentNotification(
+  studentId: number,
+  type: StudentNotificationType,
+  title: string,
+  message: string,
+  data?: any,
+  req?: any
+) {
+  try {
+    const notification = await prisma.studentNotification.create({
+      data: {
+        studentId,
+        type,
+        title,
+        message,
+        data: data || {},
+        read: false,
+      },
+    });
+
+    if (req && req.app) {
+      const io = req.app.get("io");
+      if (io) {
+        io.to(`student_${studentId}`).emit(
+          "new-student-notification",
+          notification,
+        );
+      }
+    }
+
+    console.log(
+      `✅ Student notification created for student ${studentId}: ${title}`,
+    );
+    return notification;
+  } catch (err) {
+    console.error("Error creating student notification:", err);
+    return null;
+  }
+}
+
+// Verify transporter configuration
 async function verifyEmailTransporter() {
   try {
     await emailTransporter.verify();
-    console.log('✅ Email transporter is ready to send emails');
+    console.log("✅ Email transporter is ready to send emails");
     return true;
   } catch (error) {
-    console.error('❌ Email transporter verification failed:', error);
+    console.error("❌ Email transporter verification failed:", error);
     return false;
   }
 }
 
 // Helper function to send email notifications to admins
-async function sendEmailToAdmins(admins: any[], studentName: string, assignmentTitle: string, programName: string, submissionId: number) {
-  // Verify transporter first (optional, for debugging)
+async function sendEmailToAdmins(
+  admins: any[],
+  studentName: string,
+  assignmentTitle: string,
+  programName: string,
+  submissionId: number,
+) {
   const isVerified = await verifyEmailTransporter();
   if (!isVerified) {
-    console.log('⚠️ Email transporter not ready, skipping emails');
+    console.log("⚠️ Email transporter not ready, skipping emails");
     return [];
   }
 
   const emailPromises = admins.map(async (admin) => {
-    // Make sure admin has email
     if (!admin.email) {
       console.log(`⚠️ Admin ${admin.id} has no email address`);
       return null;
     }
 
     console.log(`📧 Attempting to send email to: ${admin.email}`);
-    
-    const mailOptions = {
+
+ const mailOptions = {
       from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
       to: admin.email,
       subject: `📝 New Assignment Submission: ${assignmentTitle}`,
@@ -192,7 +238,7 @@ async function sendEmailToAdmins(admins: any[], studentName: string, assignmentT
                   <tr>
                     <td style="padding: 10px; text-align: center;">
                       <!-- Greeting -->
-                      <h2 style="color: #1a2a3a; font-size: 22px; margin: 0 0 10px 0;">Hello ${admin.name || 'Admin'},</h2>
+                      <h2 style="color: #1a2a3a; font-size: 22px; margin: 0 0 10px 0;">Hello ${admin.name || "Admin"},</h2>
                       <p style="color: #4a5568; margin: 0 0 25px 0; font-size: 16px;">
                         A student has submitted an assignment. Please review the details below and provide feedback.
                       </p>
@@ -269,7 +315,7 @@ async function sendEmailToAdmins(admins: any[], studentName: string, assignmentT
                       
                       <!-- Action Button -->
                       <div style="text-align: center; margin: 35px 0;">
-                        <a href="${process.env.APP_URL || 'http://localhost:3000'}/admin/submissions/${submissionId}" 
+                        <a href="${process.env.APP_URL || "http://localhost:3000"}/admin/submissions/${submissionId}" 
                            style="background-color: #e9691e; color: #ffffff; padding: 14px 32px; text-decoration: none; 
                                   border-radius: 8px; display: inline-block; font-weight: 600; font-size: 16px;
                                   box-shadow: 0 2px 4px rgba(233, 105, 30, 0.2); transition: all 0.3s ease;">
@@ -315,19 +361,16 @@ async function sendEmailToAdmins(admins: any[], studentName: string, assignmentT
       return { success: true, email: admin.email };
     } catch (emailError: any) {
       console.error(`❌ Failed to send email to ${admin.email}:`, emailError.message);
-      if (emailError.code) {
-        console.error(`Error code: ${emailError.code}`);
-      }
       return { success: false, email: admin.email, error: emailError.message };
     }
   });
 
   const results = await Promise.all(emailPromises);
-  return results.filter(r => r !== null);
+  return results.filter((r) => r !== null);
 }
 
 // ============================================
-// SUBMIT ASSIGNMENT (UPDATED WITH EMAIL NOTIFICATIONS)
+// SUBMIT ASSIGNMENT
 // ============================================
 router.post("/submit", upload.single("file"), async (req, res) => {
   try {
@@ -419,13 +462,11 @@ router.post("/submit", upload.single("file"), async (req, res) => {
       });
     }
 
-    // Get admins with their email addresses
     const admins = await prisma.user.findMany({
       where: { role: "admin" },
-      select: { id: true, email: true, name: true }, // Make sure email and name fields exist
+      select: { id: true, email: true, name: true },
     });
 
-    // Create database notifications
     if (admins.length > 0) {
       try {
         await prisma.assignmentNotification.createMany({
@@ -439,57 +480,20 @@ router.post("/submit", upload.single("file"), async (req, res) => {
           })),
         });
         console.log(`✅ Database notifications created for ${admins.length} admins`);
-        
-        // Send email notifications
+
         const emailResults = await sendEmailToAdmins(
           admins,
           student.fullName,
           content.title,
           content.programName,
-          submission.id
+          submission.id,
         );
-        
-        const successfulEmails = emailResults.filter(r => r?.success).length;
+
+        const successfulEmails = emailResults.filter((r) => r?.success).length;
         console.log(`✅ Email notifications sent to ${successfulEmails} admins`);
-        
       } catch (notifError) {
         console.error("Error creating notifications:", notifError);
       }
-    }
-
-    // Mark content as completed
-    try {
-      let enrollment = null;
-      if (content.courseId) {
-        enrollment = await prisma.enrollment.findFirst({
-          where: { studentId: student.id, courseId: content.courseId },
-        });
-      }
-      if (!enrollment) {
-        enrollment = await prisma.enrollment.findFirst({
-          where: { studentId: student.id },
-        });
-      }
-
-      if (enrollment) {
-        await prisma.contentProgress.upsert({
-          where: {
-            enrollmentId_contentId: {
-              enrollmentId: enrollment.id,
-              contentId: content.id,
-            },
-          },
-          update: { isCompleted: true, completedAt: new Date() },
-          create: {
-            enrollmentId: enrollment.id,
-            contentId: content.id,
-            isCompleted: true,
-            completedAt: new Date(),
-          },
-        });
-      }
-    } catch (progressError) {
-      console.error("Progress update error:", progressError);
     }
 
     res.json({
@@ -509,8 +513,6 @@ router.post("/submit", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: error.message || "Failed to submit assignment" });
   }
 });
-
-
 
 // ============================================
 // GET STUDENT SUBMISSIONS
@@ -539,7 +541,7 @@ router.get("/student/:email/submissions", async (req, res) => {
           select: { id: true, title: true, description: true, type: true },
         });
         return { ...submission, content };
-      })
+      }),
     );
 
     res.json({ success: true, submissions: submissionsWithContent });
@@ -550,12 +552,25 @@ router.get("/student/:email/submissions", async (req, res) => {
 });
 
 // ============================================
-// ADMIN: GRADE SUBMISSION
+// ADMIN: GRADE SUBMISSION (WITH STUDENT NOTIFICATION)
 // ============================================
 router.put("/grade/:submissionId", async (req, res) => {
   try {
     const { submissionId } = req.params;
     const { grade, feedback, gradedBy } = req.body;
+
+    const existingSubmission = await prisma.assignmentSubmission.findUnique({
+      where: { id: parseInt(submissionId) },
+      include: { student: true },
+    });
+
+    if (!existingSubmission) {
+      return res.status(404).json({ error: "Submission not found" });
+    }
+
+    const content = await prisma.courseContent.findUnique({
+      where: { id: existingSubmission.assignmentId },
+    });
 
     const submission = await prisma.assignmentSubmission.update({
       where: { id: parseInt(submissionId) },
@@ -568,7 +583,28 @@ router.put("/grade/:submissionId", async (req, res) => {
       },
     });
 
-    res.json({ success: true, message: "Assignment graded successfully", submission });
+    if (grade && existingSubmission.student) {
+      await createStudentNotification(
+        existingSubmission.student.id,
+        StudentNotificationType.GRADE_POSTED,
+        "New Grade Posted",
+        `Your assignment "${content?.title || `Assignment #${existingSubmission.assignmentId}`}" has been graded: ${grade}%`,
+        {
+          assignmentId: existingSubmission.assignmentId,
+          submissionId: submission.id,
+          grade: grade,
+          feedback: feedback || null,
+          gradedAt: new Date(),
+        },
+        req
+      );
+    }
+
+    res.json({
+      success: true,
+      message: "Assignment graded successfully",
+      submission,
+    });
   } catch (error) {
     console.error("Error grading:", error);
     res.status(500).json({ error: "Failed to grade submission" });
@@ -593,7 +629,7 @@ router.get("/admin/submissions", async (req, res) => {
         where: { programName: programName },
         select: { id: true },
       });
-      const contentIds = programContents.map(c => c.id);
+      const contentIds = programContents.map((c) => c.id);
       whereConditions.assignmentId = { in: contentIds };
     }
 
@@ -601,12 +637,16 @@ router.get("/admin/submissions", async (req, res) => {
       whereConditions.status = status;
     }
 
-    const total = await prisma.assignmentSubmission.count({ where: whereConditions });
+    const total = await prisma.assignmentSubmission.count({
+      where: whereConditions,
+    });
 
     const submissions = await prisma.assignmentSubmission.findMany({
       where: whereConditions,
       include: {
-        student: { select: { id: true, fullName: true, email: true, programName: true } },
+        student: {
+          select: { id: true, fullName: true, email: true, programName: true },
+        },
       },
       orderBy: { submittedAt: "desc" },
       skip,
@@ -617,10 +657,16 @@ router.get("/admin/submissions", async (req, res) => {
       submissions.map(async (submission) => {
         const content = await prisma.courseContent.findUnique({
           where: { id: submission.assignmentId },
-          select: { id: true, title: true, description: true, type: true, programName: true },
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            type: true,
+            programName: true,
+          },
         });
         return { ...submission, content };
-      })
+      }),
     );
 
     res.json({
@@ -662,7 +708,7 @@ router.get("/notifications", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch notifications" });
   }
 });
- 
+
 // ============================================
 // ADMIN: MARK NOTIFICATION AS READ
 // ============================================
@@ -701,7 +747,7 @@ router.put("/notifications/mark-all-read", async (req, res) => {
 router.get("/submission/:submissionId", async (req, res) => {
   try {
     const submissionId = parseInt(req.params.submissionId);
-    
+
     const submission = await prisma.assignmentSubmission.findUnique({
       where: { id: submissionId },
       include: {
@@ -715,12 +761,11 @@ router.get("/submission/:submissionId", async (req, res) => {
         },
       },
     });
-    
+
     if (!submission) {
       return res.status(404).json({ error: "Submission not found" });
     }
-    
-    // Get content info
+
     const content = await prisma.courseContent.findUnique({
       where: { id: submission.assignmentId },
       select: {
@@ -731,10 +776,10 @@ router.get("/submission/:submissionId", async (req, res) => {
         programName: true,
       },
     });
-    
-    res.json({ 
-      success: true, 
-      submission: { ...submission, content } 
+
+    res.json({
+      success: true,
+      submission: { ...submission, content },
     });
   } catch (error) {
     console.error("Error fetching submission:", error);
@@ -742,4 +787,4 @@ router.get("/submission/:submissionId", async (req, res) => {
   }
 });
 
-export default router;   
+export default router;
