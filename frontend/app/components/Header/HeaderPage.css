@@ -1,348 +1,912 @@
+/* ============================================
+   HEADER PAGE STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 768px, 769px, 1024px, 1025px, 1200px+
+   ============================================ */
 
-/* ====================
-   Main Header Container (.site-header)
-   ==================== */
+/* ============================================
+   MAIN HEADER CONTAINER
+   ============================================ */
 .site-header {
-  padding: 1rem 0;              /* Vertical padding */
-  background-color: #fff;        /* White background */
-  color: #e9691e;                /* Primary orange color for text/icons */
-  position: relative;            /* For positioning child elements */
-  z-index: 10;                   /* Keeps header above other content */
+  color: #e9691e;
+  position: relative;
+  z-index: 10;
 }
 
-/* Inner container - centers content and applies flex layout */
+/* Inner container */
 .site-header .container {
-  display: flex;                 /* Flexbox layout */
-  justify-content: space-between; /* Logo left, header-contact right */
-  align-items: center;           /* Vertically center items */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Logo image sizing */
 .site-header .logo img {
-  height: 30px;                   /* Fixed height for logo */
-  width: auto;                    /* Maintain aspect ratio */
-  object-fit: contain;             /* Ensure logo fits within container */
+  height: 30px;
+  width: auto;
+  object-fit: contain;
 }
 
-/* Right side header section (contains search and auth) */
+/* Right side header section */
 .site-header .header-contact {
-  display: flex;                  /* Horizontal layout */
-  align-items: center;            /* Vertically center items */
-  gap: 20px;                      /* Space between search and auth */
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-/* ====================
-   Search Bar Section
-   ==================== */
+/* ============================================
+   SEARCH BAR SECTION
+   ============================================ */
 
-/* Container for search icon and expanded search bar */
-.site-header .search-bar-container {
-  position: relative;             /* For absolute positioning if needed */
+/* Search Bar Container */
+.search-bar-container {
+  display: flex;
+  align-items: center;
 }
 
-/* Search toggle buttons (search/close icons) - shared styles */
-.site-header .search-icon-button,
-.site-header .close-icon-button {
-  background: none;               /* Remove default button background */
-  border: none;                   /* Remove default button border */
-  cursor: pointer;                /* Show pointer on hover */
-  color: #555;                    /* Dark gray icon color */
-  padding: 5px;                   /* Touch-friendly padding */
-  border-radius: 50%;             /* Circular buttons */
-  transition: background-color 0.3s; /* Smooth hover effect */
-  display: flex;                  /* Center icon */
-  align-items: center;            /* Vertically center icon */
+/* Search Icon Button */
+.search-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fee2e2;
 }
 
-/* Search icon specific styling */
-.site-header .search-icon-button .material-symbols-outlined {
-  margin: 0;                      /* Remove default margin */
-  font-size: 18px;                /* Icon size */
-  background-color: #ffeee4;       /* Light orange background */
-  padding: 10px;                   /* Padding around icon */
-  border-radius: 50px;             /* Pill shape */
+.search-icon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fee2e2;
 }
 
-/* Expanded search bar wrapper */
-.site-header .search-wrapper {
-  display: flex;                  /* Horizontal layout */
-  align-items: center;            /* Vertically center items */
-  justify-content: space-between;  /* Input left, close button right */
-  background: #ffeee4;             /* Light orange background */
-  width: 360px;                    /* Fixed width for search bar */
-  padding: 5px 10px;               /* Inner spacing */
-  animation: fadeIn 0.3s ease;     /* Smooth entrance animation */
+.search-icon-button .material-symbols-outlined {
+  font-size: 18px;
+  color: #4a5568;
+  transition: color 0.3s ease;
 }
 
-/* Close icon inside search wrapper */
-.site-header .search-wrapper .close-icon-button .material-symbols-outlined {
-  font-size: 18px;                 /* Match search icon size */
+.search-icon-button:hover .material-symbols-outlined {
+  color: #e9691e;
 }
 
-/* Fade in animation for dropdowns and search */
-@keyframes fadeIn {
+/* Search Wrapper */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
   from {
-    opacity: 0;                     /* Start invisible */
-    transform: translateY(-10px);   /* Start slightly above */
+    opacity: 0;
+    transform: translateX(-10px);
   }
   to {
-    opacity: 1;                      /* End visible */
-    transform: translateY(0);        /* End at original position */
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* Search input field */
-.site-header .search-input {
-  border: none;                    /* Remove default border */
-  background: transparent;          /* Transparent background */
-  padding: 8px;                     /* Inner spacing */
-  width: 200px;                     /* Input width */
-  outline: none;                    /* Remove focus outline */
+/* Search Input */
+.search-input {
+  padding: 8px 16px;
+  height: 40px;
+  width: 240px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #1a202c;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* ====================
-   Authentication Section
-   ==================== */
+.search-input:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+  width: 280px;
+}
+
+.search-input::placeholder {
+  color: #a0aec0;
+}
+
+/* Close Icon Button */
+.close-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-icon-button:hover {
+  background: #fee2e2;
+  transform: rotate(90deg);
+}
+
+.close-icon-button .material-symbols-outlined {
+  font-size: 18px;
+  color: #e9691e;
+}
+
+/* ============================================
+   AUTHENTICATION SECTION
+   ============================================ */
 
 /* Container for login/account buttons */
 .site-header .login-container {
-  position: relative;              /* For dropdown positioning */
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
 
-/* Container for auth buttons (Login/Admin/Logout) */
+/* Container for auth buttons */
 .site-header .btn-container {
-  display: flex;                   /* Horizontal layout */
-  gap: 10px;                       /* Space between buttons */
+  display: flex;
+  gap: 10px;
 }
 
-/* Base button styling for all auth buttons */
+/* Base button styling */
 .site-header .btn {
-  height: 35px;                    /* Fixed height */
-  width: 120px;                     /* Fixed width */
-  display: flex;                    /* Flex for centering content */
-  align-items: center;              /* Vertically center text */
-  justify-content: center;          /* Horizontally center text */
-  text-decoration: none;            /* Remove underline from links */
-  font-size: 14px;                  /* Text size */
-  cursor: pointer;                  /* Show pointer on hover */
-  transition: all 0.3s ease;        /* Smooth hover effects */
+  height: 35px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 /* Admin dashboard button */
 .site-header .admin-btn {
-  background-color: #e9691e;        /* Primary orange background */
-  color: white;                      /* White text */
-  border: none;                      /* No border */
+  background-color: #e9691e;
+  color: white;
+  border: none;
 }
 
-/* Admin button hover state */
 .site-header .admin-btn:hover {
-  background-color: #d55a1a;        /* Darker orange on hover */
+  background-color: #d55a1a;
 }
 
 /* Logout button */
 .site-header .logout-btn {
-  background-color: transparent;     /* Transparent background */
-  border: 1px solid #e9691e;         /* Orange border */
-  color: #e9691e;                    /* Orange text */
+  background-color: transparent;
+  border: 1px solid #e9691e;
+  color: #e9691e;
 }
 
-/* Logout button hover state */
 .site-header .logout-btn:hover {
-  background-color: #ffeee4;         /* Light orange background on hover */
+  background-color: #ffeee4;
 }
 
-/* ====================
-   User Profile Dropdown
-   ==================== */
+/* ============================================
+   USER PROFILE DROPDOWN
+   ============================================ */
 
-/* Main dropdown container */
 .site-header .profile-dropdown {
-  position: relative;              /* For dropdown menu positioning */
-  padding: 0;                      /* Remove default padding */
+  position: relative;
+  padding: 0;
 }
 
-/* Clickable profile area (image + arrow) */
 .site-header .profile-tri {
-  display: flex;                   /* Horizontal layout */
-  align-items: center;             /* Vertically center items */
-  cursor: pointer;                 /* Show pointer on hover */
-  gap: 0px;                        /* No gap between image and arrow */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0px;
 }
 
-/* Profile image */
 .site-header .profile-image {
-  width: 40px;                     /* Fixed width */
-  height: 40px;                    /* Fixed height (square for circle) */
-  border-radius: 50%;              /* Make it circular */
-  object-fit: cover;               /* Ensure image covers area without distortion */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* Dropdown arrow icon */
 .site-header .arrow {
-  transition: transform 0.3s ease; /* Smooth rotation animation */
-  color: #e9691e;                   /* Orange color */
+  transition: transform 0.3s ease;
+  color: #e9691e;
 }
 
-/* Rotated arrow when dropdown is open */
 .site-header .arrow.rotate {
-  transform: rotate(180deg);        /* Rotate 180 degrees */
+  transform: rotate(180deg);
 }
 
-/* ====================
-   Dropdown Menu
-   ==================== */
+/* ============================================
+   DROPDOWN MENU
+   ============================================ */
 
-/* Dropdown menu container */
 .site-header .dropdown-Menu {
-  position: absolute;               /* Position relative to profile-dropdown */
-  top: 100%;                        /* Place directly below the profile */
-  right: 0;                          /* Align to the right */
-  width: 250px;                      /* Fixed width */
-  background: white;                 /* White background */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  padding: 10px 0;                   /* Vertical padding only */
-  margin-top: 10px;                  /* Space from profile image */
-  animation: fadeIn 0.2s ease;       /* Quick fade in animation */
-  z-index: 99999;                     /* High z-index to appear above other content */
-  border-radius: 8px;                /* Rounded corners */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 250px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  margin-top: 10px;
+  animation: fadeIn 0.2s ease;
+  z-index: 99999;
+  border-radius: 8px;
 }
 
-/* Show class to display dropdown */
 .site-header .dropdown-Menu.show {
-  display: block;                    /* Override any display:none */
+  display: block;
 }
 
-/* Dropdown header with user info */
 .site-header .dropdown-header {
-  display: flex;                     /* Horizontal layout */
-  align-items: center;               /* Vertically center items */
-  padding: 10px 15px;                 /* Inner spacing */
-  gap: 10px;                          /* Space between image and text */
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 10px;
 }
 
-/* Profile image inside dropdown */
 .site-header .dropdown-profile-image {
-  width: 50px;                        /* Fixed width */
-  height: 50px;                       /* Fixed height */
-  border-radius: 50%;                 /* Circular */
-  object-fit: cover;                  /* Cover area without distortion */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* User name in dropdown */
 .site-header .dropdown-user-info h4 {
-  margin: 0;                          /* Remove default margin */
-  font-size: 0.9rem;                  /* Relative font size */
-  color: #333;                         /* Dark gray */
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
 }
 
-/* User email in dropdown */
 .site-header .dropdown-user-info p {
-  margin: 2px 0 0;                    /* Small top margin only */
-  font-size: 0.8rem;                  /* Smaller font size */
-  color: #777;                         /* Medium gray */
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #777;
 }
 
-/* Divider line between dropdown sections */
 .site-header .dropdown-divider {
-  height: 1px;                         /* Thin line */
-  background: #eee;                    /* Light gray */
-  margin: 8px 0;                       /* Vertical spacing */
+  height: 1px;
+  background: #eee;
+  margin: 8px 0;
 }
 
-/* Individual dropdown menu items */
 .site-header .dropdown-item {
-  display: flex;                       /* Flex layout */
-  align-items: center;                 /* Vertically center content */
-  padding: 12px 18px;                   /* Comfortable padding */
-  font-size: 0.9rem;                    /* Text size */
-  text-decoration: none;                /* Remove underline from links */
-  color: #4d6066;                       /* Dark teal-gray */
-  transition: all 0.3s ease;            /* Smooth hover effect */
-  font-weight: 500;                     /* Medium font weight */
-  background: white;                    /* White background */
-  border: none;                         /* No border for button elements */
-  width: 100%;                           /* Full width */
-  text-align: left;                      /* Left-align text */
-  cursor: pointer;                       /* Pointer cursor for buttons */
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #4d6066;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  background: white;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
 }
 
-/* Hover effect for dropdown items */
 .site-header .dropdown-item:hover {
-  background: #ffeee4;                   /* Light orange background */
-  color: #e9691e;                         /* Orange text */
+  background: #ffeee4;
+  color: #e9691e;
 }
 
-/* ====================
-   Loading State
-   ==================== */
+/* ============================================
+   LOADING STATE
+   ============================================ */
 
-/* Loading placeholder during auth check */
 .site-header .loading-placeholder {
-  padding: 10px;                         /* Inner spacing */
-  color: #777;                            /* Medium gray text */
+  padding: 10px;
+  color: #777;
 }
 
-/* ====================
-   Responsive Design
-   ==================== */
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
 
-/* Tablet styles - max width 768px */
-@media (max-width: 768px) {
-  /* Reduce gap between header contact items */
-  .site-header .header-contact {
-    gap: 15px;
-  }
-
-  /* Narrower search input */
-  .site-header .search-input {
-    width: 150px;
-  }
-
-  /* Smaller dropdown menu */
-  .site-header .dropdown-Menu {
-    width: 220px;
-    right: -10px;                       /* Adjust positioning */
-  }
-}
-
-/* Mobile styles - max width 480px */
+/* ===== 320px — 480px: Mobile Devices ===== */
 @media (max-width: 480px) {
-  /* Reduce container padding */
+  .site-header {
+    padding: 0.75rem 0;
+  }
+
   .site-header .container {
     padding: 0 10px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  /* Smaller logo on mobile */
   .site-header .logo img {
-    height: 32px;
+    height: 28px;
   }
 
-  /* Position search absolutely on mobile to not break layout */
+  .site-header .header-contact {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  /* Search Mobile */
+  .search-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .search-icon-button .material-symbols-outlined {
+    font-size: 16px;
+  }
+
   .site-header .search-wrapper {
     position: absolute;
     right: 0;
     top: 100%;
     margin-top: 10px;
     z-index: 1000;
-    width: 280px;                       /* Slightly narrower on mobile */
+    width: 280px;
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  /* Adjust dropdown position on mobile */
-  .site-header .dropdown-Menu {
-    right: -20px;
+  .site-header .search-input {
+    width: 100%;
+    height: 36px;
+    font-size: 13px;
+    padding: 6px 12px;
   }
-  
-  /* Stack buttons vertically on mobile */
+
+  .site-header .search-input:focus {
+    width: 100%;
+  }
+
+  .close-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .close-icon-button .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  /* Auth Buttons Mobile */
   .site-header .btn-container {
-    flex-direction: column;              /* Vertical stack */
-    gap: 5px;                            /* Smaller gap */
+    flex-direction: column;
+    gap: 5px;
   }
-  
-  /* Smaller buttons on mobile */
+
   .site-header .btn {
-    width: 100px;                        /* Narrower */
-    height: 32px;                         /* Shorter */
-    font-size: 12px;                      /* Smaller text */
+    width: 90px;
+    height: 30px;
+    font-size: 11px;
+    padding: 0 8px;
+  }
+
+  .site-header .btn .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  /* Profile Mobile */
+  .site-header .profile-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .site-header .arrow {
+    font-size: 18px;
+  }
+
+  /* Dropdown Mobile */
+  .site-header .dropdown-Menu {
+    width: 200px;
+    right: -10px;
+    margin-top: 8px;
+    padding: 8px 0;
+  }
+
+  .site-header .dropdown-header {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .site-header .dropdown-profile-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .site-header .dropdown-user-info h4 {
+    font-size: 0.8rem;
+  }
+
+  .site-header .dropdown-user-info p {
+    font-size: 0.7rem;
+  }
+
+  .site-header .dropdown-item {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .site-header .dropdown-divider {
+    margin: 6px 0;
+  }
+
+  /* Admin button mobile */
+  .site-header .admin-btn {
+    width: 90px;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .site-header .logout-btn {
+    width: 90px;
+    height: 30px;
+    font-size: 11px;
+  }
+}
+
+/* ===== 481px — 768px: iPads and Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .site-header {
+    padding: 0.875rem 0;
+  }
+
+  .site-header .container {
+    padding: 0 15px;
+  }
+
+  .site-header .header-contact {
+    gap: 15px;
+  }
+
+  .site-header .logo img {
+    height: 30px;
+  }
+
+  /* Search Tablet */
+  .search-icon-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .site-header .search-input {
+    width: 180px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .site-header .search-input:focus {
+    width: 200px;
+  }
+
+  .close-icon-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Auth Buttons Tablet */
+  .site-header .btn {
+    width: 100px;
+    height: 33px;
+    font-size: 13px;
+  }
+
+  /* Profile Tablet */
+  .site-header .profile-image {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Dropdown Tablet */
+  .site-header .dropdown-Menu {
+    width: 220px;
+    right: -10px;
+  }
+
+  .site-header .dropdown-profile-image {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* ===== 769px — 1024px: Small Screens, Laptops, Large Tablets ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .site-header {
+    padding: 1rem 0;
+  }
+
+  .site-header .container {
+    padding: 0 20px;
+  }
+
+  .site-header .header-contact {
+    gap: 18px;
+  }
+
+  .site-header .logo img {
+    height: 32px;
+  }
+
+  /* Search Small Laptop */
+  .site-header .search-input {
+    width: 200px;
+  }
+
+  .site-header .search-input:focus {
+    width: 240px;
+  }
+
+  /* Auth Buttons Small Laptop */
+  .site-header .btn {
+    width: 110px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  /* Profile Small Laptop */
+  .site-header .profile-image {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Dropdown Small Laptop */
+  .site-header .dropdown-Menu {
+    width: 230px;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops and Large Laptop Screens ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .site-header {
+    padding: 1rem 0;
+  }
+
+  .site-header .container {
+    padding: 0 24px;
+  }
+
+  .site-header .header-contact {
+    gap: 20px;
+  }
+
+  .site-header .logo img {
+    height: 32px;
+  }
+
+  /* Search Desktop */
+  .site-header .search-input {
+    width: 220px;
+  }
+
+  .site-header .search-input:focus {
+    width: 260px;
+  }
+
+  /* Auth Buttons Desktop */
+  .site-header .btn {
+    width: 115px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .site-header {
+    padding: 1rem 0;
+  }
+
+  .site-header .container {
+    padding: 0 32px;
+  }
+
+  .site-header .header-contact {
+    gap: 20px;
+  }
+
+  .site-header .logo img {
+    height: 30px;
+  }
+
+  /* Search XL Desktop */
+  .site-header .search-input {
+    width: 240px;
+  }
+
+  .site-header .search-input:focus {
+    width: 280px;
+  }
+
+  /* Auth Buttons XL Desktop */
+  .site-header .btn {
+    width: 120px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .site-header {
+    padding: 0.5rem 0;
+  }
+
+  .site-header .logo img {
+    height: 24px;
+  }
+
+  .site-header .header-contact {
+    gap: 10px;
+  }
+
+  .search-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search-icon-button .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .site-header .search-input {
+    height: 32px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .close-icon-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .close-icon-button .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .site-header .btn {
+    height: 28px;
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .site-header .profile-image {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-header .arrow {
+    font-size: 16px;
+  }
+
+  .site-header .dropdown-Menu {
+    width: 180px;
+    padding: 6px 0;
+    margin-top: 6px;
+  }
+
+  .site-header .dropdown-header {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .site-header .dropdown-profile-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .site-header .dropdown-user-info h4 {
+    font-size: 0.75rem;
+  }
+
+  .site-header .dropdown-user-info p {
+    font-size: 0.65rem;
+  }
+
+  .site-header .dropdown-item {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+
+  .site-header .dropdown-divider {
+    margin: 4px 0;
+  }
+
+  .site-header .admin-btn {
+    height: 28px;
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .site-header .logout-btn {
+    height: 28px;
+    width: 80px;
+    font-size: 11px;
+  }
+}
+
+/* ============================================
+   HIGH DPI / RETINA SCREENS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .site-header .logo img {
+    image-rendering: auto;
+  }
+
+  .site-header .profile-image {
+    image-rendering: auto;
+  }
+
+  .site-header .dropdown-profile-image {
+    image-rendering: auto;
+  }
+}
+
+/* ============================================
+   DARK MODE SUPPORT (Optional)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles if needed */
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .site-header {
+    padding: 0.5rem 0;
+    position: static;
+    background: white;
+    color: black;
+  }
+
+  .site-header .header-contact {
+    display: none;
+  }
+
+  .site-header .btn-container {
+    display: none;
+  }
+
+  .site-header .profile-dropdown {
+    display: none;
+  }
+
+  .search-bar-container {
+    display: none;
+  }
+
+  .site-header .logo img {
+    height: 20px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .search-wrapper {
+    animation: none;
+  }
+
+  .site-header .arrow {
+    transition: none;
+  }
+
+  .site-header .dropdown-Menu {
+    animation: none;
+  }
+
+  .search-icon-button:hover {
+    transform: none;
+  }
+
+  .close-icon-button:hover {
+    transform: none;
+  }
+
+  .search-input {
+    transition: none;
+  }
+
+  .site-header .btn {
+    transition: none;
+  }
+
+  .site-header .dropdown-item {
+    transition: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.search-icon-button:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.close-icon-button:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.search-input:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.site-header .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.site-header .profile-tri:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.site-header .dropdown-item:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: -2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .site-header {
+    border-bottom: 2px solid CanvasText;
+  }
+
+  .search-icon-button {
+    border: 2px solid CanvasText;
+    background: Canvas;
+  }
+
+  .search-input {
+    border: 2px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .close-icon-button {
+    border: 2px solid CanvasText;
+    background: Canvas;
+  }
+
+  .site-header .btn {
+    border: 2px solid CanvasText;
+  }
+
+  .site-header .admin-btn {
+    border: 2px solid CanvasText;
+  }
+
+  .site-header .logout-btn {
+    border: 2px solid CanvasText;
+  }
+
+  .site-header .dropdown-Menu {
+    border: 2px solid CanvasText;
+  }
+
+  .site-header .dropdown-item {
+    border: 1px solid transparent;
+  }
+
+  .site-header .dropdown-item:hover {
+    border-color: CanvasText;
   }
 }

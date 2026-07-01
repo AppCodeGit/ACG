@@ -1,23 +1,21 @@
-/**
- * LoginPage Component Styles
- * Organized to match the TSX component structure
- */
+/* ============================================
+   LOGIN PAGE STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 768px, 769px, 1024px, 1025px, 1200px+
+   ============================================ */
 
-/* ====================
-   Main Login Container (div.login-container.container)
-   Matches line where div.login-container starts
-   ==================== */
+/* ===== BASE CONTAINER ===== */
 .login-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  gap: 40px; /* Added for better spacing */
+  gap: 40px;
 }
 
-/* ====================
-   Left Side - Image Container (div.image-container)
-   ==================== */
+/* ============================================
+   LEFT SIDE - IMAGE CONTAINER
+   ============================================ */
 .login-container .image-container {
   flex: 1;
 }
@@ -29,28 +27,28 @@
   object-fit: cover;
 }
 
-/* ====================
-   Right Side - Login Wrapper (div.login-wrapper)
-   ==================== */
+/* ============================================
+   RIGHT SIDE - LOGIN WRAPPER
+   ============================================ */
 .login-container .login-wrapper {
   width: 100%;
   max-width: 450px;
 }
 
-/* Login Card */
+/* ===== LOGIN CARD ===== */
 .login-container .login-card {
   background-color: #ffffff;
   padding: 40px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  border-radius: 12px; /* Added for consistency */
+  border-radius: 12px;
 }
 
-/* ====================
-   Logo Container (div.logo-container)
-   ==================== */
+/* ============================================
+   LOGO CONTAINER
+   ============================================ */
 .login-container .logo-container {
   margin-bottom: 24px;
-  text-align: center; /* Added for centering */
+  text-align: center;
 }
 
 .login-container .logo-container img {
@@ -58,21 +56,64 @@
   height: auto;
 }
 
-/* ====================
-   Title (h2.login-title)
-   ==================== */
+/* ============================================
+   TITLE
+   ============================================ */
 .login-container .login-title {
   margin-bottom: 24px;
   font-size: 20px;
   font-weight: 500;
   color: #333;
   text-transform: capitalize;
-  text-align: center; /* Added for consistency */
+  text-align: center;
 }
 
-/* ====================
-   Alert Messages
-   ==================== */
+/* ============================================
+   SESSION INFO BANNER
+   ============================================ */
+.login-container .session-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffe0cf;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  border-left: 4px solid #e9691e;
+}
+
+.login-container .session-info .material-symbols-outlined {
+  font-size: 18px;
+  color: #e9691e;
+}
+
+.login-container .session-info span:last-child {
+  font-size: 0.85rem;
+  color: #575454;
+  font-weight: 500;
+}
+
+/* ============================================
+   SECURITY INFO
+   ============================================ */
+.login-container .security-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 0.7rem;
+  color: #868686;
+}
+
+.login-container .security-info .material-symbols-outlined {
+  font-size: 14px;
+}
+
+/* ============================================
+   ALERT MESSAGES
+   ============================================ */
 .login-container .login-alert {
   padding: 12px 16px;
   border-radius: 6px;
@@ -90,12 +131,45 @@
   background-color: #fbe9e7;
   color: #c62828;
   border: 1px solid #e57373;
-  font-weight: 500; /* Fixed typo from 'font-size: 500' */
+  font-weight: 500;
 }
 
-/* ====================
-   Login Form (form.login-form)
-   ==================== */
+/* ============================================
+   LOCK SCREEN
+   ============================================ */
+.login-container .lock-screen {
+  text-align: center;
+  padding: 20px;
+  background: #fbe9e7;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #e57373;
+}
+
+.login-container .lock-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.login-container .lock-screen h3 {
+  font-size: 18px;
+  color: #c62828;
+  margin-bottom: 8px;
+}
+
+.login-container .lock-screen p {
+  font-size: 14px;
+  color: #575454;
+  margin: 5px 0;
+}
+
+.login-container .lock-screen strong {
+  color: #e9691e;
+}
+
+/* ============================================
+   LOGIN FORM
+   ============================================ */
 .login-container .login-form .form-group {
   margin-bottom: 25px;
   position: relative;
@@ -118,18 +192,18 @@
   color: #575454;
   transition: all 0.3s ease;
   width: 100%;
-  box-sizing: border-box; /* Added for consistent sizing */
+  box-sizing: border-box;
 }
 
 .login-container .form-input:focus {
   border-color: #e9691e;
   outline: none;
-  background: #fff0e8; /* Added subtle focus effect */
+  background: #fff0e8;
 }
 
-/* ====================
-   Password Field with Toggle
-   ==================== */
+/* ============================================
+   PASSWORD FIELD WITH TOGGLE
+   ============================================ */
 .login-container .password-group {
   position: relative;
 }
@@ -141,13 +215,13 @@
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 16px;
-  user-select: none; /* Prevents text selection on click */
-  padding: 5px; /* Added for better click area */
+  user-select: none;
+  padding: 5px;
 }
 
-/* ====================
-   Submit Button (button.btn-submit)
-   ==================== */
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
 .login-container .btn-submit {
   width: 100%;
   padding: 9px;
@@ -155,12 +229,12 @@
   cursor: pointer;
 }
 
-/* ====================
-   Forgot Password Link (div.forgot-password)
-   ==================== */
+/* ============================================
+   FORGOT PASSWORD LINK
+   ============================================ */
 .login-container .forgot-password {
   margin-top: 16px;
-  text-align: center; /* Added for consistency */
+  text-align: center;
 }
 
 .login-container .forgot-password a {
@@ -171,17 +245,18 @@
 }
 
 .login-container .forgot-password a:hover {
-  color: #e9691e; /* Added hover effect */
+  color: #e9691e;
 }
 
-/* ====================
-   Signup Link (div.signup-link)
-   ==================== */
+/* ============================================
+   SIGNUP LINK
+   ============================================ */
 .login-container .signup-link {
   margin-top: 16px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Added for centering */
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 4px;
   font-size: 0.9rem;
   color: #666;
@@ -191,16 +266,16 @@
   color: #e9691e;
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 500; /* Added emphasis */
+  font-weight: 500;
 }
 
 .login-container .signup-link a:hover {
   text-decoration: underline;
 }
 
-/* ====================
-   Admin Toggle Styles (if used)
-   ==================== */
+/* ============================================
+   ADMIN TOGGLE STYLES
+   ============================================ */
 .admin-toggle-container {
   display: flex;
   align-items: center;
@@ -214,7 +289,6 @@
   color: #555;
 }
 
-/* Switch styling */
 .switch {
   position: relative;
   display: inline-block;
@@ -260,7 +334,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Admin note styling */
 .admin-note {
   background-color: #f8f9fa;
   border-left: 4px solid #007bff;
@@ -279,7 +352,6 @@ input:checked + .slider:before {
   font-style: italic;
 }
 
-/* Admin support link */
 .admin-support {
   margin-top: 15px;
   padding-top: 15px;
@@ -292,30 +364,171 @@ input:checked + .slider:before {
   color: #6c757d;
 }
 
-/* ====================
-   Responsive Design
-   ==================== */
-@media (max-width: 992px) {
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+.login-container .loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  min-height: 400px;
+}
+
+.login-container .loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #ffe0cf;
+  border-top-color: #e9691e;
+  border-right-color: #f08b4a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-container .loading-spinner-container p {
+  color: #575454;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
   .login-container {
     flex-direction: column;
-    padding: 20px;
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .login-container .image-container {
+    width: 100%;
+    text-align: center;
   }
 
   .login-container .login-image {
     width: 100%;
-    max-width: 500px;
+    max-width: 320px;
+    height: auto;
   }
 
   .login-container .login-wrapper {
     max-width: 100%;
   }
-}
 
-@media (max-width: 768px) {
   .login-container .login-card {
-    padding: 30px 20px;
+    padding: 20px 16px;
   }
 
+  .login-container .logo-container img {
+    width: 130px;
+  }
+
+  .login-container .login-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .login-container .session-info {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .login-container .session-info span:last-child {
+    font-size: 0.75rem;
+  }
+
+  .login-container .form-input {
+    padding: 12px 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .login-container .form-label {
+    font-size: 0.85rem;
+  }
+
+  .login-container .toggle-password {
+    top: 72%;
+    right: 12px;
+    font-size: 18px;
+  }
+
+  .login-container .btn-submit {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .login-container .login-alert {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .login-container .forgot-password a {
+    font-size: 0.85rem;
+  }
+
+  .login-container .signup-link {
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    gap: 4px;
+  }
+
+  .login-container .signup-link a {
+    font-size: 0.85rem;
+  }
+
+  .login-container .security-info {
+    font-size: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .login-container .security-info .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  /* Lock Screen Mobile */
+  .login-container .lock-screen {
+    padding: 16px;
+  }
+
+  .login-container .lock-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+
+  .login-container .lock-screen h3 {
+    font-size: 16px;
+  }
+
+  .login-container .lock-screen p {
+    font-size: 13px;
+  }
+
+  /* Loading Spinner Mobile */
+  .login-container .loading-spinner-container {
+    min-height: 250px;
+    padding: 30px 16px;
+  }
+
+  .login-container .loading-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Admin Toggle Mobile */
   .admin-toggle-container {
     flex-direction: column;
     gap: 8px;
@@ -328,166 +541,452 @@ input:checked + .slider:before {
   .admin-note p {
     font-size: 0.85rem;
   }
+
+  .admin-support p {
+    font-size: 0.85rem;
+  }
 }
 
-@media (max-width: 480px) {
-  .login-container .login-card {
-    padding: 20px 15px;
+/* ===== 481px — 768px: iPads and Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
   }
 
-  .login-container .login-title {
-    font-size: 18px;
+  .login-container .image-container {
+    width: 100%;
+    text-align: center;
+  }
+
+  .login-container .login-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+  }
+
+  .login-container .login-wrapper {
+    max-width: 100%;
+  }
+
+  .login-container .login-card {
+    padding: 32px 28px;
   }
 
   .login-container .logo-container img {
-    width: 130px;
+    width: 150px;
+  }
+
+  .login-container .login-title {
+    font-size: 20px;
+  }
+
+  .login-container .form-input {
+    padding: 11px 16px;
+    font-size: 0.95rem;
+  }
+
+  .login-container .toggle-password {
+    top: 71%;
+  }
+
+  .login-container .btn-submit {
+    padding: 11px;
+  }
+
+  .login-container .session-info span:last-child {
+    font-size: 0.8rem;
+  }
+
+  /* Loading Spinner Tablet */
+  .login-container .loading-spinner-container {
+    min-height: 300px;
+  }
+
+  .login-container .loading-spinner {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Admin Toggle Tablet */
+  .admin-toggle-container {
+    flex-direction: row;
+    gap: 10px;
   }
 }
 
-/* ====================
-   Loading Spinner (for settings check)
-   ==================== */
-.login-container .loading-spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
-  min-height: 400px;
-}
+/* ===== 769px — 1024px: Small Screens, Laptops, Large Tablets ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-container {
+    padding: 24px 20px;
+    gap: 30px;
+  }
 
-.login-container .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #ffe0cf;
-  border-top-color: #e9691e;
-  border-right-color: #f08b4a;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 16px;
-}
+  .login-container .login-image {
+    width: 420px;
+    height: auto;
+  }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .login-container .login-wrapper {
+    max-width: 400px;
+  }
+
+  .login-container .login-card {
+    padding: 32px 28px;
+  }
+
+  .login-container .logo-container img {
+    width: 150px;
+  }
+
+  .login-container .login-title {
+    font-size: 19px;
+  }
+
+  .login-container .form-input {
+    padding: 10px 15px;
+  }
+
+  .login-container .btn-submit {
+    padding: 10px;
+  }
+
+  .login-container .session-info span:last-child {
+    font-size: 0.8rem;
+  }
+
+  /* Admin Toggle Small Laptop */
+  .admin-note {
+    padding: 12px;
+  }
+
+  .admin-note p {
+    font-size: 0.85rem;
   }
 }
 
-.login-container .loading-spinner-container p {
-  color: #575454;
-  font-size: 0.9rem;
-  margin: 0;
-  text-align: center;
-}
+/* ===== 1025px — 1200px: Desktops and Large Laptop Screens ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .login-container {
+    padding: 30px 24px;
+    gap: 35px;
+  }
 
+  .login-container .login-image {
+    width: 480px;
+    height: auto;
+  }
 
-/* Session Info Banner */
-.login-container .session-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: #ffe0cf;
-  border-radius: 8px;
-  padding: 10px 16px;
-  margin-bottom: 20px;
-  border-left: 4px solid #e9691e;
-}
+  .login-container .login-wrapper {
+    max-width: 420px;
+  }
 
-.login-container .session-info .material-symbols-outlined {
-  font-size: 18px;
-  color: #e9691e;
-}
+  .login-container .login-card {
+    padding: 36px 32px;
+  }
 
-.login-container .session-info span:last-child {
-  font-size: 0.85rem;
-  color: #575454;
-  font-weight: 500;
-}
+  .login-container .logo-container img {
+    width: 155px;
+  }
 
-/* Security Info */
-.login-container .security-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 16px;
-  font-size: 0.7rem;
-  color: #868686;
-}
-
-.login-container .security-info .material-symbols-outlined {
-  font-size: 14px;
-}
-
-.login-container .security-info .material-symbols-outlined {
-  font-size: 14px;
-}
-
-
-/* Lock Screen */
-.login-container .lock-screen {
-  text-align: center;
-  padding: 20px;
-  background: #fbe9e7;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #e57373;
-}
-
-.login-container .lock-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.login-container .lock-screen h3 {
-  font-size: 18px;
-  color: #c62828;
-  margin-bottom: 8px;
-}
-
-.login-container .lock-screen p {
-  font-size: 14px;
-  color: #575454;
-  margin: 5px 0;
-}
-
-.login-container .lock-screen strong {
-  color: #e9691e;
-}
-
-/* Loading Spinner */
-.login-container .loading-spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
-  min-height: 400px;
-}
-
-.login-container .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #ffe0cf;
-  border-top-color: #e9691e;
-  border-right-color: #f08b4a;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 16px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .login-container .login-title {
+    font-size: 20px;
   }
 }
 
-.login-container .loading-spinner-container p {
-  color: #575454;
-  font-size: 0.9rem;
-  margin: 0;
-  text-align: center;
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .login-container {
+    padding: 40px 32px;
+    gap: 40px;
+  }
+
+  .login-container .login-image {
+    width: 570px;
+    height: auto;
+  }
+
+  .login-container .login-wrapper {
+    max-width: 450px;
+  }
+
+  .login-container .login-card {
+    padding: 40px;
+  }
+
+  .login-container .logo-container img {
+    width: 160px;
+  }
+
+  .login-container .login-title {
+    font-size: 20px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 600px) and (orientation: landscape) {
+  .login-container .login-card {
+    padding: 16px 20px;
+  }
+
+  .login-container .logo-container {
+    margin-bottom: 12px;
+  }
+
+  .login-container .logo-container img {
+    width: 120px;
+  }
+
+  .login-container .login-title {
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .login-container .login-form .form-group {
+    margin-bottom: 14px;
+  }
+
+  .login-container .form-input {
+    padding: 8px 14px;
+  }
+
+  .login-container .btn-submit {
+    padding: 8px;
+  }
+
+  .login-container .session-info {
+    padding: 6px 12px;
+    margin-bottom: 12px;
+  }
+
+  .login-container .session-info span:last-child {
+    font-size: 0.7rem;
+  }
+
+  .login-container .security-info {
+    margin-bottom: 10px;
+    font-size: 0.6rem;
+  }
+
+  .login-container .forgot-password {
+    margin-top: 10px;
+  }
+
+  .login-container .signup-link {
+    margin-top: 10px;
+  }
+
+  .login-container .lock-screen {
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+
+  .login-container .lock-icon {
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+
+  .login-container .lock-screen h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .login-container .lock-screen p {
+    font-size: 12px;
+    margin: 3px 0;
+  }
+
+  .login-container .loading-spinner-container {
+    min-height: 150px;
+    padding: 20px 16px;
+  }
+
+  .login-container .loading-spinner {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+  }
+
+  .login-container .loading-spinner-container p {
+    font-size: 0.8rem;
+  }
+
+  /* Admin Toggle Landscape */
+  .admin-toggle-container {
+    margin-bottom: 12px;
+  }
+
+  .admin-note {
+    padding: 8px 12px;
+    margin-bottom: 12px;
+  }
+
+  .admin-note p {
+    font-size: 0.8rem;
+    margin: 3px 0;
+  }
+
+  .admin-support {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+}
+
+/* ============================================
+   HIGH DPI / RETINA SCREENS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .login-container .login-image {
+    image-rendering: auto;
+  }
+}
+
+/* ============================================
+   DARK MODE SUPPORT (Optional)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles if needed */
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .login-container {
+    padding: 20px;
+  }
+
+  .login-container .login-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .login-container .btn-submit {
+    display: none;
+  }
+
+  .login-container .toggle-password {
+    display: none;
+  }
+
+  .login-container .session-info {
+    display: none;
+  }
+
+  .login-container .security-info {
+    display: none;
+  }
+
+  .login-container .lock-screen {
+    display: none;
+  }
+
+  .login-container .forgot-password {
+    display: none;
+  }
+
+  .login-container .signup-link {
+    display: none;
+  }
+
+  .login-container .admin-toggle-container {
+    display: none;
+  }
+
+  .login-container .admin-note {
+    display: none;
+  }
+
+  .login-container .admin-support {
+    display: none;
+  }
+
+  .login-container .loading-spinner-container {
+    display: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .login-container .loading-spinner {
+    animation: none;
+    border: 4px solid #e9691e;
+  }
+
+  .login-container .form-input {
+    transition: none;
+  }
+
+  .login-container .btn-submit {
+    transition: none;
+  }
+
+  .login-container .forgot-password a {
+    transition: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.login-container .form-input:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.login-container .btn-submit:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.login-container .toggle-password:focus-visible {
+  outline: 2px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.login-container .signup-link a:focus-visible,
+.login-container .forgot-password a:focus-visible {
+  outline: 2px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .login-container .login-card {
+    border: 2px solid CanvasText;
+  }
+
+  .login-container .form-input {
+    border: 2px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .login-container .form-input:focus {
+    border-color: Highlight;
+  }
+
+  .login-container .btn-submit {
+    border: 2px solid CanvasText;
+  }
+
+  .login-container .login-alert.error {
+    border: 2px solid CanvasText;
+  }
+
+  .login-container .login-alert.success {
+    border: 2px solid CanvasText;
+  }
+
+  .login-container .lock-screen {
+    border: 2px solid CanvasText;
+  }
 }

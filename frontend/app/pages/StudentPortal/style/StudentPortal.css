@@ -1,5 +1,5 @@
 /* ============================================
-   SIDEBAR STYLES
+   STUDENT PORTAL STYLES - FIXED
    ============================================ */
 
 .d-flex {
@@ -10,7 +10,9 @@
   font-weight: 500;
 }
 
-
+/* ============================================
+   SIDEBAR - DESKTOP & MOBILE
+   ============================================ */
 .sidebar {
   position: fixed;
   width: 250px;
@@ -21,12 +23,13 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #e9691e transparent;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, left 0.3s ease, transform 0.3s ease;
   z-index: 100;
   border-radius: 10px;
+  top: 20px;
+  left: 20px;
 }
 
-/* Chrome, Edge, and Safari */
 .sidebar::-webkit-scrollbar {
   width: 6px;
 }
@@ -40,6 +43,187 @@
   border-radius: 4px;
 }
 
+/* ============================================
+   SIDEBAR STATES - FIXED
+   ============================================ */
+
+/* Desktop - Expanded (default) */
+.sidebar.expanded {
+  width: 250px;
+}
+
+/* Desktop - Collapsed */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar.collapsed .p-container {
+  justify-content: center;
+  padding: 20px 10px;
+}
+
+.sidebar.collapsed .p-image {
+  width: 45px;
+  height: 45px;
+}
+
+.sidebar.collapsed .name {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar.collapsed .nav-link .me-2 {
+  margin-right: 0 !important;
+}
+
+.sidebar.collapsed .nav-link .bi {
+  font-size: 22px;
+  margin: 0;
+}
+
+.sidebar.collapsed .nav-link span:not(.bi) {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-toggle .bi {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   HAMBURGER MENU BUTTON - MOBILE
+   ============================================ */
+.sidebar-hamburger {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  background: #e9691e;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.3);
+  transition: all 0.3s ease;
+}
+
+.sidebar-hamburger:hover {
+  background: #d45a12;
+  transform: scale(1.05);
+}
+
+.sidebar-hamburger .hamburger-line {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-hamburger .hamburger-line:nth-child(1) {
+  width: 20px;
+}
+
+.sidebar-hamburger .hamburger-line:nth-child(3) {
+  width: 16px;
+}
+
+.sidebar-hamburger:hover .hamburger-line {
+  width: 24px;
+}
+
+/* ============================================
+   SIDEBAR CLOSE BUTTON - MOBILE
+   ============================================ */
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 101;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.sidebar-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-close .material-symbols-outlined {
+  font-size: 24px;
+  color: #666;
+}
+
+/* ============================================
+   SIDEBAR TOGGLE BUTTON - DESKTOP
+   ============================================ */
+.sidebar-toggle {
+  position: absolute;
+  top: 27px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: #e9691e;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-toggle:hover {
+  background: #d45a12;
+  transform: scale(1.1);
+}
+
+.sidebar-toggle .bi {
+  color: white;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ============================================
+   SIDEBAR OVERLAY - MOBILE
+   ============================================ */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* ============================================
+   SIDEBAR CONTENT
+   ============================================ */
 .sidebar .p-container {
   display: flex;
   align-items: center;
@@ -89,9 +273,8 @@
 }
 
 .sidebar .nav-link .arrow-icon {
-  position: absolute;
-  right: 0;
-  left: 6em;
+  margin-left: auto;
+  font-size: 20px;
 }
 
 .sidebar .nav-link .bi {
@@ -111,21 +294,532 @@
   color: #e9691e;
 }
 
-/* Hover effects for sidebar links */
 .sidebar .nav-link:hover {
   text-decoration: none;
   color: #e9691e;
 }
 
-/* Sidebar Dropdown Styles */
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+  width: 100%;
+  margin-left: 270px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed on desktop */
+.sidebar.collapsed ~ .main-content,
+.sidebar.collapsed + .main-content {
+  margin-left: 100px;
+}
+
+/* ============================================
+   NAVBAR STYLES
+   ============================================ */
+.navba {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-left .logo {
+  width: 120px;
+  height: auto;
+}
+
+.student-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Notification Container */
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background: #e9691e;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(233, 105, 30, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0);
+  }
+}
+
+/* Search Bar */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.search-icon-button:hover {
+  background: #ffeee4;
+}
+
+.search-icon-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #4a5568;
+}
+
+.search-icon-button:hover .material-symbols-outlined {
+  color: #e9691e;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.search-input {
+  padding: 8px 16px;
+  height: 40px;
+  width: 240px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #1a202c;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #e9691e;
+  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
+  width: 280px;
+}
+
+.search-input::placeholder {
+  color: #a0aec0;
+}
+
+.close-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-icon-button:hover {
+  background: #fee2e2;
+  transform: rotate(90deg);
+}
+
+.close-icon-button .material-symbols-outlined {
+  font-size: 18px;
+  color: #e9691e;
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE & TABLET
+   ============================================ */
+
+/* ===== 320px — 991px: Mobile and Tablet ===== */
+@media (max-width: 991px) {
+  /* Hide desktop toggle */
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  /* Show hamburger and close buttons */
+  .sidebar-hamburger {
+    display: flex !important;
+  }
+
+  .sidebar-close {
+    display: block !important;
+  }
+
+  /* Sidebar slides in from left */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Override desktop collapsed state on mobile */
+  .sidebar.collapsed {
+    width: 280px;
+    left: -300px;
+  }
+
+  .sidebar.open.collapsed {
+    left: 0;
+    width: 280px;
+  }
+
+  /* Show text on mobile even when collapsed */
+  .sidebar.open.collapsed .name {
+    display: block;
+  }
+
+  .sidebar.open.collapsed .nav-link span:not(.bi) {
+    display: inline;
+  }
+
+  .sidebar.open.collapsed .nav-link {
+    justify-content: flex-start;
+    padding: 12px 18px;
+  }
+
+  .sidebar.open.collapsed .nav-link .bi {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+
+  .sidebar.open.collapsed .p-container {
+    justify-content: flex-start;
+    padding: 20px;
+  }
+
+  .sidebar.open.collapsed .p-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Overlay shows when sidebar is open */
+  .sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Main content full width */
+  .main-content {
+    margin-left: 0 !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+  }
+
+  /* When sidebar is closed, main content stays full width */
+  .sidebar.collapsed ~ .main-content,
+  .sidebar.collapsed + .main-content {
+    margin-left: 0 !important;
+  }
+
+  /* Adjust d-flex padding */
+  .d-flex {
+    padding: 12px;
+  }
+
+  /* Navbar adjustments */
+  .navba {
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .navbar-left .logo {
+    width: 120px;
+  }
+
+  .student-icons {
+    gap: 8px;
+  }
+
+  /* FIX: Hide hamburger when sidebar is open using display:none */
+  .sidebar.open ~ .sidebar-hamburger,
+  .sidebar.open + .sidebar-hamburger {
+    display: none !important;
+  }
+
+  /* When sidebar is closed, show hamburger */
+  .sidebar:not(.open) ~ .sidebar-hamburger,
+  .sidebar:not(.open) + .sidebar-hamburger {
+    display: flex !important;
+  }
+}
+
+/* ===== 320px — 480px: Mobile ===== */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 260px;
+    left: -280px;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.collapsed {
+    width: 260px;
+    left: -280px;
+  }
+
+  .sidebar.open.collapsed {
+    left: 0;
+    width: 260px;
+  }
+
+  .sidebar .p-container {
+    padding: 14px 16px;
+  }
+
+  .sidebar .p-container .p-image {
+    width: 35px;
+    height: 35px;
+  }
+
+  .sidebar .p-container .name {
+    font-size: 12px;
+  }
+
+  .sidebar .nav-link {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .sidebar .nav-link .bi {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+
+  .sidebar-hamburger {
+    top: 12px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar-hamburger .hamburger-line {
+    width: 20px;
+    height: 2.5px;
+  }
+
+  .sidebar-hamburger .hamburger-line:nth-child(1) {
+    width: 16px;
+  }
+
+  .sidebar-hamburger .hamburger-line:nth-child(3) {
+    width: 12px;
+  }
+
+  .main-content {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .navba {
+    padding: 8px 10px;
+    margin-bottom: 16px;
+  }
+
+  .navbar-left .logo {
+    width: 100px;
+  }
+
+  .student-icons {
+    gap: 6px;
+  }
+
+  .search-input {
+    width: 120px;
+    height: 32px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .search-input:focus {
+    width: 140px;
+  }
+
+  .search-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search-icon-button .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .sidebar-close .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+/* ===== 481px — 768px: Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    left: -300px;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.collapsed {
+    width: 280px;
+    left: -300px;
+  }
+
+  .sidebar.open.collapsed {
+    left: 0;
+    width: 280px;
+  }
+
+  .sidebar .p-container {
+    padding: 16px 20px;
+  }
+
+  .sidebar .p-container .p-image {
+    width: 38px;
+    height: 38px;
+  }
+
+  .sidebar-hamburger {
+    top: 16px;
+    left: 16px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .navbar-left .logo {
+    width: 130px;
+  }
+
+  .main-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .search-input {
+    width: 160px;
+  }
+
+  .search-input:focus {
+    width: 180px;
+  }
+}
+
+/* ===== 769px — 991px: Small Laptops/Tablets ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .sidebar {
+    width: 280px;
+    left: -300px;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.collapsed {
+    width: 280px;
+    left: -300px;
+  }
+
+  .sidebar.open.collapsed {
+    left: 0;
+    width: 280px;
+  }
+
+  .sidebar-hamburger {
+    top: 20px;
+    left: 20px;
+  }
+
+  .navbar-left .logo {
+    width: 150px;
+  }
+
+  .main-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .search-input {
+    width: 180px;
+  }
+
+  .search-input:focus {
+    width: 200px;
+  }
+}
+
+/* ============================================
+   SIDEBAR DROPDOWN STYLES
+   ============================================ */
 .sidebar-item .dropdown-header .nav-link {
   transition: all 600ms ease-in-out;
 }
 
-/* Dropdown arrow icon */
 .sidebar-item .dropdown-header .arrow-icon {
   transition: transform 0.3s ease;
-  margin-left: 40px;
+  margin-left: auto;
   font-size: 20px;
 }
 
@@ -133,7 +827,6 @@
   transform: rotate(180deg);
 }
 
-/* Dropdown list - expanded mode */
 .sidebar-item .dropdown-list {
   background-color: #f5f4f4;
   margin-top: 10px;
@@ -142,16 +835,12 @@
   overflow: hidden;
 }
 
-/* Dropdown item */
 .sidebar-item .dropdown-item {
-  padding: 10px 15px;
+  padding: 10px 15px 10px 35px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   border-left: 3px solid transparent;
 }
 
@@ -166,55 +855,11 @@
   border-left-color: #e9691e;
 }
 
-/* ============================================
-   EXPAND/COLLAPSE MODIFICATIONS
-   ============================================ */
-
-/* Collapsed sidebar state */
-.sidebar.collapsed {
-  width: 80px;
-}
-
-/* Center content in p-container when collapsed */
-.sidebar.collapsed .p-container {
-  justify-content: center;
-  padding: 20px 10px;
-}
-
-/* Slightly larger image when collapsed */
-.sidebar.collapsed .p-image {
-  width: 45px;
-  height: 45px;
-}
-
-/* Hide name text when collapsed */
-.sidebar.collapsed .name {
-  display: none;
-}
-
-/* Center nav links when collapsed */
-.sidebar.collapsed .nav-link {
-  justify-content: center;
-  padding: 12px;
-}
-
-/* Hide text and adjust icon when collapsed */
-.sidebar.collapsed .nav-link .me-2 {
-  margin-right: 0 !important;
-}
-
-/* Make icons larger when collapsed */
-.sidebar.collapsed .nav-link .bi {
-  font-size: 22px;
-  margin: 0;
-}
-
-/* Dropdown container positioning for collapsed mode */
+/* Collapsed mode dropdown */
 .sidebar.collapsed .sidebar-item {
   position: relative;
 }
 
-/* Floating dropdown for collapsed mode */
 .sidebar.collapsed .dropdown-list.collapsed-dropdown {
   position: fixed;
   left: 90px;
@@ -241,7 +886,6 @@
   }
 }
 
-/* Ensure dropdown items in collapsed mode look good */
 .sidebar.collapsed .dropdown-list.collapsed-dropdown .dropdown-item {
   padding: 12px 16px;
   white-space: nowrap;
@@ -256,7 +900,6 @@
   border-radius: 0 0 8px 8px;
 }
 
-/* Make dropdown header clickable in collapsed mode */
 .sidebar.collapsed .dropdown-header {
   cursor: pointer;
   position: relative;
@@ -266,348 +909,95 @@
   pointer-events: auto;
 }
 
-/* Hide arrow in collapsed mode */
 .sidebar.collapsed .dropdown-header .arrow-icon {
   display: none;
 }
 
-/* Active state for dropdown header in collapsed mode */
 .sidebar.collapsed .dropdown-header.active .nav-link {
   background: #ffeee4;
   color: #e9691e;
 }
 
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-  position: absolute;
-  top: 27px;
-  right: -8px;
-  width: 24px;
-  height: 24px;
-  background: #e9691e;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 1;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.sidebar-hamburger:focus-visible,
+.sidebar-close:focus-visible,
+.sidebar-toggle:focus-visible,
+.sidebar .nav-link:focus-visible,
+.sidebar-item .dropdown-item:focus-visible,
+.search-icon-button:focus-visible,
+.close-icon-button:focus-visible,
+.search-input:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
 }
 
-.sidebar-toggle:hover {
-  background: #d45a12;
-  transform: scale(1.1);
-}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar-hamburger,
+  .sidebar-hamburger .hamburger-line,
+  .sidebar-close,
+  .sidebar-toggle,
+  .sidebar-overlay,
+  .main-content,
+  .search-wrapper,
+  .search-input,
+  .close-icon-button {
+    transition: none !important;
+    animation: none !important;
+  }
 
-.sidebar-toggle .bi {
-  color: white;
-  font-size: 14px;
-  margin: 0;
-}
+  .sidebar-hamburger:hover {
+    transform: none;
+  }
 
-/* Rotate icon when collapsed */
-.sidebar.collapsed .sidebar-toggle .bi {
-  transform: rotate(180deg);
-}
+  .sidebar-toggle:hover {
+    transform: none;
+  }
 
-/* Adjust main content margin */
-.main-content {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
-
-.sidebar.collapsed ~ .main-content,
-.sidebar.collapsed + .main-content {
-  margin-left: 80px;
-}
-
-/* Ensure proper z-index layering */
-.sidebar.collapsed .sidebar-item .dropdown-list.collapsed-dropdown {
-  position: fixed;
-  z-index: 1050;
-}
-
-/* Additional fix for dropdown positioning */
-@media (max-width: 768px) {
   .sidebar.collapsed .dropdown-list.collapsed-dropdown {
-    left: 80px;
+    animation: none;
+  }
+
+  .notification-badge {
+    animation: none;
+  }
+
+  @keyframes fadeIn {
+    from, to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media print {
+  .sidebar,
+  .sidebar-hamburger,
+  .sidebar-close,
+  .sidebar-toggle,
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .navba {
+    padding: 10px 0;
+  }
+
+  .student-icons {
+    display: none;
   }
 }
 
 /* ============================================
-   MAIN CONTENT STYLES
-   ============================================ */
-
-.main-content {
-  width: 100%;
-  margin-left: 18em;
-  padding-left: 20px;
-  position: relative;
-}
-
-.main-content .footer {
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
-  text-align: center;
-  padding: 10px;
-  font-size: 0.9rem;
-  color: #5f5f5f;
-  margin-top: 20px;
-}
-
-.main-content .footer p {
-  margin: 0;
-}
-
-
-/* ============================================
-   NAVBAR STYLES
-   ============================================ */
-
-.navba {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  margin-bottom: 25px;
-}
-
-/* Navbar Left Section */
-.navbar-left .logo {
-  width: 200px;
-}
-
-/* Admin Icons Container */
-.student-icons {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-}
-
-/* Notification Container */
-.notification-container {
-  position: relative;
-}
-
-.notification-button {
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.notification-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
-  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
-}
-
-.notification-button .material-symbols-outlined {
-  font-size: 22px;
-  color: #4a5568;
-  transition: color 0.3s ease;
-}
-
-.notification-button:hover .material-symbols-outlined {
-  color: #e9691e;
-}
-
-/* Notification Badge */
-.notification-badge {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  width: 10px;
-  height: 10px;
-  background: #e9691e;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(233, 105, 30, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0);
-  }
-}
-
-/* Search Bar Container */
-.search-bar-container {
-  display: flex;
-  align-items: center;
-}
-
-/* Search Icon Button */
-.search-icon-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.search-icon-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(233, 105, 30, 0.15);
-  background: linear-gradient(135deg, #ffffff 0%, #fff5ed 100%);
-}
-
-.search-icon-button .material-symbols-outlined {
-  font-size: 22px;
-  color: #4a5568;
-  transition: color 0.3s ease;
-}
-
-.search-icon-button:hover .material-symbols-outlined {
-  color: #e9691e;
-}
-
-/* Search Wrapper */
-.search-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Search Input */
-.search-input {
-  padding: 8px 16px;
-  height: 40px;
-  width: 240px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  background: #ffffff;
-  color: #1a202c;
-  transition: all 0.3s ease;
-  outline: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.search-input:focus {
-  border-color: #e9691e;
-  box-shadow: 0 0 0 3px rgba(233, 105, 30, 0.1);
-  width: 280px;
-}
-
-.search-input::placeholder {
-  color: #a0aec0;
-}
-
-/* Close Icon Button */
-.close-icon-button {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #f8f9fa;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.close-icon-button:hover {
-  background: #fee2e2;
-  transform: rotate(90deg);
-}
-
-.close-icon-button .material-symbols-outlined {
-  font-size: 18px;
-  color: #e9691e;
-}
-
-
-/* ============================================
-   NOTIFICATION & SEARCH TOOLTIPS
-   ============================================ */
-
-/* Optional: Tooltip styling for better UX */
-.notification-container::before {
-  content: "Notifications";
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a202c;
-  color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 100;
-}
-
-.notification-container:hover::before {
-  opacity: 1;
-}
-
-.search-icon-button:hover::before {
-  content: "Search";
-  position: absolute;
-  top: -30px;
-  background: #1a202c;
-  color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 100;
-}
-
-/* Optional: Add a subtle glow effect on active elements */
-.notification-button:active,
-.search-icon-button:active {
-  transform: translateY(0);
-}
-
-
-/* ============================================
-   MODAL STYLES
+   PROFILE MODAL STYLES - ORIGINAL WITH RESPONSIVE FIXES
    ============================================ */
 
 .d-flex .modal-overlay {
@@ -632,23 +1022,23 @@
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
   max-height: 90vh;
-  overflow-y: auto; /* only shows scrollbar when needed */
-  overflow-x: hidden; /* hides horizontal bar */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #e9691e transparent; /* Firefox */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #e9691e transparent;
 }
 
 /* Chrome, Edge, and Safari */
 .d-flex .modal-content::-webkit-scrollbar {
-  width: 6px; /* slim scrollbar */
+  width: 6px;
 }
 
 .d-flex .modal-content::-webkit-scrollbar-track {
-  background: transparent; /* no track */
+  background: transparent;
 }
 
 .d-flex .modal-content::-webkit-scrollbar-thumb {
-  background-color: #e9691e; /* scrollbar thumb */
+  background-color: #e9691e;
   border-radius: 4px;
 }
 
@@ -675,9 +1065,8 @@
   }
 }
 
-
 /* ============================================
-   PROFILE MANAGER STYLES
+   PROFILE MANAGER STYLES - ORIGINAL
    ============================================ */
 
 .profile-manager-container {
@@ -729,7 +1118,7 @@
   margin-bottom: 1.5rem;
 }
 
-.profile-manager-container .info-field .btn{
+.profile-manager-container .info-field .btn {
   padding: 4px;
 }
 
@@ -790,7 +1179,7 @@
   width: 100%;
 }
 
-.profile-manager-container .update-section .btn-container{
+.profile-manager-container .update-section .btn-container {
   display: flex;
   justify-content: center;
 }
@@ -831,7 +1220,7 @@
   margin-top: 2rem;
 }
 
-.profile-manager-container .preview h4{
+.profile-manager-container .preview h4 {
   font-size: 1.2rem;
   color: #435d77;
 }
@@ -907,7 +1296,7 @@
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;  
+  cursor: pointer;
   color: #e9691e;
   user-select: none;
 }
@@ -916,258 +1305,456 @@
   color: #333;
 }
 
-.profile-manager-container .user-info-section .btn{
+.profile-manager-container .user-info-section .btn {
   font-size: 0.9rem;
 }
 
-
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE FIXES - ADD THESE
    ============================================ */
 
+/* Tablet */
+@media (max-width: 992px) {
+  .d-flex .modal-content {
+    width: 80%;
+    padding: 24px;
+  }
+
+  .profile-manager-container .profile-section {
+    gap: 2rem;
+  }
+
+  .profile-manager-container .profile-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-manager-container .preview-img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Mobile & Tablet */
 @media (max-width: 768px) {
-  .admin-icons {
-    gap: 0.75rem;
+  .d-flex .modal-content {
+    width: 92%;
+    padding: 20px;
+    max-height: 85vh;
   }
 
-  .search-input {
-    width: 160px;
+  .profile-manager-container {
+    padding: 12px;
   }
 
-  .search-input:focus {
-    width: 180px;
+  .profile-manager-container .profile-section {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
   }
 
-  .notification-button,
-  .search-icon-button {
-    width: 36px;
-    height: 36px;
+  .profile-manager-container .current-image,
+  .profile-manager-container .update-section {
+    width: 100%;
+    text-align: center;
   }
 
-  .notification-button .material-symbols-outlined,
-  .search-icon-button .material-symbols-outlined {
-    font-size: 20px;
+  .profile-manager-container .update-section h3 {
+    text-align: center;
   }
-}
 
-
-/* ============================================
-   MAINTENANCE PAGE STYLES
-   Matches your dashboard color scheme
-   ============================================ */
-
-/* Maintenance Page Container */
-.maintenance-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fb 0%, #e2e8f0 100%);
-  margin: 0;
-  padding: 20px;
-}
-
-/* Maintenance Card */
-.maintenance-content {
-  text-align: center;
-  background: #ffffff;
-  padding: 48px 40px;
-  border-radius: 28px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  max-width: 520px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  animation: fadeInUp 0.5s ease-out;
-}
-
-/* Top accent bar */
-.maintenance-content::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
-}
-
-/* Animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  .profile-manager-container .profile-img {
+    width: 100px;
+    height: 100px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .profile-manager-container .preview-img {
+    width: 80px;
+    height: 80px;
   }
-}
 
-/* Icon Container */
-.maintenance-icon {
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, #fef3c7, #fed7aa);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  font-size: 48px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(233, 105, 30, 0.4);
+  .profile-manager-container .display-field {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
   }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 20px rgba(233, 105, 30, 0);
+
+  .profile-manager-container .display-field .btn-container {
+    display: flex;
+    justify-content: center;
   }
-}
 
-/* Title */
-.maintenance-content h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 12px 0;
-  letter-spacing: -0.5px;
-}
+  .profile-manager-container .field-buttons {
+    flex-direction: column;
+    gap: 6px;
+  }
 
-/* Description text */
-.maintenance-content p {
-  font-size: 15px;
-  color: #64748b;
-  margin: 0 0 8px 0;
-  line-height: 1.6;
-}
+  .profile-manager-container .field-buttons .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-/* Admin notice */
-.maintenance-content small {
-  display: block;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #e2e8f0;
-  color: #e9691e;
-  font-size: 13px;
-  font-weight: 500;
-}
+  .profile-manager-container .phone-display {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
 
-/* ============================================
-   LOADING STATE
-   ============================================ */
+  .profile-manager-container .phone-display .btn-container {
+    display: flex;
+    justify-content: center;
+  }
 
-.maintenance-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #f5f7fb;
-}
+  .profile-manager-container .phone-buttons {
+    flex-direction: column;
+    gap: 6px;
+  }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #e2e8f0;
-  border-top-color: #e9691e;
-  border-right-color: #f08b4a;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
+  .profile-manager-container .phone-buttons .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .profile-manager-container .file-input-container .btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profile-manager-container .update-section .btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profile-manager-container .update-section .btn-container .btn {
+    width: 100%;
+  }
+
+  .profile-manager-container .info-field .btn {
+    width: 100%;
+  }
+
+  .password-input-container input {
+    font-size: 16px !important;
   }
 }
 
-.maintenance-loading p {
-  margin-top: 16px;
-  font-size: 14px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
-@media (max-width: 640px) {
-  .maintenance-content {
-    padding: 32px 24px;
-  }
-  
-  .maintenance-icon {
-    width: 70px;
-    height: 70px;
-    font-size: 36px;
-    margin-bottom: 20px;
-  }
-  
-  .maintenance-content h1 {
-    font-size: 24px;
-  }
-  
-  .maintenance-content p {
-    font-size: 14px;
-  }
-  
-  .maintenance-content small {
-    font-size: 12px;
-  }
-}
-
+/* Small Mobile */
 @media (max-width: 480px) {
-  .maintenance-page {
+  .d-flex .modal-content {
+    width: 96%;
     padding: 16px;
+    margin: 10px;
   }
-  
-  .maintenance-content {
-    padding: 24px 20px;
+
+  .profile-manager-container {
+    padding: 8px;
   }
-  
-  .maintenance-icon {
+
+  .profile-manager-container .profile-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-manager-container .preview-img {
     width: 60px;
     height: 60px;
-    font-size: 30px;
-    margin-bottom: 16px;
   }
-  
-  .maintenance-content h1 {
-    font-size: 20px;
+
+  .profile-manager-container .info-input {
+    font-size: 14px;
+    padding: 8px 12px;
   }
-  
-  .maintenance-content p {
-    font-size: 13px;
+
+  .profile-manager-container .display-field span {
+    font-size: 0.9rem;
+  }
+
+  .profile-manager-container .phone-number {
+    font-size: 0.9rem;
+  }
+
+  .profile-manager-container .field-buttons .btn-container .btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .profile-manager-container .phone-buttons .btn-container .btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .profile-manager-container .file-name {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .profile-manager-container .preview h4 {
+    font-size: 1rem;
+  }
+
+  .d-flex .modal-close {
+    top: 8px;
+    right: 12px;
+    font-size: 18px;
   }
 }
 
-/* Loading Spinner */
-.loading-spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+/* Landscape Mobile */
+@media (max-height: 600px) and (orientation: landscape) and (max-width: 768px) {
+  .d-flex .modal-content {
+    max-height: 92vh;
+    padding: 16px;
+  }
+
+  .profile-manager-container {
+    padding: 8px;
+  }
+
+  .profile-manager-container .profile-section {
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .profile-manager-container .profile-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile-manager-container .preview-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .profile-manager-container .current-image h3,
+  .profile-manager-container .update-section h3 {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-manager-container .info-field {
+    margin-bottom: 0.8rem;
+  }
+
+  .profile-manager-container .info-field label {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .profile-manager-container .info-input {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .profile-manager-container .display-field {
+    padding: 6px 12px;
+  }
+
+  .profile-manager-container .display-field span {
+    font-size: 0.8rem;
+  }
+
+  .profile-manager-container .phone-display {
+    padding: 6px 12px;
+  }
+
+  .profile-manager-container .phone-number {
+    font-size: 0.8rem;
+  }
+
+  .profile-manager-container .field-buttons .btn-container .btn {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+
+  .profile-manager-container .phone-buttons .btn-container .btn {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+
+  .profile-manager-container .file-name {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+  }
+
+  .profile-manager-container .preview h4 {
+    font-size: 0.8rem;
+  }
+
+  .profile-manager-container .preview-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .d-flex .modal-close {
+    top: 6px;
+    right: 10px;
+    font-size: 16px;
+  }
+
+  .profile-manager-container .message {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #ffe0cf;
-  border-top-color: #e9691e;
-  border-right-color: #f08b4a;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .d-flex .modal-content {
+    animation: none;
+  }
+
+  .profile-manager-container .info-input {
+    transition: none;
+  }
+
+  .profile-manager-container .display-field .btn-container .btn {
+    transition: none;
+  }
+
+  .profile-manager-container .phone-display .btn-container .btn {
+    transition: none;
+  }
+
+  .profile-manager-container .field-buttons .btn-container .btn {
+    transition: none;
+  }
+
+  .profile-manager-container .phone-buttons .btn-container .btn {
+    transition: none;
+  }
+
+  .profile-manager-container .file-input-container .btn-container .btn {
+    transition: none;
+  }
+
+  .profile-manager-container .update-section .btn-container .btn {
+    transition: none;
+  }
+
+  .password-toggle {
+    transition: none;
+  }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .d-flex .modal-overlay {
+    position: static;
+    background: none;
+  }
+
+  .d-flex .modal-content {
+    width: 100%;
+    padding: 20px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .d-flex .modal-close {
+    display: none;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .d-flex .modal-content {
+    border: 2px solid CanvasText;
+  }
+
+  .profile-manager-container .display-field {
+    border: 2px solid CanvasText;
+  }
+
+  .profile-manager-container .phone-display {
+    border: 2px solid CanvasText;
+  }
+
+  .profile-manager-container .profile-img {
+    border: 3px solid CanvasText;
+  }
+
+  .profile-manager-container .preview-img {
+    border: 3px solid CanvasText;
+  }
+
+  .profile-manager-container .info-input {
+    border: 2px solid CanvasText;
+  }
+
+  .profile-manager-container .info-input:focus {
+    border-color: Highlight;
+  }
+
+  .d-flex .modal-close {
+    border: 1px solid transparent;
+  }
+
+  .d-flex .modal-close:hover {
+    border-color: CanvasText;
+  }
+
+  .password-toggle {
+    border: 1px solid transparent;
+  }
+
+  .password-toggle:focus {
+    border-color: CanvasText;
+  }
+}
+
+/* ============================================
+   FIX: Hide/Show Hamburger Based on Sidebar State
+   ============================================ */
+
+/* ============================================
+   FIX: Hide/Show Hamburger Based on Sidebar State
+   ============================================ */
+
+/* ONLY ON MOBILE/TABLET - Hide hamburger when sidebar is open */
+@media (max-width: 991px) {
+  .d-flex:has(.sidebar.open) .sidebar-hamburger {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Show hamburger when sidebar is NOT open (only on mobile/tablet) */
+  .d-flex:has(.sidebar:not(.open)) .sidebar-hamburger {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Also handle when sidebar has 'closed' class without 'open' */
+  .d-flex:has(.sidebar.closed:not(.open)) .sidebar-hamburger {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* ============================================
+   DESKTOP - HIDE HAMBURGER COMPLETELY
+   ============================================ */
+@media (min-width: 992px) {
+  .d-flex .sidebar-hamburger {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
   }
 }

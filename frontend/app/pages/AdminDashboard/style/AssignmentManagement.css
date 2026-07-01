@@ -1,4 +1,20 @@
-/* Modern & Innovative Assignment Management Styles */
+/* ============================================
+   ASSIGNMENT MANAGEMENT STYLES
+   Full Responsive - All Breakpoints
+   ============================================ */
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 
 .assignment-management {
   min-height: 100vh;
@@ -6,6 +22,7 @@
   padding: 28px;
   position: relative;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Animated Background Pattern */
@@ -23,7 +40,9 @@
   z-index: 0;
 }
 
-/* Loading State - Neon Pulse */
+/* ============================================
+   LOADING STATE
+   ============================================ */
 .assignment-management .loading-container {
   display: flex;
   flex-direction: column;
@@ -46,21 +65,33 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* Toast - Glassmorphism + Slide */
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
 .assignment-management .toast {
   position: fixed;
   top: 24px;
   right: 24px;
   z-index: 2000;
   animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  max-width: 400px;
+  width: 90%;
 }
 
 @keyframes slideInRight {
-  from { transform: translateX(120%) rotateY(90deg); opacity: 0; }
-  to { transform: translateX(0) rotateY(0); opacity: 1; }
+  from {
+    transform: translateX(120%) rotateY(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotateY(0);
+    opacity: 1;
+  }
 }
 
 .assignment-management .toast-content {
@@ -75,14 +106,30 @@
   border-left: 4px solid;
 }
 
-.assignment-management .toast.success .toast-content { border-left-color: #10b981; }
-.assignment-management .toast.error .toast-content { border-left-color: #ef4444; }
-.assignment-management .toast-content i { font-size: 22px; }
-.assignment-management .toast.success .toast-content i { color: #10b981; }
-.assignment-management .toast.error .toast-content i { color: #ef4444; }
-.assignment-management .toast-text { color: #1e293b; font-size: 14px; font-weight: 500; }
+.assignment-management .toast.success .toast-content {
+  border-left-color: #10b981;
+}
+.assignment-management .toast.error .toast-content {
+  border-left-color: #ef4444;
+}
+.assignment-management .toast-content i {
+  font-size: 22px;
+}
+.assignment-management .toast.success .toast-content i {
+  color: #10b981;
+}
+.assignment-management .toast.error .toast-content i {
+  color: #ef4444;
+}
+.assignment-management .toast-text {
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+}
 
-/* Header - Hero Style */
+/* ============================================
+   HEADER - HERO STYLE
+   ============================================ */
 .assignment-management .management-header {
   background: linear-gradient(135deg, #e9691e 0%, #0f172a 100%);
   border-radius: 32px;
@@ -137,14 +184,19 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .assignment-management .header-icon-wrapper i {
   font-size: 40px;
   color: #e9691e;
-  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
 }
 
 .assignment-management .header-title {
@@ -158,13 +210,15 @@
   letter-spacing: -0.02em;
 }
 
-.assignment-management .header-subtitle { 
-  color: #e5eefa; 
-  font-size: 18px; 
+.assignment-management .header-subtitle {
+  color: #e5eefa;
+  font-size: 18px;
   font-weight: 500;
 }
 
-/* Stats Cards - Neomorphic + Hover 3D */
+/* ============================================
+   STATS CARDS
+   ============================================ */
 .assignment-management .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -174,10 +228,39 @@
   z-index: 1;
 }
 
+/* Stats Cards - Responsive Grid */
+@media (max-width: 1200px) {
+  .assignment-management .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .assignment-management .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .assignment-management .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .assignment-management .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
 .assignment-management .stat-card {
   background: white;
   border-radius: 24px;
-  padding: 14px;
+  padding: 20px 16px;
   display: flex;
   align-items: center;
   gap: 18px;
@@ -188,6 +271,13 @@
   overflow: hidden;
 }
 
+@media (max-width: 480px) {
+  .assignment-management .stat-card {
+    padding: 16px;
+    gap: 14px;
+  }
+}
+
 .assignment-management .stat-card::before {
   content: '';
   position: absolute;
@@ -195,7 +285,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.5s;
 }
 
@@ -218,6 +308,19 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .stat-icon {
+    width: 48px;
+    height: 48px;
+    padding: 16px;
+  }
+  
+  .assignment-management .stat-icon i {
+    font-size: 20px !important;
+  }
 }
 
 .assignment-management .stat-card:hover .stat-icon {
@@ -231,26 +334,52 @@
   -webkit-text-fill-color: transparent;
 }
 
-.assignment-management .stat-info h3 { 
+.assignment-management .stat-info h3 {
   font-size: 22px;
   font-weight: 800;
-  margin: 0; 
-  color: #e9691e; 
+  margin: 0;
+  color: #e9691e;
 }
 
-.assignment-management .stat-info p { 
-  margin: 6px 0 0; 
-  color: #64748b; 
-  font-size: 14px; 
+@media (max-width: 480px) {
+  .assignment-management .stat-info h3 {
+    font-size: 18px;
+  }
+}
+
+.assignment-management .stat-info p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.assignment-management .stat-card.submitted .stat-icon i { background: linear-gradient(135deg, #f59e0b, #f97316); -webkit-background-clip: text; }
-.assignment-management .stat-card.graded .stat-icon i { background: linear-gradient(135deg, #10b981, #34d399); -webkit-background-clip: text; }
-.assignment-management .stat-card.late .stat-icon i { background: linear-gradient(135deg, #ef4444, #f87171); -webkit-background-clip: text; }
-.assignment-management .stat-card.average .stat-icon i { background: linear-gradient(135deg, #8b5cf6, #a78bfa); -webkit-background-clip: text; }
+@media (max-width: 480px) {
+  .assignment-management .stat-info p {
+    font-size: 12px;
+  }
+}
 
-/* Filters - Modern Chip Style */
+.assignment-management .stat-card.submitted .stat-icon i {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  -webkit-background-clip: text;
+}
+.assignment-management .stat-card.graded .stat-icon i {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+}
+.assignment-management .stat-card.late .stat-icon i {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  -webkit-background-clip: text;
+}
+.assignment-management .stat-card.average .stat-icon i {
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  -webkit-background-clip: text;
+}
+
+/* ============================================
+   FILTERS SECTION - RESPONSIVE
+   ============================================ */
 .assignment-management .filters-section {
   background: white;
   border-radius: 28px;
@@ -260,15 +389,42 @@
   border: 1px solid rgba(203, 213, 225, 0.3);
 }
 
+@media (max-width: 768px) {
+  .assignment-management .filters-section {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .assignment-management .filters-section {
+    padding: 16px;
+    border-radius: 20px;
+  }
+}
+
 .assignment-management .filters-container {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.assignment-management .filter-group { 
-  flex: 1; 
-  min-width: 200px; 
+@media (max-width: 768px) {
+  .assignment-management .filters-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.assignment-management .filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .assignment-management .filter-group {
+    min-width: 100%;
+    width: 100%;
+  }
 }
 
 .assignment-management .filter-group label {
@@ -283,11 +439,11 @@
   letter-spacing: 0.5px;
 }
 
-.assignment-management .filter-group label i { 
+.assignment-management .filter-group label i {
   background: #e9691e;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 14px; 
+  font-size: 14px;
 }
 
 .assignment-management .filter-group select,
@@ -301,6 +457,15 @@
   background: #f8fafc;
   font-weight: 500;
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .filter-group select,
+  .assignment-management .filter-group input {
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
 }
 
 .assignment-management .filter-group select:hover,
@@ -318,15 +483,20 @@
   transform: translateY(-1px);
 }
 
-/* Container */
+/* ============================================
+   SUBMISSIONS TABLE - RESPONSIVE
+   ============================================ */
 .assignment-management .submissions-table-container {
   width: 100%;
-  height: 450px;
+  min-height: 400px;
+  max-height: 600px;
   overflow: auto;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   background: #fff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
 }
 
 /* Scrollbar */
@@ -349,7 +519,7 @@
   background: #f97316;
 }
 
-/* Grid Layout */
+/* Grid Layout - Responsive */
 .assignment-management .submissions-grid-header,
 .assignment-management .submissions-grid-row {
   display: grid;
@@ -357,11 +527,26 @@
   min-width: 1560px;
 }
 
+/* Responsive: Make table scrollable on smaller screens */
+@media (max-width: 1600px) {
+  .assignment-management .submissions-grid-header,
+  .assignment-management .submissions-grid-row {
+    min-width: 1400px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .assignment-management .submissions-grid-header,
+  .assignment-management .submissions-grid-row {
+    min-width: 1200px;
+  }
+}
+
 /* Header */
 .assignment-management .submissions-grid-header {
   background: #e9691e;
   color: white;
-  position: sticky; 
+  position: sticky;
   top: 0;
   z-index: 10;
   font-weight: 600;
@@ -387,6 +572,7 @@
 
 .assignment-management .submissions-grid-row:hover {
   transform: translateX(2px);
+  background: #fafbfc;
 }
 
 /* Cells */
@@ -396,12 +582,9 @@
   align-items: center;
 }
 
-.assignment-management .actions-cell {
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-/* Student Info */
+/* ============================================
+   STUDENT INFO
+   ============================================ */
 .assignment-management .student-info {
   display: flex;
   align-items: center;
@@ -409,7 +592,6 @@
   width: 100%;
 }
 
-/* Student Avatar Styles */
 .assignment-management .student-avatar {
   width: 44px;
   height: 44px;
@@ -420,6 +602,13 @@
   overflow: hidden;
   flex-shrink: 0;
   background: linear-gradient(135deg, #fef3c7, #fde68a);
+}
+
+@media (max-width: 480px) {
+  .assignment-management .student-avatar {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .assignment-management .student-avatar .avatar-image {
@@ -466,7 +655,9 @@
   text-overflow: ellipsis;
 }
 
-/* Assignment */
+/* ============================================
+   ASSIGNMENT INFO
+   ============================================ */
 .assignment-management .assignment-info strong {
   display: block;
   font-size: 14px;
@@ -484,7 +675,9 @@
   margin-right: 4px;
 }
 
-/* Program Badge */
+/* ============================================
+   BADGES
+   ============================================ */
 .assignment-management .program-badge {
   background: linear-gradient(135deg, #e9691e, rgb(146, 101, 59));
   color: white;
@@ -495,7 +688,13 @@
   display: inline-block;
 }
 
-/* Attempt Badge */
+@media (max-width: 480px) {
+  .assignment-management .program-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+}
+
 .assignment-management .attempt-badge {
   background: #f1f5f9;
   color: #475569;
@@ -513,7 +712,9 @@
   font-size: 10px;
 }
 
-/* Grade */
+/* ============================================
+   GRADE
+   ============================================ */
 .assignment-management .grade-value {
   background: #e9691e;
   -webkit-background-clip: text;
@@ -528,7 +729,9 @@
   font-weight: 600;
 }
 
-/* Status Badges */
+/* ============================================
+   STATUS BADGES
+   ============================================ */
 .assignment-management .status-badge {
   display: inline-flex;
   align-items: center;
@@ -537,6 +740,13 @@
   border-radius: 20px;
   font-size: 11px;
   font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .status-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
 }
 
 .assignment-management .status-badge i {
@@ -563,7 +773,9 @@
   color: #2563eb;
 }
 
-/* Icon Buttons */
+/* ============================================
+   ICON BUTTONS
+   ============================================ */
 .assignment-management .icon-btn {
   background: none;
   border: none;
@@ -579,6 +791,13 @@
 .assignment-management .icon-btn .bi-eye,
 .assignment-management .icon-btn .bi-pencil-square {
   font-size: 18px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .icon-btn .bi-eye,
+  .assignment-management .icon-btn .bi-pencil-square {
+    font-size: 16px;
+  }
 }
 
 .assignment-management .icon-btn.edit {
@@ -599,7 +818,17 @@
   transform: scale(1.05);
 }
 
-/* Pagination */
+/* ============================================
+   ACTIONS CELL
+   ============================================ */
+.assignment-management .actions-cell {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
 .assignment-management .pagination {
   display: flex;
   justify-content: center;
@@ -608,6 +837,15 @@
   padding: 20px;
   background: #f8fafc;
   border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .pagination {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
 }
 
 .assignment-management .pagination-btn {
@@ -622,6 +860,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .pagination-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
 }
 
 .assignment-management .pagination-btn:hover:not(:disabled) {
@@ -646,7 +891,16 @@
   border: 1px solid #e2e8f0;
 }
 
-/* Empty State */
+@media (max-width: 480px) {
+  .assignment-management .pagination-info {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
 .assignment-management .empty-state {
   grid-column: 1 / -1;
   text-align: center;
@@ -666,7 +920,9 @@
   margin: 0;
 }
 
-/* Modal - Glassmorphism + Animation */
+/* ============================================
+   MODAL - RESPONSIVE
+   ============================================ */
 .assignment-management .modal-overlay {
   position: fixed;
   top: 0;
@@ -680,11 +936,18 @@
   justify-content: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease;
+  padding: 20px;
 }
 
-@keyframes fadeIn { 
-  from { opacity: 0; backdrop-filter: blur(0px); } 
-  to { opacity: 1; backdrop-filter: blur(8px); } 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
 }
 
 .assignment-management .modal-content {
@@ -698,12 +961,26 @@
   box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes slideUp { 
-  from { transform: translateY(60px) scale(0.95); opacity: 0; } 
-  to { transform: translateY(0) scale(1); opacity: 1; } 
+@media (max-width: 480px) {
+  .assignment-management .modal-content {
+    width: 95%;
+    border-radius: 24px;
+    max-height: 90vh;
+  }
 }
 
-/* Modal Header - Gradient */
+@keyframes slideUp {
+  from {
+    transform: translateY(60px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Modal Header */
 .assignment-management .modal-header {
   display: flex;
   align-items: center;
@@ -714,6 +991,13 @@
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .modal-header {
+    padding: 18px 20px;
+    gap: 12px;
+  }
 }
 
 .assignment-management .modal-header-icon {
@@ -727,27 +1011,50 @@
   animation: rotateIn 0.5s;
 }
 
-@keyframes rotateIn {
-  from { transform: rotate(-180deg); opacity: 0; }
-  to { transform: rotate(0); opacity: 1; }
+@media (max-width: 480px) {
+  .assignment-management .modal-header-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .assignment-management .modal-header-icon i {
+    font-size: 20px !important;
+  }
 }
 
-.assignment-management .modal-header-icon i { 
-  font-size: 24px; 
+@keyframes rotateIn {
+  from {
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+.assignment-management .modal-header-icon i {
+  font-size: 24px;
   background: #e9691e;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.assignment-management .modal-header h2 { 
-  margin: 0; 
-  color: white; 
-  font-size: 22px; 
+.assignment-management .modal-header h2 {
+  margin: 0;
+  color: white;
+  font-size: 22px;
   font-weight: 700;
-  flex: 1; 
+  flex: 1;
 }
 
-.assignment-management .modal-close { 
+@media (max-width: 480px) {
+  .assignment-management .modal-header h2 {
+    font-size: 18px;
+  }
+}
+
+.assignment-management .modal-close {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   width: 36px;
@@ -760,21 +1067,39 @@
   justify-content: center;
 }
 
-.assignment-management .modal-close i { 
-  color: white; 
-  font-size: 18px; 
+@media (max-width: 480px) {
+  .assignment-management .modal-close {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .assignment-management .modal-close i {
+    font-size: 16px !important;
+  }
 }
 
-.assignment-management .modal-close:hover { 
-  background: #ef4444; 
-  transform: rotate(90deg); 
+.assignment-management .modal-close i {
+  color: white;
+  font-size: 18px;
 }
 
-/* Submission Details - Card Style */
-.assignment-management .modal-body { 
-  padding: 28px; 
+.assignment-management .modal-close:hover {
+  background: #ef4444;
+  transform: rotate(90deg);
 }
 
+/* Modal Body */
+.assignment-management .modal-body {
+  padding: 28px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .modal-body {
+    padding: 20px;
+  }
+}
+
+/* Submission Details */
 .assignment-management .submission-details {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   border-radius: 20px;
@@ -782,14 +1107,22 @@
   margin-bottom: 28px;
 }
 
-.assignment-management .detail-row { 
-  margin-bottom: 18px; 
+@media (max-width: 480px) {
+  .assignment-management .submission-details {
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+}
+
+.assignment-management .detail-row {
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 }
 
-.assignment-management .detail-row:last-child { 
-  margin-bottom: 0; 
+.assignment-management .detail-row:last-child {
+  margin-bottom: 0;
 }
 
 .assignment-management .detail-label {
@@ -804,17 +1137,17 @@
   margin-bottom: 6px;
 }
 
-.assignment-management .detail-label i { 
+.assignment-management .detail-label i {
   background: #e9691e;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 15px; 
+  font-size: 15px;
 }
 
-.assignment-management .detail-value { 
-  color: #0f172a; 
-  font-size: 15px; 
-  font-weight: 600; 
+.assignment-management .detail-value {
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .assignment-management .text-content {
@@ -845,15 +1178,23 @@
   width: fit-content;
 }
 
-.assignment-management .file-link:hover { 
+.assignment-management .file-link:hover {
   background: #e9691e;
   color: white;
   transform: translateX(5px);
 }
 
-/* Grading Form - Modern Inputs */
-.assignment-management .grading-form .form-group { 
-  margin-bottom: 24px; 
+/* ============================================
+   GRADING FORM - RESPONSIVE
+   ============================================ */
+.assignment-management .grading-form .form-group {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .grading-form .form-group {
+    margin-bottom: 18px;
+  }
 }
 
 .assignment-management .grading-form label {
@@ -868,7 +1209,14 @@
   letter-spacing: 0.5px;
 }
 
-.assignment-management .grading-form label i { 
+@media (max-width: 480px) {
+  .assignment-management .grading-form label {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+}
+
+.assignment-management .grading-form label i {
   background: #e9691e;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -886,6 +1234,15 @@
   font-weight: 500;
 }
 
+@media (max-width: 480px) {
+  .assignment-management .grading-form input,
+  .assignment-management .grading-form textarea {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+}
+
 .assignment-management .grading-form input:focus,
 .assignment-management .grading-form textarea:focus {
   outline: none;
@@ -895,151 +1252,18 @@
   transform: translateY(-2px);
 }
 
-/* Modal Actions */
-.assignment-management .modal-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  margin-top: 28px;
-}
-
-.assignment-management .cancel-btn, 
-.assignment-management .submit-grade-btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 40px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.assignment-management .cancel-btn { 
-  background: #f1f5f9; 
-  color: #475569; 
-}
-
-.assignment-management .cancel-btn:hover { 
-  background: #e2e8f0; 
-  transform: translateY(-2px);
-}
-
-.assignment-management .submit-grade-btn { 
-  background: #e9691e;
-  color: white; 
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-}
-
-.assignment-management .submit-grade-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
-}
-
-.assignment-management .submit-grade-btn:disabled { 
-  opacity: 0.6; 
-  cursor: not-allowed; 
-}
-
-/* Scrollbar Styling for Modal */
-.assignment-management .modal-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.assignment-management .modal-content::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 10px;
-}
-
-.assignment-management .modal-content::-webkit-scrollbar-thumb {
-  background: #e9691e;
-  border-radius: 10px;
-}
-
-.assignment-management .modal-content::-webkit-scrollbar-thumb:hover {
-  background: #e9691e;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .assignment-management { 
-    padding: 16px; 
-  }
-  
-  .assignment-management .management-header {
-    padding: 24px;
-  }
-  
-  .assignment-management .header-title {
-    font-size: 28px;
-  }
-  
-  .assignment-management .stats-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 16px; 
-  }
-  
-  .assignment-management .stat-card { 
-    padding: 16px; 
-  }
-  
-  .assignment-management .stat-icon { 
-    width: 50px; 
-    height: 50px; 
-  }
-  
-  .assignment-management .stat-icon i { 
-    font-size: 24px; 
-  }
-  
-  .assignment-management .stat-info h3 { 
-    font-size: 24px; 
-  }
-  
-  .assignment-management .filters-container { 
-    flex-direction: column; 
-  }
-  
-  .assignment-management .filter-group { 
-    width: 100%; 
-  }
-  
-  .assignment-management .submissions-table-container {
-    overflow-x: auto;
-  }
-  
-  .assignment-management .modal-content { 
-    width: 95%; 
-    margin: 16px; 
-  }
-  
-  .assignment-management .pagination { 
-    flex-direction: column; 
-    gap: 12px; 
-  }
-  
-  .assignment-management .program-badge { 
-    font-size: 10px; 
-    padding: 4px 10px; 
-  }
-  
-  .assignment-management .student-avatar { 
-    width: 36px; 
-    height: 36px; 
-  }
-  
-  .assignment-management .student-avatar .default-avatar {
-    font-size: 14px;
-  }
-}
-
-/* Grade Type Selector Styles */
+/* Grade Type Tabs */
 .grade-type-tabs {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .grade-type-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 .grade-tab {
@@ -1051,6 +1275,13 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease;
+}
+
+@media (max-width: 480px) {
+  .grade-tab {
+    padding: 8px;
+    font-size: 13px;
+  }
 }
 
 .grade-tab.active {
@@ -1067,6 +1298,13 @@
   margin-top: 10px;
 }
 
+@media (max-width: 480px) {
+  .grade-options-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+}
+
 .grade-option-btn {
   padding: 12px;
   border: 1px solid #e2e8f0;
@@ -1075,6 +1313,28 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+}
+
+@media (max-width: 480px) {
+  .grade-option-btn {
+    padding: 8px 10px;
+  }
+  
+  .grade-option-btn .grade-letter {
+    font-size: 1rem;
+  }
+  
+  .grade-option-btn .grade-percent {
+    font-size: 0.7rem;
+  }
+  
+  .grade-option-btn .grade-desc {
+    font-size: 0.6rem;
+  }
+  
+  .grade-option-btn .grade-points {
+    font-size: 0.6rem;
+  }
 }
 
 .grade-option-btn:hover {
@@ -1126,6 +1386,13 @@
   transition: all 0.2s ease;
 }
 
+@media (max-width: 480px) {
+  .custom-grade-input {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
 .custom-grade-input:focus {
   border-color: #e9691e;
   outline: none;
@@ -1141,11 +1408,25 @@
   padding: 12px;
   background: #f8fafc;
   border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .grade-preview {
+    padding: 10px;
+    gap: 8px;
+  }
 }
 
 .preview-label {
   font-size: 0.85rem;
   color: #64748b;
+}
+
+@media (max-width: 480px) {
+  .preview-label {
+    font-size: 0.75rem;
+  }
 }
 
 .preview-grade {
@@ -1154,6 +1435,13 @@
   font-weight: 700;
   color: white;
   font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .preview-grade {
+    font-size: 0.85rem;
+    padding: 3px 10px;
+  }
 }
 
 .preview-percent {
@@ -1170,16 +1458,37 @@
   border-left: 4px solid #e9691e;
 }
 
+@media (max-width: 480px) {
+  .grade-summary {
+    padding: 12px;
+    margin-top: 16px;
+  }
+}
+
 .grade-summary h4 {
   margin: 0 0 12px 0;
   font-size: 0.9rem;
   color: #1e293b;
 }
 
+@media (max-width: 480px) {
+  .grade-summary h4 {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+}
+
 .summary-details {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .summary-details {
+    gap: 12px;
+    flex-direction: column;
+  }
 }
 
 .summary-item {
@@ -1190,10 +1499,703 @@
   color: #475569;
 }
 
+@media (max-width: 480px) {
+  .summary-item {
+    font-size: 0.8rem;
+  }
+}
+
 .summary-grade {
   padding: 2px 10px;
   background: #e9691e;
   color: white;
   border-radius: 20px;
   font-size: 0.85rem;
+}
+
+/* ============================================
+   MODAL ACTIONS - RESPONSIVE
+   ============================================ */
+.assignment-management .modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+}
+
+.assignment-management .cancel-btn,
+.assignment-management .submit-grade-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .assignment-management .cancel-btn,
+  .assignment-management .submit-grade-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.assignment-management .cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.assignment-management .cancel-btn:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.assignment-management .submit-grade-btn {
+  background: #e9691e;
+  color: white;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.assignment-management .submit-grade-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+}
+
+.assignment-management .submit-grade-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS SUMMARY
+   ============================================ */
+
+/* Extra Large Screens: 1400px+ */
+@media (min-width: 1400px) {
+  .assignment-management .submissions-grid-header,
+  .assignment-management .submissions-grid-row {
+    min-width: 1560px;
+  }
+}
+
+/* Large Screens: 1200px - 1399px */
+@media (max-width: 1399px) and (min-width: 1200px) {
+  .assignment-management .submissions-grid-header,
+  .assignment-management .submissions-grid-row {
+    min-width: 1400px;
+  }
+}
+
+/* Medium Screens: 992px - 1199px */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .assignment-management {
+    padding: 24px;
+  }
+  
+  .assignment-management .header-title {
+    font-size: 36px;
+  }
+  
+  .assignment-management .submissions-grid-header,
+  .assignment-management .submissions-grid-row {
+    min-width: 1200px;
+  }
+}
+
+/* Small Screens: 768px - 991px */
+@media (max-width: 991px) and (min-width: 768px) {
+  .assignment-management {
+    padding: 20px;
+  }
+  
+  .assignment-management .management-header {
+    padding: 32px;
+    border-radius: 28px;
+  }
+  
+  .assignment-management .header-title {
+    font-size: 32px;
+  }
+  
+  .assignment-management .header-subtitle {
+    font-size: 16px;
+  }
+  
+  .assignment-management .header-icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .assignment-management .header-icon-wrapper i {
+    font-size: 32px;
+  }
+  
+  .assignment-management .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .assignment-management .filters-section {
+    padding: 24px;
+    border-radius: 24px;
+  }
+  
+  .assignment-management .submissions-table-container {
+    min-height: 350px;
+  }
+}
+
+/* Tablets: 481px - 767px */
+@media (max-width: 767px) and (min-width: 481px) {
+  .assignment-management {
+    padding: 16px;
+  }
+  
+  .assignment-management .management-header {
+    padding: 28px;
+    border-radius: 24px;
+  }
+  
+  .assignment-management .header-title {
+    font-size: 28px;
+  }
+  
+  .assignment-management .header-subtitle {
+    font-size: 14px;
+  }
+  
+  .assignment-management .header-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+  }
+  
+  .assignment-management .header-icon-wrapper i {
+    font-size: 28px;
+  }
+  
+  .assignment-management .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  
+  .assignment-management .stat-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  
+  .assignment-management .stat-icon {
+    width: 48px;
+    height: 48px;
+    padding: 16px;
+  }
+  
+  .assignment-management .stat-icon i {
+    font-size: 20px;
+  }
+  
+  .assignment-management .stat-info h3 {
+    font-size: 20px;
+  }
+  
+  .assignment-management .stat-info p {
+    font-size: 12px;
+  }
+  
+  .assignment-management .filters-section {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .assignment-management .filters-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .assignment-management .filter-group {
+    min-width: 100%;
+  }
+  
+  .assignment-management .submissions-table-container {
+    min-height: 300px;
+  }
+  
+  .assignment-management .modal-content {
+    width: 95%;
+  }
+}
+
+/* Mobile: 320px - 480px */
+@media (max-width: 480px) {
+  .assignment-management {
+    padding: 12px;
+  }
+  
+  .assignment-management .management-header {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .assignment-management .header-title {
+    font-size: 22px;
+  }
+  
+  .assignment-management .header-subtitle {
+    font-size: 13px;
+  }
+  
+  .assignment-management .header-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+  }
+  
+  .assignment-management .header-icon-wrapper i {
+    font-size: 24px;
+  }
+  
+  .assignment-management .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .assignment-management .stat-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+  
+  .assignment-management .stat-icon {
+    width: 40px;
+    height: 40px;
+    padding: 12px;
+  }
+  
+  .assignment-management .stat-icon i {
+    font-size: 18px;
+  }
+  
+  .assignment-management .stat-info h3 {
+    font-size: 18px;
+  }
+  
+  .assignment-management .stat-info p {
+    font-size: 11px;
+  }
+  
+  .assignment-management .filters-section {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .assignment-management .filters-container {
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .assignment-management .filter-group {
+    min-width: 100%;
+  }
+  
+  .assignment-management .filter-group label {
+    font-size: 11px;
+  }
+  
+  .assignment-management .filter-group select,
+  .assignment-management .filter-group input {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+  
+  .assignment-management .submissions-table-container {
+    min-height: 250px;
+    border-radius: 12px;
+  }
+  
+  .assignment-management .grid-cell {
+    padding: 12px;
+  }
+  
+  .assignment-management .student-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .assignment-management .student-avatar .default-avatar {
+    font-size: 12px;
+  }
+  
+  .assignment-management .student-details strong {
+    font-size: 12px;
+  }
+  
+  .assignment-management .student-details small {
+    font-size: 10px;
+  }
+  
+  .assignment-management .modal-content {
+    width: 100%;
+    border-radius: 20px;
+    margin: 10px;
+  }
+  
+  .assignment-management .modal-header {
+    padding: 16px 18px;
+  }
+  
+  .assignment-management .modal-header h2 {
+    font-size: 18px;
+  }
+  
+  .assignment-management .modal-body {
+    padding: 16px;
+  }
+  
+  .assignment-management .submission-details {
+    padding: 14px;
+  }
+  
+  .assignment-management .detail-label {
+    font-size: 10px;
+  }
+  
+  .assignment-management .detail-value {
+    font-size: 13px;
+  }
+  
+  .assignment-management .text-content {
+    font-size: 13px;
+    padding: 12px;
+  }
+  
+  .assignment-management .modal-actions {
+    flex-direction: column;
+  }
+  
+  .assignment-management .cancel-btn,
+  .assignment-management .submit-grade-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .assignment-management .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .assignment-management .pagination-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .assignment-management .pagination-info {
+    font-size: 12px;
+  }
+  
+  .assignment-management .grade-options-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+  
+  .assignment-management .grade-option-btn {
+    padding: 8px;
+  }
+  
+  .assignment-management .grade-option-btn .grade-letter {
+    font-size: 0.9rem;
+  }
+  
+  .assignment-management .grade-option-btn .grade-percent {
+    font-size: 0.65rem;
+  }
+  
+  .assignment-management .grade-option-btn .grade-desc {
+    font-size: 0.55rem;
+  }
+  
+  .assignment-management .grade-option-btn .grade-points {
+    font-size: 0.55rem;
+  }
+  
+  .assignment-management .grade-type-tabs {
+    flex-direction: column;
+  }
+  
+  .assignment-management .grade-preview {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .assignment-management .summary-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .assignment-management .loading-spinner {
+    animation: none;
+  }
+  
+  .assignment-management .toast {
+    animation: none;
+  }
+  
+  .assignment-management .header-icon-wrapper {
+    animation: none;
+  }
+  
+  .assignment-management .modal-content {
+    animation: none;
+  }
+  
+  .assignment-management .modal-overlay {
+    animation: none;
+  }
+  
+  .assignment-management .modal-header-icon {
+    animation: none;
+  }
+  
+  .assignment-management .stat-card {
+    transition: none;
+  }
+  
+  .assignment-management .stat-card:hover {
+    transform: none;
+  }
+  
+  .assignment-management .stat-card::before {
+    display: none;
+  }
+  
+  .assignment-management .submissions-grid-row {
+    transition: none;
+  }
+  
+  .assignment-management .submissions-grid-row:hover {
+    transform: none;
+  }
+  
+  .assignment-management .icon-btn {
+    transition: none;
+  }
+  
+  .assignment-management .icon-btn:hover {
+    transform: none;
+  }
+  
+  .assignment-management .pagination-btn {
+    transition: none;
+  }
+  
+  .assignment-management .file-link {
+    transition: none;
+  }
+  
+  .assignment-management .grade-option-btn {
+    transition: none;
+  }
+  
+  .assignment-management .grade-option-btn:hover {
+    transform: none;
+  }
+  
+  .assignment-management .cancel-btn,
+  .assignment-management .submit-grade-btn {
+    transition: none;
+  }
+  
+  .assignment-management .cancel-btn:hover,
+  .assignment-management .submit-grade-btn:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .assignment-management {
+    padding: 20px;
+    background: white;
+  }
+  
+  .assignment-management::before {
+    display: none;
+  }
+  
+  .assignment-management .management-header {
+    background: #e9691e;
+    padding: 20px;
+  }
+  
+  .assignment-management .header-title {
+    -webkit-text-fill-color: white;
+    background: none;
+    color: white;
+  }
+  
+  .assignment-management .header-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .assignment-management .stat-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  .assignment-management .stat-card:hover {
+    transform: none;
+  }
+  
+  .assignment-management .submissions-table-container {
+    border: 1px solid #ddd;
+    max-height: none;
+    overflow: visible;
+  }
+  
+  .assignment-management .submissions-grid-header {
+    background: #e9691e;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .assignment-management .submissions-grid-row {
+    border-bottom: 1px solid #eee;
+  }
+  
+  .assignment-management .modal-overlay {
+    display: none;
+  }
+  
+  .assignment-management .toast {
+    display: none;
+  }
+  
+  .assignment-management .filters-section {
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+  
+  .assignment-management .pagination {
+    display: none;
+  }
+  
+  .assignment-management .icon-btn {
+    display: none;
+  }
+  
+  .assignment-management .actions-cell {
+    display: none;
+  }
+  
+  .assignment-management .submissions-grid-header .grid-header-cell:last-child {
+    display: none;
+  }
+  
+  .assignment-management .submissions-grid-row .grid-cell:last-child {
+    display: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.assignment-management .filter-group select:focus-visible,
+.assignment-management .filter-group input:focus-visible,
+.assignment-management .grading-form input:focus-visible,
+.assignment-management .grading-form textarea:focus-visible,
+.assignment-management .custom-grade-input:focus-visible,
+.assignment-management .icon-btn:focus-visible,
+.assignment-management .pagination-btn:focus-visible,
+.assignment-management .modal-close:focus-visible,
+.assignment-management .grade-tab:focus-visible,
+.assignment-management .grade-option-btn:focus-visible,
+.assignment-management .cancel-btn:focus-visible,
+.assignment-management .submit-grade-btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .assignment-management .management-header {
+    border-bottom: 4px solid CanvasText;
+  }
+  
+  .assignment-management .stat-card {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .submissions-grid-header {
+    background: CanvasText;
+    color: Canvas;
+  }
+  
+  .assignment-management .submissions-grid-row {
+    border-bottom: 2px solid CanvasText;
+  }
+  
+  .assignment-management .status-badge {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .program-badge {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .attempt-badge {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .modal-content {
+    border: 3px solid CanvasText;
+  }
+  
+  .assignment-management .modal-header {
+    background: CanvasText;
+  }
+  
+  .assignment-management .modal-header h2 {
+    color: Canvas;
+  }
+  
+  .assignment-management .cancel-btn,
+  .assignment-management .submit-grade-btn {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .file-link {
+    border: 2px solid CanvasText;
+  }
+  
+  .assignment-management .grade-option-btn.active {
+    border: 4px solid CanvasText;
+  }
+  
+  .assignment-management .grade-tab.active {
+    border: 4px solid CanvasText;
+  }
 }

@@ -28,7 +28,7 @@ const NotificationBell = () => {
   const [showAssignmentModal, setShowAssignmentModal] = useState(false);
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<number | null>(null);
   
-  // New state for history modal
+  // History modal states
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [allNotifications, setAllNotifications] = useState<Notification[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +36,7 @@ const NotificationBell = () => {
   const [historyCurrentPage, setHistoryCurrentPage] = useState(1);
   const [historyItemsPerPage] = useState(15);
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
   
   // State for profile images
   const [profileImages, setProfileImages] = useState<Record<number, string>>({});
@@ -66,7 +67,6 @@ const NotificationBell = () => {
   useEffect(() => {
     if (adminId) {
       fetchNotifications();
-      fetchAllHistoryNotifications();
       setupWebSocket();
     }
     return () => {
@@ -75,6 +75,13 @@ const NotificationBell = () => {
       }
     };
   }, [adminId]);
+
+  // Fetch history notifications when modal opens
+  useEffect(() => {
+    if (showHistoryModal && adminId) {
+      fetchAllHistoryNotifications();
+    }
+  }, [showHistoryModal, adminId]);
 
   // Handle click outside
   useEffect(() => {
@@ -192,10 +199,16 @@ const NotificationBell = () => {
 
     try {
       setIsHistoryLoading(true);
+      setHistoryError(null);
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
       const response = await fetch(
         `${API_URL}/api/assignments/notifications?adminId=${adminId}&limit=1000`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       if (!response.ok) {
@@ -233,8 +246,10 @@ const NotificationBell = () => {
 
       setAllNotifications(notificationsWithStudentData || []);
       await fetchAllProfileImages(notificationsWithStudentData);
+      setHistoryCurrentPage(1);
     } catch (error) {
       console.error("Error fetching history notifications:", error);
+      setHistoryError(error instanceof Error ? error.message : "Failed to load history");
     } finally {
       setIsHistoryLoading(false);
     }
@@ -404,6 +419,14 @@ const NotificationBell = () => {
 
   const totalUnreadInHistory = allNotifications.filter((n) => !n.read).length;
 
+  const handleViewHistory = () => {
+    setIsOpen(false);
+    setShowHistoryModal(true);
+    if (adminId) {
+      fetchAllHistoryNotifications();
+    }
+  };
+
   return (
     <>
       <div className="Admin-notification-bell" ref={dropdownRef}>
@@ -424,14 +447,9 @@ const NotificationBell = () => {
                     Mark all as read
                   </button>
                 )}
-                <button
-                  className="view-all"
-                  onClick={() => {
-                    setIsOpen(false);
-                    setShowHistoryModal(true);
-                  }}
-                >
-                  📋 View all history
+                <button className="view-all" onClick={handleViewHistory}>
+                  <span className="material-symbols-outlined">history</span>
+                  View all history
                 </button>
               </div>
             </div>
@@ -506,34 +524,36 @@ const NotificationBell = () => {
         )}
       </div>
 
-      {/* History Modal */}
+      {/* History Modal - NEW CLASS NAMES */}
       {showHistoryModal && (
-        <div className="modal-overlay" onClick={() => setShowHistoryModal(false)}>
-          <div className="history-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="history-modal-header">
-              <div className="history-header-content">
-                <div className="history-header-icon">
+        <div className="history-modal-backdrop" onClick={() => setShowHistoryModal(false)}>
+          <div className="history-modal-panel" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="history-modal-topbar">
+              <div className="history-modal-title-row">
+                <div className="history-modal-icon-box">
                   <i className="bi bi-bell-fill"></i>
                 </div>
                 <h2>Notification History</h2>
-                <button className="history-modal-close" onClick={() => setShowHistoryModal(false)}>
+                <button className="history-modal-close-btn" onClick={() => setShowHistoryModal(false)}>
                   <i className="bi bi-x-lg"></i>
                 </button>
               </div>
-              <div className="history-header-stats">
-                <div className="stat-badge">
-                  <span className="stat-number">{allNotifications.length}</span>
-                  <span className="stat-label">Total</span>
+              <div className="history-modal-stats-row">
+                <div className="history-stat-item">
+                  <span className="history-stat-number">{allNotifications.length}</span>
+                  <span className="history-stat-label">Total</span>
                 </div>
-                <div className="stat-badge unread">
-                  <span className="stat-number">{totalUnreadInHistory}</span>
-                  <span className="stat-label">Unread</span>
+                <div className="history-stat-item unread">
+                  <span className="history-stat-number">{totalUnreadInHistory}</span>
+                  <span className="history-stat-label">Unread</span>
                 </div>
               </div>
             </div>
 
-            <div className="history-filters-bar">
-              <div className="search-box">
+            {/* Filters */}
+            <div className="history-modal-filters">
+              <div className="history-modal-search">
                 <i className="bi bi-search"></i>
                 <input
                   type="text"
@@ -542,41 +562,50 @@ const NotificationBell = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <div className="filter-buttons">
+              <div className="history-modal-filter-group">
                 <button
-                  className={`filter-btn ${statusFilter === "all" ? "active" : ""}`}
+                  className={`history-filter-chip ${statusFilter === "all" ? "active" : ""}`}
                   onClick={() => setStatusFilter("all")}
                 >
                   All
                 </button>
                 <button
-                  className={`filter-btn ${statusFilter === "unread" ? "active" : ""}`}
+                  className={`history-filter-chip ${statusFilter === "unread" ? "active" : ""}`}
                   onClick={() => setStatusFilter("unread")}
                 >
                   Unread
                 </button>
                 <button
-                  className={`filter-btn ${statusFilter === "read" ? "active" : ""}`}
+                  className={`history-filter-chip ${statusFilter === "read" ? "active" : ""}`}
                   onClick={() => setStatusFilter("read")}
                 >
                   Read
                 </button>
                 {totalUnreadInHistory > 0 && (
-                  <button className="mark-all-btn" onClick={markAllAsRead}>
+                  <button className="history-mark-all-btn" onClick={markAllAsRead}>
                     <i className="bi bi-check2-all"></i> Mark all as read
                   </button>
                 )}
               </div>
             </div>
 
-            <div className="history-notifications-list">
+            {/* Notifications List */}
+            <div className="history-modal-list">
               {isHistoryLoading ? (
-                <div className="loading-state">
-                  <div className="loading-spinner-small"></div>
+                <div className="history-loading-state">
+                  <div className="history-loading-spinner"></div>
                   <p>Loading history...</p>
                 </div>
+              ) : historyError ? (
+                <div className="history-error-state">
+                  <i className="bi bi-exclamation-triangle"></i>
+                  <p>{historyError}</p>
+                  <button onClick={() => fetchAllHistoryNotifications()} className="history-retry-btn">
+                    <i className="bi bi-arrow-clockwise"></i> Retry
+                  </button>
+                </div>
               ) : paginatedHistory.length === 0 ? (
-                <div className="empty-state">
+                <div className="history-empty-state">
                   <i className="bi bi-inbox"></i>
                   <h3>No notifications found</h3>
                   <p>You're all caught up! No notifications match your filters.</p>
@@ -589,15 +618,15 @@ const NotificationBell = () => {
                   return (
                     <div
                       key={notification.id}
-                      className={`history-notification-card ${!notification.read ? "unread" : ""}`}
+                      className={`history-notification-entry ${!notification.read ? "unread" : ""}`}
                       onClick={() => handleNotificationClick(notification)}
                     >
-                      <div className="history-notification-avatar">
+                      <div className="history-entry-avatar">
                         {profileImage && !hasError ? (
                           <img
                             src={profileImage}
                             alt={notification.studentName}
-                            className="history-avatar-img"
+                            className="history-avatar-image"
                             onError={() => {
                               if (notification.studentId) {
                                 setImageErrors(prev => ({
@@ -613,24 +642,24 @@ const NotificationBell = () => {
                           </div>
                         )}
                       </div>
-                      <div className="history-notification-info">
-                        <div className="history-notification-header">
-                          <div className="history-notification-title">
+                      <div className="history-entry-content">
+                        <div className="history-entry-header">
+                          <div className="history-entry-title">
                             <strong>{notification.studentName}</strong> submitted
-                            <span className="assignment-name"> {notification.assignmentTitle}</span>
+                            <span className="history-assignment-name"> {notification.assignmentTitle}</span>
                           </div>
-                          {!notification.read && <div className="unread-badge">New</div>}
+                          {!notification.read && <span className="history-unread-badge">New</span>}
                         </div>
-                        <div className="history-notification-details">
-                          <span className="program-badge">
+                        <div className="history-entry-meta">
+                          <span className="history-program-tag">
                             <i className="bi bi-building"></i> {notification.programName}
                           </span>
-                          <span className="time-badge">
+                          <span className="history-time-tag">
                             <i className="bi bi-clock"></i> {formatTime(notification.createdAt)}
                           </span>
                         </div>
                       </div>
-                      <div className="history-notification-action">
+                      <div className="history-entry-action">
                         <i className="bi bi-chevron-right"></i>
                       </div>
                     </div>
@@ -639,20 +668,21 @@ const NotificationBell = () => {
               )}
             </div>
 
-            {totalHistoryPages > 1 && (
-              <div className="history-pagination">
+            {/* Pagination */}
+            {totalHistoryPages > 1 && !isHistoryLoading && !historyError && (
+              <div className="history-modal-pagination">
                 <button
-                  className="pagination-btn"
+                  className="history-page-btn"
                   onClick={() => setHistoryCurrentPage((prev) => Math.max(1, prev - 1))}
                   disabled={historyCurrentPage === 1}
                 >
                   <i className="bi bi-chevron-left"></i> Previous
                 </button>
-                <span className="pagination-info">
+                <span className="history-page-info">
                   Page {historyCurrentPage} of {totalHistoryPages}
                 </span>
                 <button
-                  className="pagination-btn"
+                  className="history-page-btn"
                   onClick={() => setHistoryCurrentPage((prev) => Math.min(totalHistoryPages, prev + 1))}
                   disabled={historyCurrentPage === totalHistoryPages}
                 >
@@ -681,8 +711,6 @@ const NotificationBell = () => {
           </div>
         </div>
       )}
-
-      
     </>
   );
 };

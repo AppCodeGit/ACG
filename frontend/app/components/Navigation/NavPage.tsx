@@ -7,10 +7,25 @@ import "./NavPage.css";
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (isMobileMenuOpen) {
+      setActiveDropdown(null);
+    }
+  };
+
+  const toggleDropdown = (dropdown: string, e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    
+    if (activeDropdown === dropdown) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(dropdown);
+    }
   };
 
   // Helper function to check if link is active
@@ -37,8 +52,16 @@ const Navigation = () => {
               </Link>
             </p>
             
-            <div className="Link-dropdown">
-              <p className="drop-toggle" data-text="Cloud Engineering">
+            <div className={`Link-dropdown ${activeDropdown === "cloud" ? "active" : ""}`}>
+              <p 
+                className="drop-toggle" 
+                data-text="Cloud Engineering"
+                onClick={(e) => {
+                  if (window.innerWidth <= 768) {
+                    toggleDropdown("cloud", e);
+                  }
+                }}
+              >
                 Cloud Engineering
                 <span className="material-symbols-outlined">
                   keyboard_arrow_down
@@ -49,6 +72,10 @@ const Navigation = () => {
                   href="/aws"
                   className={isActive("/aws") ? "active" : ""}
                   data-text="AWS"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setActiveDropdown(null);
+                  }}
                 >
                   <span role="img" aria-label="lightning">⚡️</span> AWS Certifications
                   <p className="description">
@@ -60,6 +87,10 @@ const Navigation = () => {
                   href="/azure"
                   className={isActive("/azure") ? "active" : ""}
                   data-text="Azure"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setActiveDropdown(null);
+                  }}
                 >
                   <span role="img" aria-label="cloud">☁️</span> Microsoft Azure Certifications
                   <p className="description">
@@ -90,8 +121,16 @@ const Navigation = () => {
               </Link>  
             </p>
             
-            <div className="Link-dropdown">
-              <p className="drop-toggle" data-text="Cyber Security">
+            <div className={`Link-dropdown ${activeDropdown === "security" ? "active" : ""}`}>
+              <p 
+                className="drop-toggle" 
+                data-text="Cyber Security"
+                onClick={(e) => {
+                  if (window.innerWidth <= 768) {
+                    toggleDropdown("security", e);
+                  }
+                }}
+              >
                 Cyber Security
                 <span className="material-symbols-outlined">
                   keyboard_arrow_down
@@ -102,6 +141,10 @@ const Navigation = () => {
                   href="/microsoftAz500"
                   className={isActive("/microsoftAz500") ? "active" : ""}
                   data-text="MicrosoftAZ"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setActiveDropdown(null);
+                  }}
                 >
                   <span role="img" aria-label="shield">🛡️</span> Microsoft AZ-500
                   <p className="description">
@@ -113,6 +156,10 @@ const Navigation = () => {
                   href="/oscp"
                   className={isActive("/oscp") ? "active" : ""}
                   data-text="OSCP"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setActiveDropdown(null);
+                  }}
                 >
                   <span role="img" aria-label="hacker">💻</span> OSCP
                   <p className="description">
@@ -139,7 +186,7 @@ const Navigation = () => {
           <div className="btn-container">
             <Link
               href="/pages/apply"
-              className={`btn ${isActive("/payment") ? "active" : ""}`}
+              className={`btn ${isActive("/pages/apply") ? "active" : ""}`}
             >
               Apply Now
               <span className="material-symbols-outlined">east</span>
@@ -150,9 +197,6 @@ const Navigation = () => {
 
       <header className="grid-header">
         <div className="container">
-          <p>
-            <span className="material-symbols-outlined">calendar_today</span> Monday-Saturday - 7:30-20:00
-          </p>
           <p>
             <span className="material-symbols-outlined">phone</span> +233 598044825
           </p>

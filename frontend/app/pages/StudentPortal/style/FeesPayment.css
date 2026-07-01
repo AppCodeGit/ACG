@@ -1,23 +1,17 @@
-/* General Styles */
+/* ============================================
+   FEES PAYMENT STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 480px, 540px, 768px, 769px, 991px, 992px, 1024px, 1025px, 1200px+
+   ============================================ */
+
+/* ============================================
+   GENERAL STYLES
+   ============================================ */
 .fees-page {
   color: #333;
 }
 
-/* Overview Section */
-.fees-page .fees-overview {
-  margin-bottom: 20px;
-}
-
-.fees-page .fees-overview .header-text .btn-container .bn {
-  font-size: 0.8rem;
-  width: 160px;
-}
-
-.fees-page .fees-overview .header-text .btn-container .btn span {
-  font-size: 18px;
-}
-
-.fees-page .btn{
+.fees-page .btn {
   border-radius: 5px;
 }
 
@@ -33,6 +27,22 @@
   opacity: 0.7;
 }
 
+/* ============================================
+   OVERVIEW SECTION
+   ============================================ */
+.fees-page .fees-overview {
+  margin-bottom: 20px;
+}
+
+.fees-page .fees-overview .header-text .btn-container .bn {
+  font-size: 0.8rem;
+  width: 160px;
+}
+
+.fees-page .fees-overview .header-text .btn-container .btn span {
+  font-size: 18px;
+}
+
 .fees-page .fees-overview h2 {
   font-size: 1.4rem;
   font-weight: 700;
@@ -46,7 +56,7 @@
 
 .fees-page .overview-cards {
   display: flex;
-  flex-flow: wrap;
+  flex-wrap: wrap;
   gap: 40px;
 }
 
@@ -57,12 +67,12 @@
   box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.1);
   flex: 1;
   margin: 20px 0;
+  min-width: 280px;
 }
 
 /* ============================================
    FEES HEADER STYLES
    ============================================ */
-
 .fees-header-container {
   display: flex;
   align-items: center;
@@ -76,7 +86,6 @@
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
 }
 
-/* Animated Background Pattern */
 .fees-header-container::before {
   content: '';
   position: absolute;
@@ -315,62 +324,9 @@
   }
 }
 
-/* Responsive Design */
-@media (max-width: 968px) {
-  .fees-header-container {
-    flex-direction: column;
-    padding: 32px;
-    text-align: center;
-  }
-  
-  .fees-title {
-    font-size: 2.2rem;
-  }
-  
-  .feature-list {
-    justify-content: center;
-  }
-  
-  .fees-header-image {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .floating-card {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .fees-header-container {
-    padding: 24px;
-  }
-  
-  .fees-title {
-    font-size: 1.8rem;
-  }
-  
-  .feature-item {
-    padding: 6px 14px;
-    font-size: 0.8rem;
-  }
-  
-  .header-badge {
-    margin-bottom: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .feature-list {
-    gap: 10px;
-  }
-  
-  .feature-item span:last-child {
-    font-size: 0.75rem;
-  }
-}
-
+/* ============================================
+   CARD HEADER
+   ============================================ */
 .fees-page .fees-overview .card-header {
   display: flex;
   justify-content: space-between;
@@ -410,6 +366,9 @@
   color: #ffe864;
 }
 
+/* ============================================
+   INSTALLMENT CONTAINER
+   ============================================ */
 .fees-page .installment-container {
   padding: 10px 20px;
 }
@@ -419,6 +378,7 @@
   align-items: center;
   justify-content: space-between;
   margin: 15px 0;
+  gap: 10px;
 }
 
 .fees-page .installment-container .installment .icon-text {
@@ -433,6 +393,7 @@
   display: flex;
   gap: 20px;
   align-items: center;
+  flex: 1;
 }
 
 .fees-page .installment-container .installment .text {
@@ -470,9 +431,9 @@
   font-size: 16px;
 }
 
-/* Add these modal styles to your CSS file */
-
-/* Modal Overlay */
+/* ============================================
+   MODAL STYLES
+   ============================================ */
 .fees-page .modal {
   position: fixed;
   top: 0;
@@ -488,7 +449,6 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Modal Content Container */
 .fees-page .modal-content {
   background: white;
   border-radius: 20px;
@@ -501,7 +461,6 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* Modal Content Inner Styling */
 .fees-page .modal-content .payment-summary {
   padding: 24px;
 }
@@ -511,8 +470,6 @@
   font-size: 0.8rem;
 }
 
-
-/* Animation for modal */
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -524,7 +481,6 @@
   }
 }
 
-/* Modal scrollbar styling */
 .fees-page .modal-content::-webkit-scrollbar {
   width: 6px;
 }
@@ -697,7 +653,6 @@
   font-size: 18px;
 }
 
-/* Animation for the summary */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -736,28 +691,949 @@
   animation-fill-mode: both;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .fees-page .payment-summary {
-    padding: 16px;
-  }
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
 
-  .fees-page .summary-header {
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
+  .fees-header-container {
     flex-direction: column;
-    text-align: center;
-    gap: 12px;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 20px;
   }
 
-  .fees-page .summary-item {
+  .fees-title {
+    font-size: 1.5rem;
+  }
+
+  .title-highlight {
+    font-size: 1.5rem;
+  }
+
+  .fees-header-content {
+    text-align: center;
+  }
+
+  .header-badge {
+    margin-bottom: 12px;
+    font-size: 0.75rem;
+  }
+
+  .fees-description p {
+    font-size: 0.85rem;
+  }
+
+  .feature-list {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .feature-item {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+
+  .feature-item span:last-child {
+    font-size: 0.7rem;
+  }
+
+  .feature-icon {
+    font-size: 14px;
+  }
+
+  .fees-header-image {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .image-wrapper {
     padding: 12px;
   }
 
-  .fees-page .item-icon {
-    width: 36px;
-    height: 36px;
+  .floating-card {
+    display: none;
   }
 
-  .fees-page .total-amount {
+  .fees-page .overview-cards {
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .fees-page .overview-card {
+    margin: 10px 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .fees-page .fees-overview .card-header {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .fees-page .fees-overview .card-header .header {
+    font-size: 0.8rem;
+  }
+
+  .fees-page .fees-overview .card-header .text p {
+    font-size: 0.7rem;
+  }
+
+  .fees-page .installment-container {
+    padding: 8px 12px;
+  }
+
+  .fees-page .installment-container .installment {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 10px;
+  }
+
+  .fees-page .installment-container .installment .text-container {
+    gap: 12px;
+  }
+
+  .fees-page .installment-container .installment .icon-text {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .fees-page .installment-container .installment .text p {
+    font-size: 0.8rem;
+  }
+
+  .fees-page .installment-container .installment .text span {
+    font-size: 0.8rem;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.75rem;
+    justify-content: center;
+  }
+
+  .fees-page .installment-container .btn-container .btn span {
+    font-size: 14px;
+  }
+
+  /* Modal Mobile */
+  .fees-page .modal-content {
+    width: 95%;
+    max-width: 100%;
+    border-radius: 16px;
+    margin: 10px;
+  }
+
+  .fees-page .modal-content .payment-summary {
+    padding: 16px;
+  }
+
+  .fees-page .payment-summary .summary-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .fees-page .payment-summary .summary-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+  }
+
+  .fees-page .payment-summary .summary-icon span {
     font-size: 20px;
+  }
+
+  .fees-page .payment-summary .summary-header h3 {
+    font-size: 1rem;
+  }
+
+  .fees-page .payment-summary .summary-item {
+    padding: 12px;
+  }
+
+  .fees-page .payment-summary .item-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
+
+  .fees-page .payment-summary .item-icon span {
+    font-size: 16px;
+  }
+
+  .fees-page .payment-summary .item-label {
+    font-size: 0.8rem;
+  }
+
+  .fees-page .payment-summary .item-value {
+    font-size: 0.85rem;
+  }
+
+  .fees-page .payment-summary .total-amount {
+    font-size: 18px;
+  }
+
+  .fees-page .payment-summary .total-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .fees-page .payment-summary .total-icon span {
+    font-size: 20px;
+  }
+
+  .fees-page .payment-summary .secure-notice {
+    font-size: 12px;
+  }
+
+  .fees-page .modal-content .btn {
+    padding: 10px 16px;
+    font-size: 0.75rem;
+    width: 100%;
+  }
+
+  .fees-page .modal-content .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* ===== 481px — 540px: Small Tablets ===== */
+@media (min-width: 481px) and (max-width: 540px) {
+  .fees-header-container {
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 22px;
+    gap: 20px;
+  }
+
+  .fees-title {
+    font-size: 1.7rem;
+  }
+
+  .title-highlight {
+    font-size: 1.7rem;
+  }
+
+  .fees-header-content {
+    text-align: center;
+  }
+
+  .header-badge {
+    margin-bottom: 14px;
+  }
+
+  .fees-description p {
+    font-size: 0.9rem;
+  }
+
+  .feature-list {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .feature-item {
+    padding: 8px 16px;
+  }
+
+  .feature-item span:last-child {
+    font-size: 0.8rem;
+  }
+
+  .fees-header-image {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  /* ===== CRITICAL: Stack cards in column at 540px ===== */
+  .fees-page .overview-cards {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .fees-page .overview-card {
+    min-width: 100%;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .fees-page .installment-container .installment {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 120px;
+    font-size: 0.75rem;
+  }
+
+  .fees-page .modal-content {
+    max-width: 420px;
+  }
+}
+
+/* ===== 541px — 768px: iPads and Tablets ===== */
+@media (min-width: 541px) and (max-width: 768px) {
+  .fees-header-container {
+    flex-direction: column;
+    padding: 28px;
+    border-radius: 24px;
+    gap: 24px;
+  }
+
+  .fees-title {
+    font-size: 2rem;
+  }
+
+  .title-highlight {
+    font-size: 2rem;
+  }
+
+  .fees-header-content {
+    text-align: center;
+  }
+
+  .header-badge {
+    margin-bottom: 16px;
+  }
+
+  .feature-list {
+    justify-content: center;
+  }
+
+  .fees-header-image {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  .fees-page .overview-cards {
+    gap: 24px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .fees-page .overview-card {
+    min-width: calc(50% - 12px);
+    flex: 1 1 calc(50% - 12px);
+  }
+
+  .fees-page .installment-container .installment {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 120px;
+    font-size: 0.75rem;
+  }
+
+  /* Modal Tablet */
+  .fees-page .modal-content {
+    max-width: 450px;
+  }
+
+  .fees-page .payment-summary .summary-header {
+    flex-direction: row;
+  }
+
+  .fees-page .modal-content .btn-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .fees-page .modal-content .btn {
+    flex: 1;
+  }
+}
+
+/* ===== 769px — 991px: Small Screens, Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .fees-header-container {
+    flex-direction: column;
+    padding: 32px 36px;
+    border-radius: 28px;
+    gap: 28px;
+  }
+
+  .fees-title {
+    font-size: 2.4rem;
+  }
+
+  .title-highlight {
+    font-size: 2.4rem;
+  }
+
+  .fees-header-content {
+    text-align: center;
+  }
+
+  .feature-list {
+    justify-content: center;
+  }
+
+  .fees-header-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  .fees-page .overview-cards {
+    gap: 28px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .fees-page .overview-card {
+    flex: 1 1 calc(50% - 14px);
+    min-width: 280px;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 125px;
+    font-size: 0.78rem;
+  }
+
+  .fees-page .modal-content {
+    max-width: 480px;
+  }
+}
+
+/* ===== 992px — 1024px: Small Laptops ===== */
+@media (min-width: 992px) and (max-width: 1024px) {
+  .fees-header-container {
+    padding: 36px 40px;
+    gap: 32px;
+  }
+
+  .fees-title {
+    font-size: 2.6rem;
+  }
+
+  .title-highlight {
+    font-size: 2.6rem;
+  }
+
+  .fees-header-image {
+    flex: 0.9;
+  }
+
+  .floating-card {
+    display: flex;
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+
+  .card-1 {
+    top: 5%;
+    right: -5px;
+  }
+
+  .card-2 {
+    bottom: 15%;
+    left: -10px;
+  }
+
+  .card-3 {
+    top: 35%;
+    right: 0;
+  }
+
+  .fees-page .overview-cards {
+    gap: 30px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .fees-page .overview-card {
+    flex: 1 1 calc(50% - 15px);
+    min-width: 280px;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 130px;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .fees-header-container {
+    padding: 40px 44px;
+    gap: 36px;
+  }
+
+  .fees-title {
+    font-size: 2.8rem;
+  }
+
+  .title-highlight {
+    font-size: 2.8rem;
+  }
+
+  .floating-card {
+    display: flex;
+    font-size: 0.75rem;
+    padding: 7px 14px;
+  }
+
+  .fees-page .overview-cards {
+    gap: 35px;
+    flex-direction: row;
+  }
+
+  .fees-page .overview-card {
+    flex: 1 1 calc(33.33% - 23px);
+    min-width: 260px;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .fees-header-container {
+    padding: 48px;
+    gap: 40px;
+  }
+
+  .fees-title {
+    font-size: 3rem;
+  }
+
+  .title-highlight {
+    font-size: 3rem;
+  }
+
+  .floating-card {
+    display: flex;
+  }
+
+  .fees-page .overview-cards {
+    gap: 40px;
+    flex-direction: row;
+  }
+
+  .fees-page .overview-card {
+    flex: 1;
+    min-width: 280px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 991px) {
+  .fees-header-container {
+    padding: 16px 24px;
+    gap: 16px;
+    flex-direction: row;
+  }
+
+  .fees-title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  .title-highlight {
+    font-size: 1.4rem;
+  }
+
+  .fees-header-content {
+    text-align: left;
+    flex: 1;
+  }
+
+  .header-badge {
+    margin-bottom: 8px;
+    padding: 4px 12px 4px 8px;
+  }
+
+  .badge-icon {
+    font-size: 14px;
+  }
+
+  .badge-text {
+    font-size: 0.7rem;
+  }
+
+  .fees-description {
+    margin-bottom: 12px;
+  }
+
+  .fees-description p {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .feature-list {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .feature-item {
+    padding: 4px 12px;
+    font-size: 0.65rem;
+  }
+
+  .feature-item span:last-child {
+    font-size: 0.65rem;
+  }
+
+  .feature-icon {
+    font-size: 12px;
+  }
+
+  .fees-header-image {
+    flex: 0.5;
+    max-width: 200px;
+  }
+
+  .image-wrapper {
+    padding: 10px;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  .fees-page .overview-cards {
+    gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .fees-page .overview-card {
+    margin: 8px 0;
+    min-width: 200px;
+    flex: 1 1 calc(33.33% - 10px);
+  }
+
+  .fees-page .fees-overview .card-header {
+    padding: 6px 12px;
+  }
+
+  .fees-page .fees-overview .card-header .header {
+    font-size: 0.7rem;
+  }
+
+  .fees-page .fees-overview .card-header .text p {
+    font-size: 0.6rem;
+  }
+
+  .fees-page .installment-container {
+    padding: 6px 12px;
+  }
+
+  .fees-page .installment-container .installment {
+    margin: 8px 0;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .fees-page .installment-container .installment .text-container {
+    gap: 8px;
+  }
+
+  .fees-page .installment-container .installment .icon-text {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .fees-page .installment-container .installment .text p {
+    font-size: 0.7rem;
+  }
+
+  .fees-page .installment-container .installment .text span {
+    font-size: 0.7rem;
+  }
+
+  .fees-page .installment-container .btn-container .btn {
+    width: 100px;
+    padding: 6px 10px;
+    font-size: 0.65rem;
+  }
+
+  .fees-page .installment-container .btn-container .btn span {
+    font-size: 12px;
+  }
+
+  .fees-page .modal-content {
+    max-height: 80vh;
+    padding: 16px;
+  }
+
+  .fees-page .modal-content .payment-summary {
+    padding: 12px;
+  }
+
+  .fees-page .payment-summary .summary-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .fees-page .payment-summary .summary-header h3 {
+    font-size: 1rem;
+  }
+
+  .fees-page .payment-summary .summary-item {
+    padding: 8px 12px;
+  }
+
+  .fees-page .payment-summary .item-label {
+    font-size: 0.7rem;
+  }
+
+  .fees-page .payment-summary .item-value {
+    font-size: 0.8rem;
+  }
+
+  .fees-page .payment-summary .total-amount {
+    font-size: 16px;
+  }
+
+  .fees-page .payment-summary .summary-total {
+    padding: 8px 12px;
+  }
+
+  .fees-page .modal-content .btn {
+    padding: 6px 14px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .fees-header-container::before {
+    animation: none;
+  }
+
+  .floating-card {
+    animation: none;
+  }
+
+  .feature-item {
+    transition: none;
+  }
+
+  .feature-item:hover {
+    transform: none;
+  }
+
+  .fees-page .payment-summary .summary-item {
+    transition: none;
+  }
+
+  .fees-page .payment-summary .summary-item:hover {
+    transform: none;
+  }
+
+  .fees-page .modal {
+    animation: none;
+  }
+
+  .fees-page .modal-content {
+    animation: none;
+  }
+
+  .fees-page .payment-summary {
+    animation: none;
+  }
+
+  .fees-page .summary-item {
+    animation: none;
+  }
+
+  .fees-page .summary-total {
+    animation: none;
+  }
+
+  .header-image {
+    transition: none;
+  }
+
+  .image-wrapper:hover .header-image {
+    transform: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .fees-header-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+
+  .fees-header-container::before {
+    display: none;
+  }
+
+  .floating-card {
+    display: none !important;
+  }
+
+  .fees-page .overview-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .fees-page .modal {
+    display: none !important;
+  }
+
+  .fees-page .btn {
+    border: 1px solid #333 !important;
+  }
+
+  .fees-page .btn-paid {
+    background-color: #ddd !important;
+    color: #333 !important;
+    border: 1px solid #333 !important;
+  }
+
+  .feature-item {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .feature-item:hover {
+    transform: none;
+  }
+
+  .fees-page .payment-summary .summary-total {
+    background: #333 !important;
+  }
+
+  .title-highlight {
+    -webkit-text-fill-color: #e9691e;
+    background: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.fees-page .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.fees-page .installment-container .btn-container .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.feature-item:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 40px;
+}
+
+.fees-page .modal-content .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .fees-header-container {
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .overview-card {
+    border: 2px solid CanvasText;
+  }
+
+  .feature-item {
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .modal-content {
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .btn {
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .btn-paid {
+    border: 2px solid CanvasText !important;
+  }
+
+  .fees-page .btn-disabled {
+    border: 2px solid CanvasText !important;
+  }
+
+  .fees-page .payment-summary .summary-total {
+    background: Canvas;
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .payment-summary .summary-total .total-label,
+  .fees-page .payment-summary .summary-total .total-amount {
+    color: CanvasText;
+  }
+
+  .fees-page .payment-summary .total-icon {
+    background: Canvas;
+  }
+
+  .fees-page .payment-summary .total-icon span {
+    color: CanvasText;
+  }
+
+  .fees-page .payment-summary .summary-icon {
+    background: Canvas;
+    border: 2px solid CanvasText;
+  }
+
+  .fees-page .payment-summary .summary-icon span {
+    color: CanvasText;
+  }
+
+  .header-badge {
+    border: 2px solid CanvasText;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 540px) {
+  .fees-page .overview-cards {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .fees-page .overview-card {
+    min-width: 100%;
+    width: 100%;
+    flex: 1 1 100%;
   }
 }

@@ -3,6 +3,7 @@
 import "../Software/Css/style.css";
 import Header from "../components/Header/HeaderPage";
 import Navigation from "../components/Navigation/NavPage";
+import Footer from "../components/footer/Footer";
 import azure1 from "./images/1.azure-fundamentals.png";
 import azure2 from "./images/2.azure-administrator-associate.png";
 import azure3 from "./images/3.security-compliance-and-identity-fundamentals.png";
@@ -21,16 +22,34 @@ import azure15 from "./images/15.Designing Microsoft Azure Infrastructure Soluti
 import azure16 from "./images/16.SC-100-Microsoft-Cybersecurity-Architect.webp";
 import azure17 from "./images/17.CERT-Expert-DevOps-Engineer.AZ-400.png";
 import { useState, useEffect, useRef } from "react";
-// Fixed: Renamed to avoid conflict with Next.js Image component
 import AzureImage from "./images/Azure.png";
 import Link from "next/link";
 import Image from "next/image";
-import Footer from "../components/footer/Footer";
 
 const Azure = () => {
   const [sidebarTop, setSidebarTop] = useState(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("courses");
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, 17);
@@ -48,8 +67,7 @@ const Azure = () => {
         setSidebarTop(0);
       }
 
-      // Determine which section is in view
-      const scrollPosition = window.scrollY + 100; // Adding some offset
+      const scrollPosition = window.scrollY + 100;
 
       sectionRefs.current.forEach(
         (section: HTMLElement | null, index: number) => {
@@ -101,253 +119,268 @@ const Azure = () => {
           {/* Sidebar */}
           <div className="sideBar-container">
             <div
-              className="Sidebar"
+              className={`Sidebar ${isMobile ? 'accordion' : ''}`}
               style={{
                 top: `${sidebarTop}px`,
                 transition: "top 0.3s ease",
               }}
             >
-              <ul>
-                <li
-                  onClick={() => handleScrollToSection("section1", -75)}
-                  className={activeSection === "section1" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
-                    </span>
-                    AZ-900
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
+              {/* Accordion Header */}
+              <div 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("courses")}
+              >
+                <h3>Courses</h3>
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "courses" ? "−" : "+"}
                   </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section2", -75)}
-                  className={activeSection === "section2" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    {" "}
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                )}
+              </div>
+
+              {/* Accordion Content */}
+              <div className={`accordion-content ${isMobile && openAccordion !== "courses" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li
+                    onClick={() => handleScrollToSection("section1", -75)}
+                    className={activeSection === "section1" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-900
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-104
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section3", -75)}
-                  className={activeSection === "section3" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section2", -75)}
+                    className={activeSection === "section2" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-104
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    SC-900
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section4", -75)}
-                  className={activeSection === "section4" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section3", -75)}
+                    className={activeSection === "section3" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      SC-900
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    DP-203
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section5", -75)}
-                  className={activeSection === "section5" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section4", -75)}
+                    className={activeSection === "section4" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      DP-203
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    DP-100
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section6", -75)}
-                  className={activeSection === "section6" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section5", -75)}
+                    className={activeSection === "section5" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      DP-100
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    DP-300
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section7", -75)}
-                  className={activeSection === "section7" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section6", -75)}
+                    className={activeSection === "section6" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      DP-300
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-204
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section8", -75)}
-                  className={activeSection === "section8" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section7", -75)}
+                    className={activeSection === "section7" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-204
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    DP-500
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section9", -75)}
-                  className={activeSection === "section9" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section8", -75)}
+                    className={activeSection === "section8" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      DP-500
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-700
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section10", -75)}
-                  className={activeSection === "section10" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section9", -75)}
+                    className={activeSection === "section9" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-700
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-500
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section11", -75)}
-                  className={activeSection === "section11" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section10", -75)}
+                    className={activeSection === "section10" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-500
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    SC-300
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section12", -75)}
-                  className={activeSection === "section12" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section11", -75)}
+                    className={activeSection === "section11" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      SC-300
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    SC-200
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section13", -75)}
-                  className={activeSection === "section13" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section12", -75)}
+                    className={activeSection === "section12" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      SC-200
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-800
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section14", -75)}
-                  className={activeSection === "section14" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section13", -75)}
+                    className={activeSection === "section13" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-800
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-140
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section15", -75)}
-                  className={activeSection === "section15" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section14", -75)}
+                    className={activeSection === "section14" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-140
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-305
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section16", -75)}
-                  className={activeSection === "section16" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section15", -75)}
+                    className={activeSection === "section15" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-305
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    SC-100
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section17", -75)}
-                  className={activeSection === "section17" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section16", -75)}
+                    className={activeSection === "section16" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      SC-100
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AZ-400
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-              </ul>
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section17", -75)}
+                    className={activeSection === "section17" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AZ-400
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -357,7 +390,6 @@ const Azure = () => {
               <div className="course-details">
                 <h2 className="course-title">Microsoft Azure</h2>
                 <div className="image-container">
-                  {/* Fixed: Changed from <img src={Image} ... /> to <Image src={AzureImage} ... /> */}
                   <Image src={AzureImage} alt="Microsoft Azure" />
                 </div>
                 <div className="course-description">
@@ -740,9 +772,10 @@ const Azure = () => {
               <section
                 id="section10"
                 className={`section ${activeSection === "section10" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[9] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure10}
@@ -775,9 +808,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section11"
                 className={`section ${activeSection === "section11" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[10] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure11}
@@ -806,9 +840,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section12"
                 className={`section ${activeSection === "section12" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[11] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure12}
@@ -841,9 +876,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section13"
                 className={`section ${activeSection === "section13" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[12] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure13}
@@ -878,9 +914,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section14"
                 className={`section ${activeSection === "section14" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[13] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure14}
@@ -914,9 +951,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section15"
                 className={`section ${activeSection === "section15" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[14] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure15}
@@ -945,9 +983,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section16"
                 className={`section ${activeSection === "section16" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[15] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure16}
@@ -979,9 +1018,10 @@ ref={(el: HTMLElement | null) => {
               <section
                 id="section17"
                 className={`section ${activeSection === "section17" ? "section-active" : ""}`}
-ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[16] = el;
-                }}              >
+                }}
+              >
                 <div className="image-container">
                   <Image
                     src={azure17}

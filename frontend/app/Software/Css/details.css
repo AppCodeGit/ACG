@@ -1,3 +1,12 @@
+/* ============================================
+   DETAILS PAGE STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 768px, 769px, 991px, 1024px, 1025px, 1200px+
+   ============================================ */
+
+/* ============================================
+   DETAILS ITEMS - GRID LAYOUT
+   ============================================ */
 .details-items {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -10,7 +19,7 @@
 }
 
 .details-items .item .image-container img {
-    width: 180px;
+  width: 180px;
   object-fit: cover;
   height: auto;
 }
@@ -81,8 +90,9 @@
   color: #e9691e;
 }
 
-
-
+/* ============================================
+   COURSE INFO
+   ============================================ */
 .course-info {
   margin: 20px 0;
 }
@@ -110,34 +120,36 @@
 }
 
 .icon-schedule {
-  color: #ff5733; /* Red-orange */
+  color: #ff5733;
 }
 
 .icon-language {
-  color: #337fff; /* Blue */
+  color: #337fff;
 }
 
 .icon-info {
-  color: #33ff57; /* Green */
+  color: #33ff57;
 }
 
 .icon-calendar {
-  color: #ff33a6; /* Pink */
+  color: #ff33a6;
 }
 
 .icon-time {
-  color: #ffa533; /* Orange */
+  color: #ffa533;
 }
 
 .icon-location {
-  color: #8e44ad; /* Purple */
+  color: #8e44ad;
 }
 
 .icon-person {
-  color: #2c3e50; /* Dark Gray */
+  color: #2c3e50;
 }
 
-/* General Styles */
+/* ============================================
+   CONCEPT CONTAINER
+   ============================================ */
 .concept-container {
   padding: 20px 0;
 }
@@ -166,7 +178,6 @@
   background-color: #bbb;
 }
 
-/* Active Button */
 .concept-container .btn.active {
   background-color: #e9691e;
   color: white;
@@ -182,17 +193,19 @@
   transform: translateY(10px);
   transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
   width: 100%;
-  display: none; /* hide instead */
+  display: none;
 }
 
 .concept-container .content.show {
   opacity: 1;
   transform: translateY(0);
-  display: block; /* show active */
+  display: block;
 }
 
-
-.concept-data .data-item{
+/* ============================================
+   CONCEPT DATA
+   ============================================ */
+.concept-data .data-item {
   margin-bottom: 10px;
   background: #ddd;
   color: #575454;
@@ -202,8 +215,9 @@
   transition: all 0.3s ease-in-out;
 }
 
-
-
+/* ============================================
+   COURSE DATA
+   ============================================ */
 .course-data h4 {
   font-size: 1.3rem;
   color: #575454;
@@ -265,7 +279,9 @@
   transition: background-color 0.3s ease;
 }
 
-
+/* ============================================
+   ROLES CONTAINER
+   ============================================ */
 .Roles-container h3 {
   font-size: 1.1rem;
   color: #575454;
@@ -304,23 +320,19 @@
 }
 
 .Roles-container li:nth-child(2)::before {
-  content: "🌍"; /* Web Developer */
+  content: "🌍";
 }
 
 .Roles-container li:nth-child(3)::before {
-  content: "🎨"; /* UI/UX Designer */
+  content: "🎨";
 }
 
 .Roles-container li:nth-child(4)::before {
-  content: "⚛️"; /* React Developer */
+  content: "⚛️";
 }
 
-/* .Roles-container li:nth-child(5)::before {
-  content: "🖥️"; 
-} */
-
 .Roles-container li:nth-child(5)::before {
-  content: "👨‍💻"; /* Freelance Developer */
+  content: "👨‍💻";
 }
 
 .Roles-container li strong {
@@ -328,6 +340,9 @@
   color: #575454;
 }
 
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
 .back-to-top {
   position: fixed;
   line-height: 14px;
@@ -350,4 +365,640 @@
 .back-to-top:hover {
   background-color: #793108;
   transform: scale(1.2);
+}
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
+  .details-items {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 8px;
+  }
+
+  .details-items .item .image-container img {
+    width: 140px;
+  }
+
+  .details-items .item .image-container {
+    padding: 12px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.3rem;
+  }
+
+  .details-items .item .text {
+    margin-bottom: 20px;
+    line-height: 22px;
+  }
+
+  .details-items .item .text h4 {
+    font-size: 1.1rem;
+  }
+
+  .details-items .item .text ul li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+  .details-items .item .payment-details .info {
+    font-size: 1rem;
+  }
+
+  /* Concept Container Mobile */
+  .concept-container {
+    padding: 12px 0;
+  }
+
+  .concept-container .button-group {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .concept-container .btn {
+    width: 100%;
+    flex: 1 1 calc(33.33% - 6px);
+    min-width: 80px;
+    padding: 8px 6px;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .concept-data .data-item {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+
+  /* Course Data Mobile */
+  .course-data h4 {
+    font-size: 1.1rem;
+    margin-top: 16px;
+    margin-bottom: 10px;
+  }
+
+  .course-data .course-detail {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .course-data ul li {
+    font-size: 0.85rem;
+    padding-left: 20px;
+    margin: 8px 0;
+  }
+
+  .course-data ul li::before {
+    font-size: 1.2rem;
+  }
+
+  /* Roles Container Mobile */
+  .Roles-container h3 {
+    font-size: 1rem;
+  }
+
+  .Roles-container p {
+    font-size: 0.9rem;
+  }
+
+  .Roles-container li {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+
+  .Roles-container li::before {
+    font-size: 16px;
+    margin-right: 8px;
+  }
+
+  .Roles-container li strong {
+    font-size: 0.85rem;
+  }
+
+  /* Course Info Mobile */
+  .course-info {
+    margin: 12px 0;
+  }
+
+  .course-info h4 {
+    font-size: 1rem;
+  }
+
+  .course-info .info-text {
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .course-info .info-text b {
+    font-size: 0.8rem;
+  }
+
+  .course-info .info-text .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .back-to-top {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 7px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== 481px — 768px: iPads and Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .details-items {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 12px;
+  }
+
+  .details-items .item .image-container img {
+    width: 160px;
+  }
+
+  .details-items .item .image-container {
+    padding: 16px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.5rem;
+  }
+
+  .details-items .item .text {
+    line-height: 24px;
+  }
+
+  .details-items .item .text h4 {
+    font-size: 1.2rem;
+  }
+
+  .details-items .item .payment-details .info {
+    font-size: 1.1rem;
+  }
+
+  /* Concept Container Tablet */
+  .concept-container .btn {
+    width: 100%;
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .concept-data .data-item {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
+  /* Course Data Tablet */
+  .course-data h4 {
+    font-size: 1.2rem;
+  }
+
+  .course-data ul li {
+    font-size: 0.9rem;
+  }
+
+  /* Roles Container Tablet */
+  .Roles-container li {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+
+  .course-info h4 {
+    font-size: 1.1rem;
+  }
+
+  .back-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 8px 11px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== 769px — 991px: Small Screens, Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .details-items {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 0 16px;
+  }
+
+  .details-items .item .image-container img {
+    width: 160px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.6rem;
+  }
+
+  /* Concept Container Small Laptop */
+  .concept-container .btn {
+    width: 100%;
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .concept-data .data-item {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
+  /* Course Data Small Laptop */
+  .course-data ul li {
+    font-size: 0.9rem;
+  }
+
+  /* Roles Container Small Laptop */
+  .Roles-container li {
+    font-size: 0.85rem;
+  }
+
+  .course-info h4 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== 992px — 1024px: Small Laptops ===== */
+@media (min-width: 992px) and (max-width: 1024px) {
+  .details-items {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 0 16px;
+  }
+
+  .details-items .item .image-container img {
+    width: 160px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.6rem;
+  }
+
+  /* Concept Container Small Laptop */
+  .concept-container .btn {
+    width: 100%;
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .concept-data .data-item {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
+  .course-data ul li {
+    font-size: 0.9rem;
+  }
+
+  .Roles-container li {
+    font-size: 0.85rem;
+  }
+
+  .course-info h4 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .details-items {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    padding: 0 20px;
+  }
+
+  .details-items .item .image-container img {
+    width: 170px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.7rem;
+  }
+
+  .concept-container .btn {
+    width: 113px;
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .details-items {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 0;
+  }
+
+  .details-items .item .image-container img {
+    width: 180px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.8rem;
+  }
+
+  .concept-container .btn {
+    width: 113px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 991px) {
+  .details-items {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 0 12px;
+  }
+
+  .details-items .item .image-container img {
+    width: 100px;
+  }
+
+  .details-items .item .image-container {
+    padding: 10px;
+  }
+
+  .details-items .item h1 {
+    font-size: 1.1rem;
+  }
+
+  .details-items .item .text {
+    margin-bottom: 12px;
+    line-height: 18px;
+  }
+
+  .details-items .item .text h4 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .details-items .item .text ul li {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+  }
+
+  .concept-container {
+    padding: 8px 0;
+  }
+
+  .concept-container .button-group {
+    margin-bottom: 10px;
+    gap: 4px;
+  }
+
+  .concept-container .btn {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    min-width: 60px;
+  }
+
+  .concept-data .data-item {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    margin-bottom: 4px;
+  }
+
+  .course-data h4 {
+    font-size: 0.95rem;
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  .course-data .course-detail {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .course-data ul li {
+    font-size: 0.75rem;
+    padding-left: 16px;
+    margin: 4px 0;
+  }
+
+  .course-data ul li::before {
+    font-size: 1rem;
+  }
+
+  .Roles-container h3 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .Roles-container p {
+    font-size: 0.8rem;
+  }
+
+  .Roles-container li {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+  }
+
+  .Roles-container li::before {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .Roles-container li strong {
+    font-size: 0.75rem;
+  }
+
+  .course-info {
+    margin: 8px 0;
+  }
+
+  .course-info h4 {
+    font-size: 0.9rem;
+  }
+
+  .course-info .info-text {
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .course-info .info-text b {
+    font-size: 0.7rem;
+  }
+
+  .course-info .info-text .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .details-items .item .payment-details .info {
+    font-size: 0.9rem;
+  }
+
+  .back-to-top {
+    bottom: 0.8rem;
+    right: 0.8rem;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .concept-container .content {
+    transition: none;
+  }
+
+  .concept-container .btn {
+    transition: none;
+  }
+
+  .concept-data .data-item {
+    transition: none;
+  }
+
+  .Roles-container li {
+    transition: none;
+  }
+
+  .Roles-container li:hover {
+    transform: none;
+  }
+
+  .back-to-top {
+    transition: none;
+  }
+
+  .back-to-top:hover {
+    transform: none;
+  }
+
+  .course-data ul li {
+    transition: none;
+  }
+
+  .course-data ul li:hover {
+    background-color: transparent;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .details-items {
+    display: block;
+    padding: 20px;
+  }
+
+  .details-items .item {
+    margin-bottom: 30px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .details-items .item .image-container img {
+    width: 120px;
+  }
+
+  .concept-container .button-group {
+    display: none;
+  }
+
+  .concept-container .content {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .back-to-top {
+    display: none;
+  }
+
+  .course-data ul li:hover {
+    background-color: transparent;
+  }
+
+  .Roles-container li {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .Roles-container li:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .details-items .item .text {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.concept-container .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.back-to-top:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.details-items .item .text ul li a:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.navigate .items a:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .concept-container .btn {
+    border: 2px solid CanvasText;
+  }
+
+  .concept-container .btn.active {
+    background: CanvasText;
+    color: Canvas;
+  }
+
+  .concept-data .data-item {
+    border: 1px solid CanvasText;
+  }
+
+  .Roles-container li {
+    border: 1px solid CanvasText;
+  }
+
+  .course-info .info-text {
+    border-bottom: 1px solid CanvasText;
+  }
+
+  .back-to-top {
+    border: 2px solid CanvasText;
+  }
+
+  .details-items .item .text {
+    border-bottom: 2px solid CanvasText;
+  }
+
+  .course-data ul li::before {
+    color: CanvasText;
+  }
 }

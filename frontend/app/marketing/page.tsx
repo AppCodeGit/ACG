@@ -13,18 +13,35 @@ import image5 from "./images/image5.png";
 import image6 from "./images/image6.png";
 import image7 from "./images/image7.png";
 import image8 from "./images/image8.png";
-// Fixed: Renamed to avoid conflict with Next.js Image component
 import MarketingImage from "./images/Marketing.png";
 import { useState, useEffect, useRef } from "react";
-// Fixed: Changed from NavLink to Next.js Link
 import Link from "next/link";
-// Added Next.js Image import
 import Image from "next/image";
 
 const DigitalMarketing = () => {
   const [sidebarTop, setSidebarTop] = useState(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("courses");
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, 9);
@@ -42,8 +59,7 @@ const DigitalMarketing = () => {
         setSidebarTop(0);
       }
 
-      // Determine which section is in view
-      const scrollPosition = window.scrollY + 100; // Adding some offset
+      const scrollPosition = window.scrollY + 100;
 
       sectionRefs.current.forEach(
         (section: HTMLElement | null, index: number) => {
@@ -86,7 +102,6 @@ const DigitalMarketing = () => {
         <Navigation />
         <div className="container navigate">
           <div className="items">
-            {/* Fixed: Changed NavLink to Link */}
             <Link href="/">Home</Link>
             <span className="material-symbols-outlined">arrow_and_edge</span>
           </div>
@@ -96,140 +111,156 @@ const DigitalMarketing = () => {
           {/* Sidebar */}
           <div className="sideBar-container">
             <div
-              className="Sidebar"
+              className={`Sidebar ${isMobile ? 'accordion' : ''}`}
               style={{
                 top: `${sidebarTop}px`,
                 transition: "top 0.3s ease",
               }}
             >
-              <ul>
-                <li
-                  onClick={() => handleScrollToSection("section1", -75)}
-                  className={activeSection === "section1" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
-                    </span>
-                    Full Program
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
+              {/* Accordion Header */}
+              <div 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("courses")}
+              >
+                <h3>Courses</h3>
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "courses" ? "−" : "+"}
                   </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section2", -75)}
-                  className={activeSection === "section2" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                )}
+              </div>
+
+              {/* Accordion Content */}
+              <div className={`accordion-content ${isMobile && openAccordion !== "courses" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li
+                    onClick={() => handleScrollToSection("section1", -75)}
+                    className={activeSection === "section1" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Full Program
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Facebook
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section3", -75)}
-                  className={activeSection === "section3" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section2", -75)}
+                    className={activeSection === "section2" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Facebook
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Instagram
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section4", -75)}
-                  className={activeSection === "section4" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section3", -75)}
+                    className={activeSection === "section3" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Instagram
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    LinkedIn
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section5", -75)}
-                  className={activeSection === "section5" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section4", -75)}
+                    className={activeSection === "section4" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      LinkedIn
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Twitter
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section6", -75)}
-                  className={activeSection === "section6" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section5", -75)}
+                    className={activeSection === "section5" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Twitter
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    YouTube
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section7", -75)}
-                  className={activeSection === "section7" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section6", -75)}
+                    className={activeSection === "section6" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      YouTube
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Google Ads
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section8", -75)}
-                  className={activeSection === "section8" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section7", -75)}
+                    className={activeSection === "section7" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Google Ads
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Pinterest
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section9", -75)}
-                  className={activeSection === "section9" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section8", -75)}
+                    className={activeSection === "section8" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Pinterest
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    TikTok
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-              </ul>
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section9", -75)}
+                    className={activeSection === "section9" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      TikTok
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -239,7 +270,6 @@ const DigitalMarketing = () => {
               <div className="course-details">
                 <h2 className="course-title">Digital Marketing</h2>
                 <div className="image-container">
-                  {/* Fixed: Changed from <img src={Image} ... /> to <Image src={MarketingImage} ... /> */}
                   <Image src={MarketingImage} alt="Digital Marketing" />
                 </div>
                 <div className="course-description">
@@ -290,7 +320,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image0} alt="Full Digital Marketing Program" />
                 </div>
                 <div className="text-container">
@@ -306,7 +335,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed button to Link if it should navigate, or keep as button if not */}
                     <Link href="/marketing/0.full_program" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -323,7 +351,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image1} alt="Facebook Marketing" />
                 </div>
                 <div className="text-container">
@@ -339,7 +366,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/1.facebook" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -356,7 +382,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image2} alt="Instagram Marketing" />
                 </div>
                 <div className="text-container">
@@ -372,7 +397,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/2.Instagram" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -389,7 +413,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image3} alt="LinkedIn Marketing" />
                 </div>
                 <div className="text-container">
@@ -404,7 +427,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/3.LinkedIn" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -421,7 +443,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image4} alt="Twitter Marketing" />
                 </div>
                 <div className="text-container">
@@ -436,7 +457,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/4.Twitter" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -453,7 +473,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image5} alt="YouTube Marketing" />
                 </div>
                 <div className="text-container">
@@ -468,7 +487,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/5.YouTube" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -485,7 +503,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image6} alt="Google Ads" />
                 </div>
                 <div className="text-container">
@@ -500,7 +517,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/6.Google-Ads" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -517,7 +533,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image7} alt="Pinterest" />
                 </div>
                 <div className="text-container">
@@ -533,7 +548,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/7.Pinterest" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -550,7 +564,6 @@ const DigitalMarketing = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image src={image8} alt="TikTok" />
                 </div>
                 <div className="text-container">
@@ -566,7 +579,6 @@ const DigitalMarketing = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 2,040</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/marketing/8.TikTok" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>

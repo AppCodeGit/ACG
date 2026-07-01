@@ -3,6 +3,7 @@
 import "../Software/Css/style.css";
 import Header from "../components/Header/HeaderPage";
 import Navigation from "../components/Navigation/NavPage";
+import Footer from "../components/footer/Footer";
 import AWS1 from "./images/AWS-Certified-Architect-Professional.png";
 import AWS2 from "./images/AWS-Certified-Architect-Associate.png";
 import AWS3 from "./images/AWS-Certified-Administrator-Associate.webp";
@@ -12,17 +13,34 @@ import AWS6 from "./images/AWS-Security-Specialty.webp";
 import AWS7 from "./images/AWS-Certified-Advanced-Networking-Specialty.png";
 import AWS8 from "./images/AWS-Big-Data-Logo.png";
 import { useState, useEffect, useRef } from "react";
-// Fixed: Changed from "./images/Cloud/Cloud.png" to a proper import name
 import CloudImage from "./images/Cloud.png";
 import Link from "next/link";
-import Footer from "../components/footer/Footer";
-// Add Next.js Image import
 import Image from "next/image";
 
 const Aws = () => {
   const [sidebarTop, setSidebarTop] = useState(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("courses");
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, 8);
@@ -40,8 +58,7 @@ const Aws = () => {
         setSidebarTop(0);
       }
 
-      // Determine which section is in view
-      const scrollPosition = window.scrollY + 100; // Adding some offset
+      const scrollPosition = window.scrollY + 100;
 
       sectionRefs.current.forEach(
         (section: HTMLElement | null, index: number) => {
@@ -84,7 +101,6 @@ const Aws = () => {
         <Navigation />
         <div className="container navigate">
           <div className="items">
-            {/* Fixed: Changed NavLink to Link */}
             <Link href="/">Home</Link>
             <span className="material-symbols-outlined">arrow_and_edge</span>
           </div>
@@ -94,126 +110,142 @@ const Aws = () => {
           {/* Sidebar */}
           <div className="sideBar-container">
             <div
-              className="Sidebar"
+              className={`Sidebar ${isMobile ? 'accordion' : ''}`}
               style={{
                 top: `${sidebarTop}px`,
                 transition: "top 0.3s ease",
               }}
             >
-              <ul>
-                <li
-                  onClick={() => handleScrollToSection("section1", -75)}
-                  className={activeSection === "section1" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
-                    </span>
-                    AWS CSAP
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
+              {/* Accordion Header */}
+              <div 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("courses")}
+              >
+                <h3>Courses</h3>
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "courses" ? "−" : "+"}
                   </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section2", -75)}
-                  className={activeSection === "section2" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                )}
+              </div>
+
+              {/* Accordion Content */}
+              <div className={`accordion-content ${isMobile && openAccordion !== "courses" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li
+                    onClick={() => handleScrollToSection("section1", -75)}
+                    className={activeSection === "section1" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CSAP
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CSAA
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section3", -75)}
-                  className={activeSection === "section3" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section2", -75)}
+                    className={activeSection === "section2" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CSAA
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CSAA
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section4", -75)}
-                  className={activeSection === "section4" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section3", -75)}
+                    className={activeSection === "section3" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CSAA
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CDEP
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section5", -75)}
-                  className={activeSection === "section5" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section4", -75)}
+                    className={activeSection === "section4" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CDEP
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CDA
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section6", -75)}
-                  className={activeSection === "section6" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section5", -75)}
+                    className={activeSection === "section5" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CDA
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CSS
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section7", -75)}
-                  className={activeSection === "section7" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section6", -75)}
+                    className={activeSection === "section6" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CSS
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CANS
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section8", -75)}
-                  className={activeSection === "section8" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section7", -75)}
+                    className={activeSection === "section7" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CANS
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    AWS CBDS
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-              </ul>
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section8", -75)}
+                    className={activeSection === "section8" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      AWS CBDS
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -223,7 +255,6 @@ const Aws = () => {
               <div className="course-details">
                 <h2 className="course-title">Amazon Web Services</h2>
                 <div className="image-container">
-                  {/* Fixed: Changed from <img src={Image} ... /> to <Image src={CloudImage} ... /> */}
                   <Image src={CloudImage} alt="AWS Cloud" />
                 </div>
                 <div className="course-description">
@@ -299,7 +330,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/1.AWS-SA-Pro-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -335,7 +365,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link
                       href="/aws/2.AWS-SA-Associate-Details"
                       className="btn"
@@ -374,7 +403,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/3.Aws-Sys-Ops-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -409,7 +437,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/4.AWS-Dev-En-Pro-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -441,7 +468,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link
                       href="/aws/5.AWS-Dev-Associate-Details"
                       className="btn"
@@ -477,7 +503,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 7,020</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/6.AWS-SS-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -513,7 +538,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 7,020</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/7.Aws-Ad-Net-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>
@@ -525,7 +549,7 @@ const Aws = () => {
               <section
                 id="section8"
                 className={`section ${activeSection === "section8" ? "section-active" : ""}`}
-               ref={(el: HTMLElement | null) => {
+                ref={(el: HTMLElement | null) => {
                   sectionRefs.current[7] = el;
                 }}
               >
@@ -545,7 +569,6 @@ const Aws = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 7,020</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link href="/aws/8.AWS-Bi-Data-Details" className="btn">
                       Learn More
                       <span className="material-symbols-outlined">east</span>

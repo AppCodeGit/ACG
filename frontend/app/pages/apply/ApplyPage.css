@@ -1,4 +1,12 @@
-/* Parent container - PaymentPage.css */
+/* ============================================
+   APPLY PAGE STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 768px, 769px, 991px, 1024px, 1025px, 1200px+
+   ============================================ */
+
+/* ============================================
+   PARENT CONTAINER
+   ============================================ */
 .payment-page {
   display: flex;
   justify-content: space-between;
@@ -7,8 +15,11 @@
   padding: 50px 50px;
 }
 
+/* ============================================
+   IMAGE CONTAINER
+   ============================================ */
 .payment-page .image-container {
-  flex: 1; /* Add to control image container width */
+  flex: 1;
   margin-bottom: 30px;
   animation: fadeInDown 0.6s ease;
 }
@@ -17,46 +28,57 @@
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 8px; /* Add subtle rounding for better aesthetics */
+  border-radius: 8px;
 }
 
+/* ============================================
+   PAYMENT CONTAINER
+   ============================================ */
 .payment-page .payment-container {
-  flex: 1; /* Add to control payment container width */
+  flex: 1;
   background-color: #fff;
-  padding: 40px; /* Increased from 20px for better spacing */
+  padding: 40px;
   text-align: center;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
   animation: fadeInUp 0.6s ease;
-  border-radius: 16px; /* Add rounding for consistency */
+  border-radius: 16px;
 }
 
-.payment-page .payment-container strong{
+.payment-page .payment-container strong {
   color: #4d4d4d;
   font-weight: 700;
   letter-spacing: 0.4px;
 }
 
+/* ============================================
+   TITLE
+   ============================================ */
 .payment-page .payment-title {
   font-size: 2rem;
   color: #e9691e;
-  margin-bottom: 24px; /* Increased from 12px */
+  margin-bottom: 24px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-/* Note: These classes need .payment-page prefix for consistency */
+/* ============================================
+   PAYMENT DESCRIPTION
+   ============================================ */
 .payment-page .payment-description {
   background-color: #fef4f4;
   border-left: 5px solid #e9691e;
   padding: 16px 20px;
   border-radius: 10px;
-  font-size: 0.95rem; /* Slightly increased for readability */
+  font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 20px;
   text-align: left;
 }
 
+/* ============================================
+   PAYMENT INFO
+   ============================================ */
 .payment-page .payment-info {
   background-color: #f6fff6;
   padding: 14px 20px;
@@ -68,13 +90,16 @@
   line-height: 1.6;
 }
 
+/* ============================================
+   PAYMENT NOTE
+   ============================================ */
 .payment-page .payment-note {
   background-color: #fff8e1;
   padding: 14px 20px;
   border-left: 5px solid #e9691e;
   border-radius: 10px;
   font-size: 0.95rem;
-  margin: 25px 0 30px 0; /* Added bottom margin */
+  margin: 25px 0 30px 0;
   text-align: left;
   line-height: 1.5;
 }
@@ -84,57 +109,27 @@
   color: #0f9d58;
 }
 
+/* ============================================
+   BUTTON - Original Style Preserved
+   ============================================ */
 .payment-page .btn-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Add spacing above button */
+  margin-top: 20px;
 }
 
-/* ISSUE: Class mismatch - TSX uses "btn" but CSS uses "pay-button" */
 .payment-page .btn {
   font-size: 0.8rem;
 }
 
 .payment-page .material-symbols-outlined {
   font-size: 1.2rem;
-  vertical-align: middle; /* Better alignment with text */
+  vertical-align: middle;
 }
 
-/* Responsive Design */
-@media (max-width: 968px) {
-  .payment-page {
-    flex-direction: column;
-    gap: 40px;
-    min-height: auto;
-    padding: 20px;
-  }
-  
-  .payment-page .image-container {
-    width: 100%;
-    max-width: 500px; /* Limit image size on mobile */
-    margin: 0 auto 20px;
-  }
-  
-  .payment-page .payment-container {
-    padding: 30px 20px;
-  }
-  
-  .payment-page .payment-title {
-    font-size: 1.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .payment-page .payment-title {
-    font-size: 1.5rem;
-  }
-  
-  .payment-page .btn {
-    width: 100%; /* Full width button on mobile */
-    justify-content: center;
-  }
-}
-
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -154,5 +149,422 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
+  .payment-page {
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .payment-page .image-container {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 12px;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .payment-page .payment-container {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.8rem;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+
+  .payment-page .payment-note {
+    margin: 16px 0 20px 0;
+  }
+
+  .payment-page .btn-container {
+    margin-top: 12px;
+  }
+
+  .payment-page .btn {
+    font-size: 0.75rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .payment-page .material-symbols-outlined {
+    font-size: 1rem;
+  }
+
+  .payment-page .payment-container strong {
+    font-weight: 600;
+  }
+}
+
+/* ===== 481px — 768px: iPads and Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .payment-page {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 20px;
+  }
+
+  .payment-page .image-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 16px;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .payment-page .payment-container {
+    padding: 28px 24px;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.88rem;
+    padding: 14px 16px;
+  }
+
+  .payment-page .payment-note {
+    margin: 20px 0 24px 0;
+  }
+
+  .payment-page .btn {
+    font-size: 0.78rem;
+    min-width: 200px;
+  }
+
+  .payment-page .material-symbols-outlined {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== 769px — 991px: Small Screens, Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .payment-page {
+    flex-direction: column;
+    gap: 40px;
+    padding: 30px 24px;
+  }
+
+  .payment-page .image-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 20px;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .payment-page .payment-container {
+    padding: 32px 28px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.8rem;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.92rem;
+  }
+
+  .payment-page .btn {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== 992px — 1024px: Small Laptops ===== */
+@media (min-width: 992px) and (max-width: 1024px) {
+  .payment-page {
+    gap: 40px;
+    padding: 40px 30px;
+  }
+
+  .payment-page .image-container {
+    flex: 1;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+    max-width: 450px;
+  }
+
+  .payment-page .payment-container {
+    padding: 32px 28px;
+    flex: 1;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.8rem;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.9rem;
+  }
+
+  .payment-page .btn {
+    font-size: 0.78rem;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .payment-page {
+    gap: 50px;
+    padding: 45px 40px;
+  }
+
+  .payment-page .image-container {
+    flex: 1;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+  }
+
+  .payment-page .payment-container {
+    padding: 36px 32px;
+    flex: 1;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.9rem;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.93rem;
+  }
+
+  .payment-page .btn {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .payment-page {
+    gap: 60px;
+    padding: 50px 50px;
+  }
+
+  .payment-page .image-container {
+    flex: 1;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .payment-page .payment-container {
+    padding: 40px;
+    flex: 1;
+  }
+
+  .payment-page .payment-title {
+    font-size: 2rem;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.95rem;
+  }
+
+  .payment-page .btn {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 600px) and (orientation: landscape) and (max-width: 991px) {
+  .payment-page {
+    flex-direction: row;
+    gap: 24px;
+    padding: 16px 20px;
+    align-items: stretch;
+  }
+
+  .payment-page .image-container {
+    flex: 0 0 40%;
+    max-width: 300px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .payment-page .logo-image {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
+  }
+
+  .payment-page .payment-container {
+    flex: 1;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .payment-page .payment-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+
+  .payment-page .payment-note {
+    margin: 12px 0 16px 0;
+  }
+
+  .payment-page .btn-container {
+    margin-top: 8px;
+  }
+
+  .payment-page .btn {
+    font-size: 0.7rem;
+    min-width: 140px;
+  }
+
+  .payment-page .material-symbols-outlined {
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .payment-page .image-container {
+    animation: none;
+  }
+
+  .payment-page .payment-container {
+    animation: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .payment-page {
+    padding: 20px;
+    gap: 30px;
+    flex-direction: column;
+  }
+
+  .payment-page .image-container {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .payment-page .payment-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+
+  .payment-page .btn-container {
+    display: none;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    background-color: #f9f9f9;
+    border-left: 3px solid #e9691e;
+  }
+
+  .payment-page .payment-title {
+    color: #333;
+  }
+
+  .payment-page .logo-image {
+    border-radius: 4px;
+  }
+
+  .payment-page .image-container {
+    animation: none;
+  }
+
+  .payment-page .payment-container {
+    animation: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.payment-page .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .payment-page .payment-container {
+    border: 2px solid CanvasText;
+  }
+
+  .payment-page .payment-description,
+  .payment-page .payment-info,
+  .payment-page .payment-note {
+    border-left: 4px solid CanvasText;
+  }
+
+  .payment-page .highlight-paystack {
+    color: CanvasText;
   }
 }

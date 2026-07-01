@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import "./LandingPage.css";
 import Carousel from "../Home/MyCarousel";
 import Image from "next/image";
@@ -10,141 +11,188 @@ import exploreImage from "../../assets/explore.png";
 import quickImage from "../../assets/quick.png";
 
 const LandingPage = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>(
+    "quickLinks",
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
+
   return (
     <div className="landing-page">
       <div className="grid-container container">
-        {/* == Container One - Navigation Links */}
+        {/* == Container One - Navigation Links == */}
         <div className="grid-nav">
-          {/* == Quick Links == */}
-          <div className="nav-section navOne">
-            <h3>
-              <Image
-                src={exploreImage}
-                alt="Explore icon"
-              
-                className="icon"
-              />
-              Quick Links
+          {/* == Quick Links - Accordion == */}
+          <div className={`nav-section navOne ${isMobile ? "accordion" : ""}`}>
+            <h3
+              className={`accordion-header ${isMobile ? "clickable" : ""}`}
+              onClick={() => isMobile && toggleAccordion("quickLinks")}
+            >
+              <div>
+                <Image src={exploreImage} alt="Explore icon" className="icon" />
+                Quick Links
+              </div>
+              {isMobile && (
+                <span className="accordion-icon">
+                  {openAccordion === "quickLinks" ? "−" : "+"}
+                </span>
+              )}
             </h3>
-            <br />
-            <ul>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="nav-icon material-symbols-outlined">
-                      info
+            <div
+              className={`accordion-content ${isMobile && openAccordion !== "quickLinks" ? "collapsed" : ""}`}
+            >
+              <br />
+              <ul>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="nav-icon material-symbols-outlined">
+                        info
+                      </span>
+                      About
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    About
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="nav-icon material-symbols-outlined">
-                      handshake
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="nav-icon material-symbols-outlined">
+                        handshake
+                      </span>
+                      Service
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Service
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="nav-icon material-symbols-outlined">
-                      article
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="nav-icon material-symbols-outlined">
+                        article
+                      </span>
+                      Blog
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Blog
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="nav-icon material-symbols-outlined">
-                      contact_mail
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="nav-icon material-symbols-outlined">
+                        contact_mail
+                      </span>
+                      Contact
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Contact
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-            </ul>
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* == Explore Opportunities == */}
-          <div className="nav-section navTwo">
-            <br />
-            <h3>
-              <Image src={quickImage} alt="Quick icon" className="icon" />
-              Explore Opportunities
+          {/* == Explore Opportunities - Accordion == */}
+          <div className={`nav-section navTwo ${isMobile ? "accordion" : ""}`}>
+            <h3
+              className={`accordion-header ${isMobile ? "clickable" : ""}`}
+              onClick={() =>
+                isMobile && toggleAccordion("exploreOpportunities")
+              }
+            >
+              <div>
+                <Image src={quickImage} alt="Quick icon" className="icon" />
+                Explore Opportunities
+              </div>
+              {isMobile && (
+                <span className="accordion-icon">
+                  {openAccordion === "exploreOpportunities" ? "−" : "+"}
+                </span>
+              )}
             </h3>
-            <br />
-            <ul>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="material-symbols-outlined nav-icon">
-                      school
+            <div
+              className={`accordion-content ${isMobile && openAccordion !== "exploreOpportunities" ? "collapsed" : ""}`}
+            >
+              <br />
+              <ul>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="material-symbols-outlined nav-icon">
+                        school
+                      </span>
+                      Bootcamps
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Bootcamps
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="material-symbols-outlined nav-icon">
-                      event
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="material-symbols-outlined nav-icon">
+                        event
+                      </span>
+                      Events
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Events
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="material-symbols-outlined nav-icon">
-                      timer
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="material-symbols-outlined nav-icon">
+                        timer
+                      </span>
+                      Pre-Session
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Pre-Session
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <div className="link">
-                    <span className="material-symbols-outlined nav-icon">
-                      psychology
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <div className="link">
+                      <span className="material-symbols-outlined nav-icon">
+                        psychology
+                      </span>
+                      Workshops
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Workshops
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </Link>
-              </li>
-            </ul>
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -191,7 +239,7 @@ const LandingPage = () => {
                 <Image
                   src={forexImage}
                   alt="Forex Trading Training"
-                  className="image" // Add this
+                  className="image"
                 />
                 Program in Forex Trading
               </div>
@@ -234,7 +282,7 @@ const LandingPage = () => {
                 <Image
                   src={cloudimage}
                   alt="Cloud Computing Training"
-                  className="image" // Add this
+                  className="image"
                 />
                 Program in Cloud Computing
               </div>

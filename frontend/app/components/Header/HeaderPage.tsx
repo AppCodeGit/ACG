@@ -31,10 +31,11 @@ interface CheckAuthResponse {
 
 const getInitials = (fullName: string): string => {
   if (!fullName) return "U";
-  
+
   const names = fullName.trim().split(" ");
   if (names.length === 1) return names[0].charAt(0).toUpperCase();
-  if (names.length >= 2) return (names[0].charAt(0) + names[1].charAt(0)).toUpperCase();
+  if (names.length >= 2)
+    return (names[0].charAt(0) + names[1].charAt(0)).toUpperCase();
   return "U";
 };
 
@@ -58,17 +59,20 @@ const getAvatarUrl = (user: User | null, profileImageUrl?: string): string => {
 // Utility function to safely fetch JSON
 const fetchJSON = async <T,>(
   url: string,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<T> => {
   const response = await fetch(url, options);
-  
+
   // Check if response is ok
   if (!response.ok) {
     const errorText = await response.text();
-    console.error(`API Error (${response.status}):`, errorText.substring(0, 200));
+    console.error(
+      `API Error (${response.status}):`,
+      errorText.substring(0, 200),
+    );
     throw new Error(`API returned ${response.status}: ${response.statusText}`);
   }
-  
+
   // Check content type
   const contentType = response.headers.get("content-type");
   if (!contentType || !contentType.includes("application/json")) {
@@ -77,29 +81,31 @@ const fetchJSON = async <T,>(
     console.error("Response preview:", text.substring(0, 300));
     throw new Error("Invalid response format from server (expected JSON)");
   }
-  
+
   return response.json();
 };
 
-const fetchUserProfileData = async (email: string): Promise<{ name: string; email: string; profileImage?: string } | null> => {
+const fetchUserProfileData = async (
+  email: string,
+): Promise<{ name: string; email: string; profileImage?: string } | null> => {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
-    
-    const data = await fetchJSON<{ success: boolean; user?: { name: string; email: string; profileImage?: string } }>(
-      `${API_URL}/api/profile/${email}`,
-      {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-      }
-    );
-    
+
+    const data = await fetchJSON<{
+      success: boolean;
+      user?: { name: string; email: string; profileImage?: string };
+    }>(`${API_URL}/api/profile/${email}`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+
     if (data.success && data.user) {
       return {
         name: data.user.name,
         email: data.user.email,
-        profileImage: data.user.profileImage
+        profileImage: data.user.profileImage,
       };
     }
     return null;
@@ -113,16 +119,16 @@ const fetchProfileImage = async (email: string): Promise<string | null> => {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
-    
+
     const data = await fetchJSON<{ success: boolean; profileImage?: string }>(
       `${API_URL}/api/profile/profile-image/${email}`,
       {
         headers: {
           Authorization: token ? `Bearer ${token}` : "",
         },
-      }
+      },
     );
-    
+
     if (data.success && data.profileImage) {
       return data.profileImage;
     }
@@ -193,20 +199,20 @@ export default function Header() {
 
   const loadUserProfileData = async (email: string) => {
     if (isLoggingOut) return;
-    
+
     const profileData = await fetchUserProfileData(email);
-    
+
     if (profileData && user) {
       const updatedUser = {
         ...user,
         fullName: profileData.name,
         email: profileData.email,
-        profileImage: profileData.profileImage || user?.profileImage
+        profileImage: profileData.profileImage || user?.profileImage,
       };
-      
+
       setUser(updatedUser as User);
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      
+
       if (profileData.profileImage) {
         setProfileImage(profileData.profileImage);
       } else {
@@ -260,18 +266,22 @@ export default function Header() {
       }
 
       // Check with backend to validate session
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
       try {
         // Try to validate with backend
-        const data = await fetchJSON<CheckAuthResponse>(`${API_URL}/api/auth/check-auth`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+        const data = await fetchJSON<CheckAuthResponse>(
+          `${API_URL}/api/auth/check-auth`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ email: storedUser.email }),
           },
-          body: JSON.stringify({ email: storedUser.email }),
-        });
+        );
 
         if (data.success && data.user) {
           // Session is valid - update user data if needed
@@ -283,7 +293,7 @@ export default function Header() {
 
           setUser(mergedUser);
           localStorage.setItem("user", JSON.stringify(mergedUser));
-          
+
           if (mergedUser.profileImage) {
             setProfileImage(mergedUser.profileImage);
           }
@@ -298,7 +308,9 @@ export default function Header() {
       } catch (fetchError: any) {
         // Handle 404 specifically - endpoint doesn't exist
         if (fetchError.message?.includes("404")) {
-          console.warn("Auth check endpoint not found (404). Using local session only.");
+          console.warn(
+            "Auth check endpoint not found (404). Using local session only.",
+          );
           // Since the endpoint doesn't exist, just use the stored user data
           // This is typical for development or when backend auth isn't fully implemented
           setUser(storedUser);
@@ -319,7 +331,7 @@ export default function Header() {
     } catch (error) {
       console.error("Auth error:", error);
       // Don't clear on error to prevent logout loops
-      if (error instanceof TypeError && error.message.includes('fetch')) {
+      if (error instanceof TypeError && error.message.includes("fetch")) {
         // Network error - keep existing user data
         console.log("Network error - keeping existing session");
       } else {
@@ -353,41 +365,44 @@ export default function Header() {
       e.preventDefault();
       e.stopPropagation();
     }
-    
+
     console.log("Starting logout process...");
-    
+
     // Set logging out flag to prevent re-authentication
     setIsLoggingOut(true);
-    
+
     try {
       // Call logout endpoint if it exists
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const token = localStorage.getItem("token");
-      
+
       if (token) {
         try {
           await fetch(`${API_URL}/api/auth/logout`, {
             method: "POST",
             headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json"
-            }
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           });
         } catch (err) {
           // Ignore logout API errors - it's optional
-          console.log("Logout API not available, proceeding with client-side logout");
+          console.log(
+            "Logout API not available, proceeding with client-side logout",
+          );
         }
       }
     } catch (error) {
       console.error("Error calling logout API:", error);
     }
-    
+
     // Clear all localStorage
     localStorage.clear();
-    
+
     // Clear sessionStorage
     sessionStorage.clear();
-    
+
     // Clear all cookies
     document.cookie.split(";").forEach((cookie) => {
       const [name] = cookie.split("=");
@@ -396,12 +411,12 @@ export default function Header() {
         document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
       }
     });
-    
+
     // Reset all state
     setUser(null);
     setProfileImage("");
     setIsDropdownOpen(false);
-    
+
     // Force hard redirect to login page
     window.location.replace("/login");
   };
@@ -432,33 +447,26 @@ export default function Header() {
         </Link>
 
         <div className="header-contact">
+          {/* Search Bar */}
           <div className="search-bar-container">
-            {!isSearchVisible ? (
-              <button
-                className="search-icon-button"
-                onClick={toggleSearch}
-                type="button"
-              >
+            {!isSearchVisible && (
+              <button className="search-icon-button" onClick={toggleSearch}>
                 <span className="material-symbols-outlined">search</span>
               </button>
-            ) : (
+            )}
+            {isSearchVisible && (
               <div className="search-wrapper">
                 <input
                   type="text"
                   placeholder="Search..."
                   className="search-input"
                 />
-                <button
-                  className="close-icon-button"
-                  onClick={toggleSearch}
-                  type="button"
-                >
+                <button className="close-icon-button" onClick={toggleSearch}>
                   <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
             )}
           </div>
-
           <div className="login-container">
             {user ? (
               isAdmin ? (

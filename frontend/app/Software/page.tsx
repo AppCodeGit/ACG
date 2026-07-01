@@ -23,7 +23,27 @@ import { useState, useEffect, useRef } from "react";
 const Software = () => {
   const [sidebarTop, setSidebarTop] = useState(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("courses");
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, 7);
@@ -42,7 +62,7 @@ const Software = () => {
       }
 
       // Determine which section is in view
-      const scrollPosition = window.scrollY + 100; // Adding some offset
+      const scrollPosition = window.scrollY + 100;
 
       sectionRefs.current.forEach(
         (section: HTMLElement | null, index: number) => {
@@ -93,112 +113,128 @@ const Software = () => {
         <div className="software-page container">
           <div className="sideBar-container">
             <div
-              className="Sidebar"
+              className={`Sidebar ${isMobile ? 'accordion' : ''}`}
               style={{
                 top: `${sidebarTop}px`,
                 transition: "top 0.3s ease",
               }}
             >
-              <ul>
-                <li
-                  onClick={() => handleScrollToSection("section1", -75)}
-                  className={activeSection === "section1" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
-                    </span>
-                    Front End
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
+              {/* Accordion Header */}
+              <div 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("courses")}
+              >
+                <h3>Courses</h3>
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "courses" ? "−" : "+"}
                   </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section2", -75)}
-                  className={activeSection === "section2" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                )}
+              </div>
+
+              {/* Accordion Content */}
+              <div className={`accordion-content ${isMobile && openAccordion !== "courses" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li
+                    onClick={() => handleScrollToSection("section1", -75)}
+                    className={activeSection === "section1" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Front End
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Backend
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section3", -75)}
-                  className={activeSection === "section3" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section2", -75)}
+                    className={activeSection === "section2" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Backend
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Mobile Development
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section4", -75)}
-                  className={activeSection === "section4" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section3", -75)}
+                    className={activeSection === "section3" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Mobile Development
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Next.js
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section5", -75)}
-                  className={activeSection === "section5" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section4", -75)}
+                    className={activeSection === "section4" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Next.js
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    Flutter
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section6", -75)}
-                  className={activeSection === "section6" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section5", -75)}
+                    className={activeSection === "section5" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Flutter
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    JavaScript
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-                <li
-                  onClick={() => handleScrollToSection("section7", -75)}
-                  className={activeSection === "section7" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section6", -75)}
+                    className={activeSection === "section6" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      JavaScript
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
                     </span>
-                    TypeScript
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
-                  </span>
-                </li>
-              </ul>
+                  </li>
+                  <li
+                    onClick={() => handleScrollToSection("section7", -75)}
+                    className={activeSection === "section7" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      TypeScript
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -208,7 +244,6 @@ const Software = () => {
               <div className="course-details">
                 <h2 className="course-title">FullStack Development</h2>
                 <div className="image-container">
-                  {/* Fixed: Using SoftwareImage instead of undefined Image variable */}
                   <Image src={SoftwareImage} alt="FullStack Development" />
                 </div>
                 <div className="course-description">
@@ -406,7 +441,7 @@ const Software = () => {
                     compiled applications for mobile, web, and desktop from a
                     single codebase. Created by Google, Flutter uses the Dart
                     programming language and provides a rich set of customizable
-                    widgets to build stunning and performant apps. It’s ideal
+                    widgets to build stunning and performant apps. It's ideal
                     for developers aiming to deliver a consistent user
                     experience across multiple platforms.
                   </p>

@@ -1,4 +1,12 @@
+/* ============================================
+   SOFTWARE PAGE STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 768px, 769px, 991px, 1024px, 1025px, 1200px+
+   ============================================ */
 
+/* ============================================
+   NAVIGATION / BREADCRUMB
+   ============================================ */
 .navigate {
   display: flex;
   align-items: center;
@@ -38,11 +46,17 @@
   transform: rotate(-90deg);
 }
 
+/* ============================================
+   SOFTWARE PAGE - MAIN LAYOUT
+   ============================================ */
 .software-page {
   display: flex;
   gap: 30px;
 }
 
+/* ============================================
+   SIDEBAR
+   ============================================ */
 .sideBar-container {
   position: relative;
   margin-top: 14px;
@@ -50,11 +64,73 @@
 
 .Sidebar {
   position: sticky;
-  width: 213px; /* Adjust based on your layout */
+  width: 213px;
   z-index: 10;
   transition: top 0.3s ease-in-out;
   background-color: #fff;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   SIDEBAR ACCORDION STYLES
+   ============================================ */
+.Sidebar .accordion-header {
+  display: none;
+  padding: 14px 16px;
+  cursor: default;
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.Sidebar .accordion-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1d1d1d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.Sidebar .accordion-header.clickable {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Sidebar .accordion-header.clickable:hover {
+  background: #f8f9fa;
+}
+
+.Sidebar .accordion-header.clickable:hover h3 {
+  color: #e9691e;
+}
+
+.Sidebar .accordion-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #e9691e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #ffeee4;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.Sidebar .accordion-content {
+  overflow: hidden;
+  transition: all 0.4s ease;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.Sidebar .accordion-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
 }
 
 .Sidebar ul {
@@ -80,7 +156,6 @@
   cursor: pointer;
 }
 
-/* Add this to your style.css */
 .Sidebar ul li.active {
   background: #ffeee4;
   transform: translateY(-2px);
@@ -118,10 +193,16 @@
   align-items: center;
 }
 
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
 .main-Content .Content {
   margin-bottom: 24em;
 }
 
+/* ============================================
+   COURSE DETAILS
+   ============================================ */
 .Content .course-details .course-title {
   font-size: 1.5rem;
   color: #e9691e;
@@ -148,6 +229,9 @@
   color: #e9691e;
 }
 
+/* ============================================
+   SECTIONS
+   ============================================ */
 .Content .section {
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -192,14 +276,16 @@
   border-radius: 4px;
 }
 
-/* Active section styling */
+/* ============================================
+   ACTIVE SECTION
+   ============================================ */
 .section.section-active {
   background: #ffeee4;
   transform: translateY(-2px);
   box-shadow: 0 10px 18px rgba(253, 121, 13, 0.2);
   animation: glow 2s ease-in-out infinite alternate;
   position: relative;
-  z-index: 1; /* Ensures glow appears above other elements */
+  z-index: 1;
 }
 
 @keyframes glow {
@@ -211,11 +297,13 @@
   }
 }
 
-/* Optional: Add a smooth transition for when the section becomes active */
 .section {
   transition: all 0.3s ease-out;
 }
 
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
 .back-to-top {
   position: fixed;
   line-height: 14px;
@@ -238,4 +326,913 @@
 .back-to-top:hover {
   background-color: #793108;
   transform: scale(1.2);
+}
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
+  .software-page {
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 8px;
+  }
+
+  .sideBar-container {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .Sidebar {
+    position: static;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Accordion Header - Mobile */
+  .Sidebar .accordion-header {
+    display: flex !important;
+    padding: 12px 14px;
+  }
+
+  .Sidebar .accordion-header h3 {
+    font-size: 0.9rem;
+  }
+
+  .Sidebar .accordion-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 1.2rem;
+  }
+
+  .Sidebar .accordion-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+  }
+
+  .Sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .Sidebar li {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 100px;
+    padding: 8px 10px;
+    font-size: 0.7rem;
+    margin-bottom: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.7rem;
+    gap: 3px;
+  }
+
+  .Sidebar li .format {
+    font-size: 14px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: none;
+  }
+
+  .Sidebar ul li.active {
+    transform: translateY(-1px);
+  }
+
+  .Sidebar li:hover {
+    transform: translateY(-1px);
+  }
+
+  .main-Content .Content {
+    margin-bottom: 2em;
+  }
+
+  .Content .course-details .course-title {
+    font-size: 1.1rem;
+    padding: 8px 0;
+  }
+
+  .Content .course-description .text {
+    font-size: 0.85rem;
+    line-height: 22px;
+  }
+
+  .Content .course-description .text ul {
+    padding-left: 18px;
+  }
+
+  .Content .course-description .text ul li {
+    margin-bottom: 6px;
+  }
+
+  .Content .section {
+    flex-direction: column;
+    padding: 14px;
+    gap: 12px;
+    margin: 1.2em 0;
+  }
+
+  .Content .section .image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .Content .section .image-container img {
+    width: 120px;
+    height: auto;
+  }
+
+  .Content .section .text-container {
+    width: 100%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+
+  .Content .section p {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .Content .section .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .Content .section .button-container .amount {
+    font-size: 1.1rem;
+  }
+
+  .Content .section .button-container .btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .Content .section .button-container .btn span {
+    font-size: 14px;
+  }
+
+  .back-to-top {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 7px 10px;
+    font-size: 0.75rem;
+  }
+
+  .navigate {
+    gap: 10px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+
+  .navigate .items a {
+    font-size: 0.8rem;
+  }
+
+  .navigate span {
+    font-size: 0.8rem;
+  }
+
+  .navigate .material-symbols-outlined {
+    font-size: 16px;
+  }
+}
+
+/* ===== 481px — 768px: iPads and Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .software-page {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 12px;
+  }
+
+  .sideBar-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .Sidebar {
+    position: static;
+    width: 100%;
+  }
+
+  /* Accordion Header - Tablet */
+  .Sidebar .accordion-header {
+    display: flex !important;
+    padding: 14px 16px;
+  }
+
+  .Sidebar .accordion-header h3 {
+    font-size: 0.95rem;
+  }
+
+  .Sidebar .accordion-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 1.3rem;
+  }
+
+  .Sidebar .accordion-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+  }
+
+  .Sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .Sidebar li {
+    flex: 1 1 calc(33.33% - 8px);
+    min-width: 120px;
+    padding: 10px 12px;
+    font-size: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.75rem;
+  }
+
+  .Sidebar li .format {
+    font-size: 15px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: none;
+  }
+
+  .main-Content .Content {
+    margin-bottom: 2em;
+  }
+
+  .Content .course-details .course-title {
+    font-size: 1.3rem;
+  }
+
+  .Content .section {
+    flex-direction: column;
+    padding: 18px;
+    gap: 16px;
+    margin: 1.5em 0;
+  }
+
+  .Content .section .image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .Content .section .image-container img {
+    width: 140px;
+    height: auto;
+  }
+
+  .Content .section .text-container {
+    width: 100%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .Content .section p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .Content .section .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .Content .section .button-container .btn {
+    padding: 9px 18px;
+    font-size: 0.85rem;
+    width: 200px;
+    justify-content: center;
+  }
+
+  .back-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 8px 11px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== 769px — 991px: Small Screens, Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .software-page {
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 16px;
+  }
+
+  .sideBar-container {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .Sidebar {
+    position: static;
+    width: 100%;
+  }
+
+  /* Accordion Header - Small Laptop */
+  .Sidebar .accordion-header {
+    display: flex !important;
+    padding: 16px 20px;
+  }
+
+  .Sidebar .accordion-header h3 {
+    font-size: 1rem;
+  }
+
+  .Sidebar .accordion-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 1.4rem;
+  }
+
+  .Sidebar .accordion-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+  }
+
+  .Sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .Sidebar li {
+    flex: 1 1 calc(25% - 10px);
+    min-width: 140px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.8rem;
+  }
+
+  .Sidebar li .format {
+    font-size: 16px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: none;
+  }
+
+  .main-Content .Content {
+    margin-bottom: 2em;
+  }
+
+  .Content .course-details .course-title {
+    font-size: 1.4rem;
+  }
+
+  .Content .section {
+    flex-direction: column;
+    padding: 20px;
+    gap: 18px;
+    margin: 1.8em 0;
+  }
+
+  .Content .section .image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .Content .section .image-container img {
+    width: 150px;
+    height: auto;
+  }
+
+  .Content .section .text-container {
+    width: 100%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .Content .section p {
+    font-size: 0.92rem;
+    text-align: center;
+  }
+
+  .Content .section .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .Content .section .button-container .btn {
+    padding: 10px 20px;
+    font-size: 0.88rem;
+    width: 220px;
+    justify-content: center;
+  }
+}
+
+/* ===== 992px — 1024px: Small Laptops ===== */
+@media (min-width: 992px) and (max-width: 1024px) {
+  .software-page {
+    gap: 24px;
+    padding: 0 16px;
+  }
+
+  .Sidebar {
+    width: 180px;
+  }
+
+  /* No accordion on desktop */
+  .Sidebar .accordion-header {
+    display: none !important;
+  }
+
+  .Sidebar .accordion-content {
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+
+  .Sidebar ul {
+    display: block;
+    padding: 10px;
+  }
+
+  .Sidebar li {
+    display: flex;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.8rem;
+  }
+
+  .Sidebar li .format {
+    font-size: 16px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: block;
+    font-size: 0.9rem;
+  }
+
+  .Content .section {
+    padding: 18px;
+    gap: 24px;
+  }
+
+  .Content .section .image-container img {
+    width: 140px;
+  }
+
+  .Content .section .text-container {
+    width: 55%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.3rem;
+  }
+
+  .Content .section p {
+    font-size: 0.9rem;
+  }
+
+  .Content .section .button-container .btn {
+    padding: 9px 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .software-page {
+    gap: 28px;
+    padding: 0 20px;
+  }
+
+  .Sidebar {
+    width: 195px;
+  }
+
+  /* No accordion on desktop */
+  .Sidebar .accordion-header {
+    display: none !important;
+  }
+
+  .Sidebar .accordion-content {
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+
+  .Sidebar ul {
+    display: block;
+    padding: 10px;
+  }
+
+  .Sidebar li {
+    display: flex;
+    padding: 11px 14px;
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.85rem;
+  }
+
+  .Sidebar .arrow-icon {
+    display: block;
+  }
+
+  .Content .section {
+    padding: 20px;
+    gap: 28px;
+  }
+
+  .Content .section .image-container img {
+    width: 150px;
+  }
+
+  .Content .section .text-container {
+    width: 58%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.4rem;
+  }
+
+  .Content .section p {
+    font-size: 0.92rem;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .software-page {
+    gap: 30px;
+    padding: 0 0;
+  }
+
+  .Sidebar {
+    width: 213px;
+  }
+
+  /* No accordion on desktop */
+  .Sidebar .accordion-header {
+    display: none !important;
+  }
+
+  .Sidebar .accordion-content {
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+
+  .Sidebar ul {
+    display: block;
+    padding: 10px;
+  }
+
+  .Sidebar li {
+    display: flex;
+    padding: 12px 10px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: block;
+  }
+
+  .Content .section {
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .Content .section .image-container img {
+    width: 160px;
+  }
+
+  .Content .section .text-container {
+    width: 60%;
+  }
+
+  .Content .section h2 {
+    font-size: 1.5rem;
+  }
+
+  .Content .section p {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 991px) {
+  .software-page {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .sideBar-container {
+    margin-top: 6px;
+  }
+
+  .Sidebar .accordion-header {
+    padding: 8px 12px;
+  }
+
+  .Sidebar .accordion-header h3 {
+    font-size: 0.8rem;
+  }
+
+  .Sidebar .accordion-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 1rem;
+  }
+
+  .Sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .Sidebar li {
+    flex: 1 1 calc(20% - 4px);
+    min-width: 80px;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+    margin-bottom: 0;
+  }
+
+  .Sidebar li .items-content {
+    font-size: 0.6rem;
+    gap: 2px;
+  }
+
+  .Sidebar li .format {
+    font-size: 12px;
+  }
+
+  .Sidebar .arrow-icon {
+    display: none;
+  }
+
+  .Content .section {
+    padding: 10px 12px;
+    gap: 10px;
+    margin: 0.8em 0;
+    flex-direction: column;
+  }
+
+  .Content .section .image-container img {
+    width: 80px;
+  }
+
+  .Content .section .text-container {
+    width: 100%;
+  }
+
+  .Content .section h2 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    text-align: center;
+  }
+
+  .Content .section p {
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  .Content .section .button-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .Content .section .button-container .amount {
+    font-size: 0.9rem;
+  }
+
+  .Content .section .button-container .btn {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    width: 140px;
+    justify-content: center;
+  }
+
+  .back-to-top {
+    bottom: 0.8rem;
+    right: 0.8rem;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .section.section-active {
+    animation: none;
+  }
+
+  .Sidebar li {
+    transition: none;
+  }
+
+  .Sidebar li:hover {
+    transform: none;
+  }
+
+  .Sidebar ul li.active {
+    transform: none;
+  }
+
+  .back-to-top {
+    transition: none;
+  }
+
+  .back-to-top:hover {
+    transform: none;
+  }
+
+  .navigate .material-symbols-outlined {
+    transition: none;
+  }
+
+  .navigate .items:hover .material-symbols-outlined {
+    transform: none;
+  }
+
+  .Sidebar .accordion-content {
+    transition: none;
+  }
+
+  .Sidebar .accordion-header {
+    transition: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .software-page {
+    display: block;
+    padding: 20px;
+  }
+
+  .sideBar-container {
+    display: none;
+  }
+
+  .main-Content .Content {
+    margin-bottom: 1em;
+  }
+
+  .Content .section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    margin: 1em 0;
+    padding: 15px;
+  }
+
+  .Content .section.section-active {
+    background: #f9f9f9;
+    animation: none;
+    box-shadow: none;
+  }
+
+  .back-to-top {
+    display: none;
+  }
+
+  .navigate {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .Content .course-details .image-container img {
+    max-width: 300px;
+  }
+
+  .Content .section .image-container img {
+    width: 120px;
+  }
+
+  .section {
+    transition: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.Sidebar li:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.Sidebar .accordion-header.clickable:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.back-to-top:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.Content .section .button-container .btn:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+.navigate .items a:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .Sidebar li {
+    border: 2px solid transparent;
+  }
+
+  .Sidebar li:hover {
+    border-color: CanvasText;
+  }
+
+  .Sidebar ul li.active {
+    border-color: CanvasText;
+  }
+
+  .Content .section {
+    border: 2px solid CanvasText;
+  }
+
+  .Content .section.section-active {
+    border-color: Highlight;
+  }
+
+  .back-to-top {
+    border: 2px solid CanvasText;
+  }
+
+  .Content .section .button-container .btn {
+    border: 2px solid CanvasText;
+  }
+
+  .Sidebar .accordion-header.clickable {
+    border-bottom: 2px solid CanvasText;
+  }
 }

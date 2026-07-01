@@ -24,12 +24,21 @@ const AdminDashboard = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  
+  // NEW: Sidebar open/close state for mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const toggleSearch = (): void => {
     setIsSearchVisible(!isSearchVisible);
   };
 
-  const toggleSidebar = (): void => {
+  // NEW: Toggle sidebar for mobile
+  const toggleSidebarMobile = (): void => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Modified: Toggle sidebar expand/collapse for desktop
+  const toggleSidebarDesktop = (): void => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
@@ -39,13 +48,10 @@ const AdminDashboard = () => {
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
       
-      // Check if user exists and has admin role
       if (token && user) {
         try {
           const userData = JSON.parse(user);
-          // Check if user is admin (you can adjust this based on your role field)
-          // For example: if userData.role === "admin" or userData.isAdmin === true
-          return true; // Allow access to admin dashboard
+          return true;
         } catch {
           return false;
         }
@@ -55,7 +61,6 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = (): void => {
-    // Clear all auth data from localStorage
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("accessToken");
@@ -64,10 +69,47 @@ const AdminDashboard = () => {
     localStorage.removeItem("userData");
     localStorage.removeItem("adminData");
     localStorage.removeItem("studentData");
-
-    // Redirect to login
     router.push("/login");
   };
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (window.innerWidth <= 991 && isSidebarOpen) {
+        const sidebar = document.querySelector(".admin-sidebar");
+        const hamburger = document.querySelector(".admin-sidebar-hamburger");
+        const target = event.target as Node;
+
+        if (
+          sidebar && 
+          !sidebar.contains(target) && 
+          hamburger && 
+          !hamburger.contains(target)
+        ) {
+          setIsSidebarOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
+  // Close sidebar on window resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 991 && isSidebarOpen) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSidebarOpen]);
 
   // Check authentication on mount
   useEffect(() => {
@@ -80,7 +122,7 @@ const AdminDashboard = () => {
     }
   }, [router]);
 
-  // Also check authentication when the page gets focus (in case user returns from another tab)
+  // Also check authentication when the page gets focus
   useEffect(() => {
     const handleFocus = () => {
       const auth = checkAuthentication();
@@ -109,15 +151,35 @@ const AdminDashboard = () => {
   }
 
   if (!isAuthenticated) {
-    return null; // Will redirect in useEffect
+    return null;
   }
 
   return (
     <div className="d-flex admin-dashboard">
+      {/* Hamburger Menu Button - Mobile */}
+      <button className="admin-sidebar-hamburger" onClick={toggleSidebarMobile}>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
+
+      {/* Sidebar Overlay - Mobile */}
+      <div 
+        className={`admin-sidebar-overlay ${isSidebarOpen ? "active" : ""}`} 
+        onClick={toggleSidebarMobile}
+      ></div>
+
       {/* Sidebar */}
-      <div className={`admin-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}>
-        {/* Toggle Button */}
-        <button className="admin-sidebar-toggle" onClick={toggleSidebar}>
+      <div 
+        className={`admin-sidebar ${isSidebarExpanded ? "expanded" : "collapsed"} ${isSidebarOpen ? "open" : "closed"}`}
+      >
+        {/* Close Button - Mobile */}
+        <button className="admin-sidebar-close" onClick={toggleSidebarMobile}>
+          <span className="material-symbols-outlined">close</span>
+        </button>
+
+        {/* Toggle Button - Desktop */}
+        <button className="admin-sidebar-toggle" onClick={toggleSidebarDesktop}>
           <i className={`bi ${isSidebarExpanded ? "bi-chevron-left" : "bi-chevron-right"}`}></i>
         </button>
 
@@ -139,7 +201,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "overview" ? "active" : ""}`}
-              onClick={() => setActiveSection("overview")}
+              onClick={() => {
+                setActiveSection("overview");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-speedometer2 me-2"></i>
               {isSidebarExpanded && "Overview"}
@@ -149,7 +214,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "students" ? "active" : ""}`}
-              onClick={() => setActiveSection("students")}
+              onClick={() => {
+                setActiveSection("students");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-people me-2"></i>
               {isSidebarExpanded && "Students"}
@@ -159,7 +227,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "courses" ? "active" : ""}`}
-              onClick={() => setActiveSection("courses")}
+              onClick={() => {
+                setActiveSection("courses");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-book me-2"></i>
               {isSidebarExpanded && "Courses"}
@@ -169,7 +240,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "content" ? "active" : ""}`}
-              onClick={() => setActiveSection("content")}
+              onClick={() => {
+                setActiveSection("content");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-play-btn me-2"></i>
               {isSidebarExpanded && "Course Content"}
@@ -179,7 +253,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "assignments" ? "active" : ""}`}
-              onClick={() => setActiveSection("assignments")}
+              onClick={() => {
+                setActiveSection("assignments");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-list-check me-2"></i>
               {isSidebarExpanded && "Assignments"}
@@ -189,7 +266,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "payments" ? "active" : ""}`}
-              onClick={() => setActiveSection("payments")}
+              onClick={() => {
+                setActiveSection("payments");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-credit-card me-2"></i>
               {isSidebarExpanded && "Payments"}
@@ -199,7 +279,10 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "reports" ? "active" : ""}`}
-              onClick={() => setActiveSection("reports")}
+              onClick={() => {
+                setActiveSection("reports");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-bar-chart me-2"></i>
               {isSidebarExpanded && "Reports"}
@@ -209,14 +292,17 @@ const AdminDashboard = () => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "settings" ? "active" : ""}`}
-              onClick={() => setActiveSection("settings")}
+              onClick={() => {
+                setActiveSection("settings");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-gear me-2"></i>
               {isSidebarExpanded && "Settings"}
             </button>
           </li>
 
-          {/* Logout Button - Separator line above */}
+          {/* Logout Button */}
           <li className="mt-4 pt-2 nav-item logout-item">
             <hr className="sidebar-divider" />
             <button
@@ -256,9 +342,9 @@ const AdminDashboard = () => {
           </div>
           <div className="admin-icons">
             {/* Notification Bell */}
-            <div className="notification-container">
               <NotificationBell />
-            </div>
+
+            
 
             {/* Search Bar */}
             <div className="search-bar-container">

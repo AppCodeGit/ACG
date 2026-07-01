@@ -1,3 +1,12 @@
+/* ============================================
+   PAYMENT INFO STYLES
+   Mobile First Approach
+   Breakpoints: 320px, 481px, 540px, 768px, 769px, 991px, 1024px, 1025px, 1200px+
+   ============================================ */
+
+/* ============================================
+   LOADING & ERROR
+   ============================================ */
 .loading,
 .error {
   text-align: center;
@@ -14,16 +23,19 @@
   font-weight: bold;
 }
 
-
 /* ============================================
-   PAYMENT SUMMARY CARD - REDESIGNED
+   PAYMENT DETAILS - LAYOUT
    ============================================ */
 .Payment-details {
   display: flex;
   gap: 24px;
   margin-top: 24px;
+  flex-wrap: wrap;
 }
 
+/* ============================================
+   PAYMENT SUMMARY CARD
+   ============================================ */
 .Payment-container .payment-summary-card {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
   border-radius: 24px;
@@ -71,22 +83,16 @@
   margin: 0;
 }
 
-/* Summary Details Grid */
+/* ============================================
+   SUMMARY DETAILS
+   ============================================ */
 .Payment-container .summary-details {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: 8px;
 }
 
-@media (max-width: 768px) {
-  .Payment-container .summary-details {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-
-/* Detail Items */
 .Payment-container .summary-details .detail {
   display: flex;
   align-items: center;
@@ -170,7 +176,6 @@
   background-clip: text;
 }
 
-/* Specific styling for different detail items */
 .Payment-container .summary-details .detail:nth-child(1) .value {
   color: #e9691e;
   -webkit-text-fill-color: #e9691e;
@@ -189,6 +194,44 @@
   background: none;
 }
 
+/* Due Date Status Colors */
+.Payment-container .summary-details .value.overdue {
+  color: #dc3545 !important;
+  -webkit-text-fill-color: #dc3545 !important;
+  background: none !important;
+}
+
+.Payment-container .summary-details .value.upcoming {
+  color: #f59e0b !important;
+  -webkit-text-fill-color: #f59e0b !important;
+  background: none !important;
+}
+
+.Payment-container .summary-details .value.future {
+  color: #10b981 !important;
+  -webkit-text-fill-color: #10b981 !important;
+  background: none !important;
+}
+
+.Payment-container .summary-details .value.completed {
+  color: #10b981 !important;
+  -webkit-text-fill-color: #10b981 !important;
+  background: none !important;
+}
+
+.Payment-container .summary-details .value.pending {
+  color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
+  background: none !important;
+}
+
+.Payment-container .payment-detail {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 2px;
+}
+
 /* Badge for "Upon enrollment" */
 .Payment-container .summary-details .value:last-child {
   font-size: 1rem;
@@ -201,7 +244,6 @@
   width: fit-content;
 }
 
-/* Animation for value changes */
 @keyframes valuePulse {
   0% {
     transform: scale(1);
@@ -218,36 +260,9 @@
   animation: valuePulse 0.5s ease-out;
 }
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .Payment-container .payment-summary-card {
-    padding: 20px;
-  }
-  
-  .Payment-container .payment-header h3 {
-    font-size: 1.2rem;
-  }
-  
-  .Payment-container .payment-header h3::before {
-    font-size: 1.4rem;
-  }
-  
-  .Payment-container .summary-details .detail {
-    padding: 12px 16px;
-  }
-  
-  .Payment-container .summary-details .icon {
-    width: 44px;
-    height: 44px;
-    font-size: 1.3rem;
-  }
-  
-  .Payment-container .summary-details .value {
-    font-size: 1.1rem;
-  }
-}
-
-/* ===Progress=== */
+/* ============================================
+   PROGRESS CONTAINER
+   ============================================ */
 .Payment-container .progress-container {
   background: #fff;
   padding: 20px;
@@ -256,7 +271,7 @@
   width: 100%;
 }
 
-.Payment-container .progress-container p{
+.Payment-container .progress-container p {
   font-size: 1.4rem;
   font-weight: 700;
   color: #1e293b;
@@ -358,24 +373,14 @@
   }
 }
 
-/* Animation for progress bars */
 @keyframes growProgressBar {
   0% { width: 0; }
   100% { width: attr(data-progress); }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .Payment-container .payment-progress-section {
-    padding: 16px;
-  }
-  
-  .Payment-container .history-details {
-    padding: 12px;
-  }
-}
-
-/* Add these styles to your existing CSS */
+/* ============================================
+   SEMESTER COLUMN LAYOUT
+   ============================================ */
 .Payment-container .semester-column-layout {
   display: flex;
   flex-direction: column;
@@ -445,7 +450,9 @@
   margin-bottom: 0.9rem;
 }
 
-
+/* ============================================
+   STATUS STYLES
+   ============================================ */
 .status {
   display: inline-flex;
   align-items: center;
@@ -460,19 +467,16 @@
   overflow: hidden;
 }
 
-/* Hover effect */
 .status:hover {
   transform: translateY(-2px);
   filter: brightness(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Active/click effect */
 .status:active {
   transform: translateY(0);
 }
 
-/* Pulse animation for pending status */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -483,7 +487,6 @@
   }
 }
 
-/* Optional: Add shine effect on hover */
 .status::after {
   content: '';
   position: absolute;
@@ -502,7 +505,7 @@
 .Payment-container .semester-column-layout .payment-row .label {
   color: #173755;
   font-weight: bold;
-    font-size: 0.9rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -552,13 +555,12 @@
   opacity: 0.7;
 }
 
-
-
-
 .Payment-container .no-records {
   text-align: center;
   color: #6b7280;
   background-color: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .Payment-container .no-records .material-symbols-outlined {
@@ -573,7 +575,6 @@
   font-size: 0.9rem;
 }
 
-/* Optional: Add a subtle animation */
 .Payment-container .no-records {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -589,5 +590,635 @@
   }
 }
 
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
 
+/* ===== 320px — 480px: Mobile Devices ===== */
+@media (max-width: 480px) {
+  .Payment-details {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
 
+  .Payment-container .payment-summary-card {
+    padding: 16px;
+  }
+
+  .Payment-container .payment-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .Payment-container .payment-header h3::before {
+    font-size: 1.2rem;
+  }
+
+  .Payment-container .payment-header p {
+    font-size: 0.85rem;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .Payment-container .summary-details .detail {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .Payment-container .summary-details .icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .Payment-container .summary-details .value {
+    font-size: 1rem;
+  }
+
+  .Payment-container .progress-container {
+    padding: 14px;
+  }
+
+  .Payment-container .progress-container p {
+    font-size: 1.1rem;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .Payment-container .progress-container .progress-history .circular-progress {
+    width: 180px;
+    height: 180px;
+  }
+
+  .Payment-container .progress-container .payment-history-details {
+    gap: 12px;
+  }
+
+  .Payment-container .progress-container .history-details {
+    padding: 8px 12px;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    padding: 12px;
+  }
+
+  .Payment-container .semester-column-layout .semester-title {
+    font-size: 1.1rem;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .Payment-container .semester-column-layout .installment-card {
+    padding: 12px;
+  }
+
+  .Payment-container .semester-column-layout .installment-header h4 {
+    font-size: 0.8rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row {
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 0.6rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row .label {
+    font-size: 0.8rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row .value {
+    font-size: 0.8rem;
+  }
+
+  .date-time.chip {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+
+  .status {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+  }
+}
+
+/* ===== 481px — 540px: Small Tablets ===== */
+@media (min-width: 481px) and (max-width: 540px) {
+  .Payment-details {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 20px;
+  }
+
+  .Payment-container .payment-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .Payment-container .summary-details .detail {
+    padding: 14px 16px;
+  }
+
+  .Payment-container .summary-details .icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+
+  .Payment-container .summary-details .value {
+    font-size: 1.1rem;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    padding: 14px;
+  }
+}
+
+/* ===== 541px — 768px: iPads and Tablets ===== */
+@media (min-width: 541px) and (max-width: 768px) {
+  .Payment-details {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 24px;
+  }
+
+  .Payment-container .payment-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .Payment-container .summary-details .detail {
+    padding: 14px 18px;
+  }
+
+  .Payment-container .summary-details .icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+  }
+
+  .Payment-container .summary-details .value {
+    font-size: 1.2rem;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    padding: 16px;
+  }
+}
+
+/* ===== 769px — 991px: Small Screens, Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .Payment-details {
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 26px;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .Payment-container .semester-column-layout .installment-card {
+    flex: 1 1 calc(50% - 16px);
+    min-width: 200px;
+  }
+}
+
+/* ===== 992px — 1024px: Small Laptops ===== */
+@media (min-width: 992px) and (max-width: 1024px) {
+  .Payment-details {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 28px;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: row;
+    gap: 28px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: row;
+    gap: 18px;
+  }
+
+  .Payment-container .semester-column-layout .installment-card {
+    flex: 1;
+  }
+}
+
+/* ===== 1025px — 1200px: Desktops ===== */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .Payment-details {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 28px;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+/* ===== 1201px and above: Extra Large Desktops ===== */
+@media (min-width: 1201px) {
+  .Payment-details {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 28px;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 991px) {
+  .Payment-details {
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .Payment-container .payment-summary-card {
+    padding: 16px;
+  }
+
+  .Payment-container .payment-header h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .Payment-container .payment-header h3::before {
+    font-size: 1rem;
+  }
+
+  .Payment-container .payment-header p {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .Payment-container .summary-details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .Payment-container .summary-details .detail {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .Payment-container .summary-details .icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .Payment-container .summary-details .value {
+    font-size: 0.9rem;
+  }
+
+  .Payment-container .summary-details .label {
+    font-size: 0.6rem;
+  }
+
+  .Payment-container .progress-container {
+    padding: 12px;
+  }
+
+  .Payment-container .progress-container p {
+    font-size: 1rem;
+  }
+
+  .Payment-container .progress-container .progress-history {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    padding: 10px;
+  }
+
+  .Payment-container .semester-column-layout .semester-title {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .Payment-container .semester-column-layout .installments-row {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .Payment-container .semester-column-layout .installment-card {
+    padding: 8px;
+  }
+
+  .Payment-container .semester-column-layout .installment-header h4 {
+    font-size: 0.7rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row {
+    margin-bottom: 0.4rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row .label {
+    font-size: 0.7rem;
+  }
+
+  .Payment-container .semester-column-layout .payment-row .value {
+    font-size: 0.7rem;
+  }
+
+  .date-time.chip {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+
+  .status {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .Payment-container .summary-details .detail {
+    transition: none;
+  }
+
+  .Payment-container .summary-details .detail:hover {
+    transform: none;
+  }
+
+  .Payment-container .summary-details .detail::before {
+    transition: none;
+  }
+
+  .Payment-container .summary-details .icon {
+    transition: none;
+  }
+
+  .Payment-container .summary-details .detail:hover .icon {
+    transform: none;
+  }
+
+  .Payment-container .summary-details .value {
+    animation: none;
+  }
+
+  .Payment-container .progress-container .child-div {
+    transition: none;
+  }
+
+  .Payment-container .progress-container .child-div::after {
+    animation: none;
+  }
+
+  .status {
+    transition: none;
+  }
+
+  .status:hover {
+    transform: none;
+  }
+
+  .status::after {
+    transition: none;
+  }
+
+  .status:hover::after {
+    left: -100%;
+  }
+
+  .date-time.chip {
+    transition: none;
+  }
+
+  .Payment-container .no-records {
+    animation: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .Payment-container .payment-summary-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .Payment-container .payment-summary-card::before {
+    display: none;
+  }
+
+  .Payment-container .summary-details .detail {
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  .Payment-container .summary-details .detail:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .Payment-container .summary-details .detail::before {
+    display: none;
+  }
+
+  .Payment-container .summary-details .detail:hover .icon {
+    transform: none;
+    background: linear-gradient(135deg, #ffe0cf, #fff5ed);
+    color: #e9691e;
+  }
+
+  .Payment-container .progress-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .Payment-container .progress-container .child-div::after {
+    animation: none;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .date-time.chip {
+    background: #f5f5f5;
+    box-shadow: none;
+  }
+
+  .status {
+    border: 1px solid #ddd;
+  }
+
+  .status::after {
+    display: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.Payment-container .summary-details .detail:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
+.Payment-container .summary-details .detail:focus-visible .icon {
+  outline: none;
+}
+
+.status:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .Payment-container .payment-summary-card {
+    border: 2px solid CanvasText;
+  }
+
+  .Payment-container .summary-details .detail {
+    border: 2px solid CanvasText;
+  }
+
+  .Payment-container .progress-container {
+    border: 2px solid CanvasText;
+  }
+
+  .Payment-container .semester-column-layout .semester-column {
+    border: 2px solid CanvasText;
+  }
+
+  .Payment-container .semester-column-layout .installment-card {
+    border: 1px solid CanvasText;
+  }
+
+  .date-time.chip {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+
+  .status {
+    border: 1px solid CanvasText;
+  }
+
+  .Payment-container .summary-details .icon {
+    border: 1px solid CanvasText;
+  }
+
+  .Payment-container .summary-details .detail:hover .icon {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .Payment-container .progress-container .parent-div {
+    border: 1px solid CanvasText;
+  }
+}

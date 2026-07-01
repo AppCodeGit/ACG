@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import "./Footer.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,26 @@ import logo from "../Header/appcode.png";
 
 const Footer = () => {
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("programs");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   // Helper function to check if link is active
   const isActive = (path: string) => pathname === path;
@@ -25,107 +46,152 @@ const Footer = () => {
         <div className="footer-container container">
           <div className="footer-items">
             <div className="items">
-              {/* First Column - Programs */}
-              <ul className="links">
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/bootcamps"
-                    className={isActive("/bootcamps") ? "active" : ""}
-                  >
-                    Bootcamps
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/events"
-                    className={isActive("/events") ? "active" : ""}
-                  >
-                    Events
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/pre-session"
-                    className={isActive("/pre-session") ? "active" : ""}
-                  >
-                    Pre-Session
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/workshops"
-                    className={isActive("/workshops") ? "active" : ""}
-                  >
-                    Workshops
-                  </Link>
-                </li>
-              </ul>
+              {/* First Column - Programs Accordion */}
+              <div className={`links-section ${isMobile ? 'accordion' : ''}`}>
+                <h4 
+                  className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                  onClick={() => isMobile && toggleAccordion("programs")}
+                >
+                  Programs
+                  {isMobile && (
+                    <span className="accordion-icon">
+                      {openAccordion === "programs" ? "−" : "+"}
+                    </span>
+                  )}
+                </h4>
+                <div className={`accordion-content ${isMobile && openAccordion !== "programs" ? 'collapsed' : ''}`}>
+                  <ul className="links">
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/bootcamps"
+                        className={isActive("/bootcamps") ? "active" : ""}
+                      >
+                        Bootcamps
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/events"
+                        className={isActive("/events") ? "active" : ""}
+                      >
+                        Events
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/pre-session"
+                        className={isActive("/pre-session") ? "active" : ""}
+                      >
+                        Pre-Session
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/workshops"
+                        className={isActive("/workshops") ? "active" : ""}
+                      >
+                        Workshops
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-              {/* Second Column - Company */}
-              <ul className="links">
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/about"
-                    className={isActive("/about") ? "active" : ""}
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/contact"
-                    className={isActive("/contact") ? "active" : ""}
-                  >
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/blog"
-                    className={isActive("/blog") ? "active" : ""}
-                  >
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/services"
-                    className={isActive("/services") ? "active" : ""}
-                  >
-                    Services
-                  </Link>
-                </li>
-              </ul>
+              {/* Second Column - Company Accordion */}
+              <div className={`links-section ${isMobile ? 'accordion' : ''}`}>
+                <h4 
+                  className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                  onClick={() => isMobile && toggleAccordion("company")}
+                >
+                  Company
+                  {isMobile && (
+                    <span className="accordion-icon">
+                      {openAccordion === "company" ? "−" : "+"}
+                    </span>
+                  )}
+                </h4>
+                <div className={`accordion-content ${isMobile && openAccordion !== "company" ? 'collapsed' : ''}`}>
+                  <ul className="links">
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/about"
+                        className={isActive("/about") ? "active" : ""}
+                      >
+                        About Us
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/contact"
+                        className={isActive("/contact") ? "active" : ""}
+                      >
+                        Contact
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/blog"
+                        className={isActive("/blog") ? "active" : ""}
+                      >
+                        Blog
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/services"
+                        className={isActive("/services") ? "active" : ""}
+                      >
+                        Services
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-              {/* Third Column - Legal */}
-              <ul className="links">
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/privacy-policy"
-                    className={isActive("/privacy-policy") ? "active" : ""}
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <span className="material-symbols-outlined">chevron_right</span>
-                  <Link 
-                    href="/terms"
-                    className={isActive("/terms") ? "active" : ""}
-                  >
-                    Terms & Conditions
-                  </Link>
-                </li>
-              </ul>
+              {/* Third Column - Legal Accordion */}
+              <div className={`links-section ${isMobile ? 'accordion' : ''}`}>
+                <h4 
+                  className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                  onClick={() => isMobile && toggleAccordion("legal")}
+                >
+                  Legal
+                  {isMobile && (
+                    <span className="accordion-icon">
+                      {openAccordion === "legal" ? "−" : "+"}
+                    </span>
+                  )}
+                </h4>
+                <div className={`accordion-content ${isMobile && openAccordion !== "legal" ? 'collapsed' : ''}`}>
+                  <ul className="links">
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/privacy-policy"
+                        className={isActive("/privacy-policy") ? "active" : ""}
+                      >
+                        Privacy Policy
+                      </Link>
+                    </li>
+                    <li>
+                      <span className="material-symbols-outlined">chevron_right</span>
+                      <Link 
+                        href="/terms"
+                        className={isActive("/terms") ? "active" : ""}
+                      >
+                        Terms & Conditions
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             {/* About Section */}
@@ -141,35 +207,47 @@ const Footer = () => {
           </div>
 
           <div className="footer-items">
-            {/* Learn More Section */}
-            <div className="learn-more">
-              <h6>Learn More</h6>
-              <ul>
-                <li>
-                  <Link 
-                    href="/platform"
-                    className={isActive("/platform") ? "active" : ""}
-                  >
-                    Our Platform
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/pricing"
-                    className={isActive("/pricing") ? "active" : ""}
-                  >
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/faq"
-                    className={isActive("/faq") ? "active" : ""}
-                  >
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
+            {/* Learn More - Accordion */}
+            <div className={`learn-more ${isMobile ? 'accordion' : ''}`}>
+              <h6 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("learnmore")}
+              >
+                Learn More
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "learnmore" ? "−" : "+"}
+                  </span>
+                )}
+              </h6>
+              <div className={`accordion-content ${isMobile && openAccordion !== "learnmore" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li>
+                    <Link 
+                      href="/platform"
+                      className={isActive("/platform") ? "active" : ""}
+                    >
+                      Our Platform
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/pricing"
+                      className={isActive("/pricing") ? "active" : ""}
+                    >
+                      Pricing
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/faq"
+                      className={isActive("/faq") ? "active" : ""}
+                    >
+                      FAQ
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Social Media Links */}

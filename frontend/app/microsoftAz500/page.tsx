@@ -5,18 +5,35 @@ import Header from "../components/Header/HeaderPage";
 import Navigation from "../components/Navigation/NavPage";
 import Footer from "../components/footer/Footer";
 import image1 from "./images/azure-security-engineer-associate.png";
-// Fixed: Renamed to avoid conflict with Next.js Image component
 import CyberImage from "./images/Cyber.png";
-// Fixed: Changed from NavLink to Next.js Link
 import Link from "next/link";
-// Added Next.js Image import
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 const CyberSecurity = () => {
   const [sidebarTop, setSidebarTop] = useState(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("courses");
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 991);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleAccordion = (section: string) => {
+    if (openAccordion === section) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(section);
+    }
+  };
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, 1);
@@ -34,8 +51,7 @@ const CyberSecurity = () => {
         setSidebarTop(0);
       }
 
-      // Determine which section is in view
-      const scrollPosition = window.scrollY + 100; // Adding some offset
+      const scrollPosition = window.scrollY + 100;
 
       sectionRefs.current.forEach(
         (section: HTMLElement | null, index: number) => {
@@ -78,7 +94,6 @@ const CyberSecurity = () => {
         <Navigation />
         <div className="container navigate">
           <div className="items">
-            {/* Fixed: Changed NavLink to Link */}
             <Link href="/">Home</Link>
             <span className="material-symbols-outlined">arrow_and_edge</span>
           </div>
@@ -87,28 +102,44 @@ const CyberSecurity = () => {
         <div className="software-page container">
           <div className="sideBar-container">
             <div
-              className="Sidebar"
+              className={`Sidebar ${isMobile ? 'accordion' : ''}`}
               style={{
                 top: `${sidebarTop}px`,
                 transition: "top 0.3s ease",
               }}
             >
-              <ul>
-                <li
-                  onClick={() => handleScrollToSection("section1", -75)}
-                  className={activeSection === "section1" ? "active" : ""}
-                >
-                  <div className="items-content">
-                    <span className="material-symbols-outlined format">
-                      format_indent_increase
-                    </span>
-                    Microsoft AZ-500
-                  </div>
-                  <span className="material-symbols-outlined arrow-icon">
-                    south_east
+              {/* Accordion Header */}
+              <div 
+                className={`accordion-header ${isMobile ? 'clickable' : ''}`}
+                onClick={() => isMobile && toggleAccordion("courses")}
+              >
+                <h3>Courses</h3>
+                {isMobile && (
+                  <span className="accordion-icon">
+                    {openAccordion === "courses" ? "−" : "+"}
                   </span>
-                </li>
-              </ul>
+                )}
+              </div>
+
+              {/* Accordion Content */}
+              <div className={`accordion-content ${isMobile && openAccordion !== "courses" ? 'collapsed' : ''}`}>
+                <ul>
+                  <li
+                    onClick={() => handleScrollToSection("section1", -75)}
+                    className={activeSection === "section1" ? "active" : ""}
+                  >
+                    <div className="items-content">
+                      <span className="material-symbols-outlined format">
+                        format_indent_increase
+                      </span>
+                      Microsoft AZ-500
+                    </div>
+                    <span className="material-symbols-outlined arrow-icon">
+                      south_east
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -174,7 +205,6 @@ const CyberSecurity = () => {
                 }}
               >
                 <div className="image-container">
-                  {/* Fixed: Changed img to Image */}
                   <Image
                     src={image1}
                     alt="Microsoft AZ-500 Security Training"
@@ -194,7 +224,6 @@ const CyberSecurity = () => {
                 <div className="button-container">
                   <p className="amount">Ghc 5,920</p>
                   <div className="btn-container">
-                    {/* Fixed: Changed NavLink to Link */}
                     <Link
                       href="/microsoftAz500/Micro-AZ-500-Sec-Tra"
                       className="btn"

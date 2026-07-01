@@ -1100,6 +1100,7 @@ interface ErrorResponse {
   message?: string;
 }
 
+// Main StudentPortal Component
 const StudentPortal = () => {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("dashboard");
@@ -1116,12 +1117,21 @@ const StudentPortal = () => {
   const [maintenanceMode, setMaintenanceMode] = useState<boolean>(false);
   const [checkingMaintenance, setCheckingMaintenance] = useState<boolean>(true);
   const [sessionExpired, setSessionExpired] = useState<boolean>(false);
+  
+  // NEW: Sidebar open/close state for mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const toggleSearch = (): void => {
     setIsSearchVisible(!isSearchVisible);
   };
 
-  const toggleSidebar = (): void => {
+  // NEW: Toggle sidebar for mobile
+  const toggleSidebarMobile = (): void => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Modified: Toggle sidebar expand/collapse for desktop
+  const toggleSidebarDesktop = (): void => {
     setIsSidebarExpanded(!isSidebarExpanded);
     // Close dropdowns when collapsing to avoid issues
     if (isSidebarExpanded) {
@@ -1130,7 +1140,7 @@ const StudentPortal = () => {
     }
   };
 
-  // Get user from localStorage instead of Redux
+  // Get user from localStorage
   const getUserFromStorage = (): User | null => {
     if (typeof window !== "undefined") {
       const userStr = localStorage.getItem("user");
@@ -1159,7 +1169,6 @@ const StudentPortal = () => {
   const togglePaymentDropdown = (e?: React.MouseEvent): void => {
     if (e) e.stopPropagation();
     if (!isSidebarExpanded) {
-      // In collapsed mode, close courses dropdown and open payment dropdown
       setIsCoursesDropdownOpen(false);
       setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
     } else {
@@ -1170,7 +1179,6 @@ const StudentPortal = () => {
   const toggleCoursesDropdown = (e?: React.MouseEvent): void => {
     if (e) e.stopPropagation();
     if (!isSidebarExpanded) {
-      // In collapsed mode, close payment dropdown and open courses dropdown
       setIsPaymentDropdownOpen(false);
       setIsCoursesDropdownOpen(!isCoursesDropdownOpen);
     } else {
@@ -1188,12 +1196,7 @@ const StudentPortal = () => {
         const expiryTime = parseInt(sessionExpiry);
         const now = new Date().getTime();
 
-        console.log(
-          `Session expiry check: Now=${now}, Expiry=${expiryTime}, Hours=${sessionLifetimeHours || "unknown"}`,
-        );
-
         if (now > expiryTime) {
-          // Session expired, logout
           console.log("Session expired! Logging out...");
           localStorage.removeItem("token");
           localStorage.removeItem("user");
@@ -1212,13 +1215,12 @@ const StudentPortal = () => {
       return true;
     };
 
-    // Only check if not already checking maintenance
     if (!checkingMaintenance) {
       checkSessionExpiry();
     }
   }, [checkingMaintenance, router]);
 
-  // Also add a periodic check every minute to catch expiry while user is active
+  // Periodic session check
   useEffect(() => {
     const interval = setInterval(() => {
       const sessionExpiry = localStorage.getItem("sessionExpiry");
@@ -1236,11 +1238,12 @@ const StudentPortal = () => {
           router.push("/login?expired=true");
         }
       }
-    }, 60000); // Check every minute
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [router]);
 
+  // Check maintenance mode
   useEffect(() => {
     const checkMaintenanceMode = async () => {
       try {
@@ -1256,7 +1259,7 @@ const StudentPortal = () => {
     checkMaintenanceMode();
   }, []);
 
-  // Close dropdowns when clicking outside (for collapsed mode)
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
       if (
@@ -1266,7 +1269,6 @@ const StudentPortal = () => {
         const sidebar = document.querySelector(".sidebar");
         const target = event.target as Node;
 
-        // Check if click is outside sidebar
         if (sidebar && !sidebar.contains(target)) {
           setIsPaymentDropdownOpen(false);
           setIsCoursesDropdownOpen(false);
@@ -1280,49 +1282,83 @@ const StudentPortal = () => {
     };
   }, [isSidebarExpanded, isPaymentDropdownOpen, isCoursesDropdownOpen]);
 
-  // Update the fetchStudentData function - FIXED: Now properly sets studentData
- // Update the fetchStudentData function - FIXED
-const fetchStudentData = useCallback(async (): Promise<void> => {
-  if (!user?.email) return;
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (window.innerWidth <= 991 && isSidebarOpen) {
+        const sidebar = document.querySelector(".sidebar");
+        const hamburger = document.querySelector(".sidebar-hamburger");
+        const target = event.target as Node;
 
-  try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    const token = localStorage.getItem("token");
+        if (
+          sidebar && 
+          !sidebar.contains(target) && 
+          hamburger && 
+          !hamburger.contains(target)
+        ) {
+          setIsSidebarOpen(false);
+        }
+      }
+    };
 
-    console.log("Fetching profile image for:", user.email);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
-    // Fetch profile image directly
-    let profileImage: string | null = null;
-    const imageResponse = await fetch(
-      `${API_URL}/api/profile/profile-image/${user.email}`,
-      {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
+  // Close sidebar on window resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 991 && isSidebarOpen) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSidebarOpen]);
+
+  // Fetch student data
+  const fetchStudentData = useCallback(async (): Promise<void> => {
+    if (!user?.email) return;
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
+
+      let profileImage: string | null = null;
+      const imageResponse = await fetch(
+        `${API_URL}/api/profile/profile-image/${user.email}`,
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
         },
-      },
-    );
-    const imageData: ProfileImageResponse = await imageResponse.json();
-    console.log("Profile image response:", imageData);
+      );
+      const imageData: ProfileImageResponse = await imageResponse.json();
 
-    if (imageData.success && imageData.profileImage) {
-      profileImage = imageData.profileImage;
+      if (imageData.success && imageData.profileImage) {
+        profileImage = imageData.profileImage;
+      }
+
+      setStudentData({
+        id: user.id ? parseInt(user.id) : undefined,
+        name: user.name || "",
+        email: user.email,
+        profileImage: profileImage || undefined,
+      });
+    } catch (err: unknown) {
+      console.error("Error fetching student data:", err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch student data";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
-
-    setStudentData({
-  id: user.id ? parseInt(user.id) : undefined,
-  name: user.name || "",
-  email: user.email,
-  profileImage: profileImage || undefined,  // ← Convert null to undefined
-});
-  } catch (err: unknown) {
-    console.error("Error fetching student data:", err);
-    const errorMessage =
-      err instanceof Error ? err.message : "Failed to fetch student data";
-    setError(errorMessage);
-  } finally {
-    setLoading(false);
-  }
-}, [user?.email, user?.id, user?.name]);
+  }, [user?.email, user?.id, user?.name]);
 
   // Refresh data when modal closes
   useEffect(() => {
@@ -1335,7 +1371,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
     fetchStudentData();
   }, [fetchStudentData]);
 
-  // Check authentication on mount and redirect if not authenticated
+  // Check authentication on mount
   useEffect(() => {
     if (typeof window !== "undefined" && !isAuthenticated()) {
       router.push("/login");
@@ -1343,7 +1379,6 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
   }, [router]);
 
   const handleLogout = (): void => {
-    // Clear all auth data from localStorage
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("accessToken");
@@ -1351,8 +1386,6 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userData");
     localStorage.removeItem("studentData");
-
-    // Redirect to login
     router.push("/login");
   };
 
@@ -1370,7 +1403,6 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
     );
   }
 
-  // Update the loading return section (around line ~550)
   if (loading || checkingMaintenance) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -1381,21 +1413,41 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
       </div>
     );
   }
-  if (error)
+
+  if (error) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <p>Error: {error}</p>
       </div>
     );
+  }
 
   return (
     <div className="d-flex">
+      {/* Hamburger Menu Button - Mobile */}
+      <button className="sidebar-hamburger" onClick={toggleSidebarMobile}>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
+
+      {/* Sidebar Overlay - Mobile */}
+      <div 
+        className={`sidebar-overlay ${isSidebarOpen ? "active" : ""}`} 
+        onClick={toggleSidebarMobile}
+      ></div>
+
       {/* Sidebar */}
       <div
-        className={`sidebar ${isSidebarExpanded ? "expanded" : "collapsed"}`}
+        className={`sidebar ${isSidebarExpanded ? "expanded" : "collapsed"} ${isSidebarOpen ? "open" : "closed"}`}
       >
-        {/* Toggle Button */}
-        <button className="sidebar-toggle" onClick={toggleSidebar}>
+        {/* Close Button - Mobile */}
+        <button className="sidebar-close" onClick={toggleSidebarMobile}>
+          <span className="material-symbols-outlined">close</span>
+        </button>
+
+        {/* Toggle Button - Desktop */}
+        <button className="sidebar-toggle" onClick={toggleSidebarDesktop}>
           <i
             className={`bi ${isSidebarExpanded ? "bi-chevron-left" : "bi-chevron-right"}`}
           ></i>
@@ -1426,7 +1478,10 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "dashboard" ? "active" : ""}`}
-              onClick={() => setActiveSection("dashboard")}
+              onClick={() => {
+                setActiveSection("dashboard");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-speedometer2 me-2"></i>
               {isSidebarExpanded && "Dashboard"}
@@ -1461,6 +1516,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("feespayment");
                       setIsPaymentDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Fees Payment
@@ -1470,6 +1526,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("paymentdetails");
                       setIsPaymentDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Payment Details
@@ -1484,6 +1541,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("feespayment");
                       setIsPaymentDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Fees Payment
@@ -1493,6 +1551,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("paymentdetails");
                       setIsPaymentDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Payment Details
@@ -1530,6 +1589,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("course Module");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Course Module
@@ -1539,6 +1599,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("Performance");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Performance
@@ -1548,6 +1609,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("Grade");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Grade
@@ -1562,6 +1624,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("course Module");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Course Module
@@ -1571,6 +1634,7 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("Performance");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Performance
@@ -1580,11 +1644,11 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
                     onClick={() => {
                       setActiveSection("Grade");
                       setIsCoursesDropdownOpen(false);
+                      setIsSidebarOpen(false);
                     }}
                   >
                     Grade
                   </div>
-                 
                 </div>
               )}
             </div>
@@ -1593,7 +1657,10 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "settings" ? "active" : ""}`}
-              onClick={() => setActiveSection("settings")}
+              onClick={() => {
+                setActiveSection("settings");
+                setIsSidebarOpen(false);
+              }}
             >
               <i className="bi bi-gear me-2"></i>
               {isSidebarExpanded && "Settings"}
@@ -1628,9 +1695,8 @@ const fetchStudentData = useCallback(async (): Promise<void> => {
             <div className="student-icons">
               {/* Notification Bell */}
               <div className="notification-container">
-                                 <span className="notification-badge"></span>
-
-                  <StudentNotificationBell />
+                <span className="notification-badge"></span>
+                <StudentNotificationBell />
               </div>
 
               {/* Search Bar */}

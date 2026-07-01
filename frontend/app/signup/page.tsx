@@ -261,8 +261,6 @@ const SignUpPage = () => {
             src={signupImage}
             alt="Signup Background"
             className="signup-image"
-            width={570}
-            height={600}
             priority
           />
         </div>
