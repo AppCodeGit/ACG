@@ -1483,3 +1483,137 @@
     min-height: auto;
   }
 }
+
+/* ============================================
+   SUBSCRIPTION DROPDOWN STYLES
+   ============================================ */
+
+.subscription-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.subscription-dropdown-wrapper .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  margin-left: auto;
+  color: #94a3b8;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-indicator {
+  font-size: 0.6rem;
+  color: #94a3b8;
+  margin-left: 4px;
+}
+
+/* Dropdown Menu */
+.subscription-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+  margin-top: 4px;
+  z-index: 1000;
+  border: 1px solid #e2e8f0;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subscription-dropdown-menu .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subscription-dropdown-menu .dropdown-item:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.subscription-dropdown-menu .dropdown-item.active {
+  background: linear-gradient(135deg, #e9691e, #d45d1a);
+  color: #ffffff;
+}
+
+.subscription-dropdown-menu .dropdown-item i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Sidebar collapsed state */
+.admin-sidebar.collapsed .subscription-dropdown-wrapper .nav-link {
+  justify-content: center;
+}
+
+.admin-sidebar.collapsed .subscription-dropdown-menu {
+  position: fixed;
+  left: 70px;
+  top: auto;
+  min-width: 220px;
+  margin-left: 8px;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .subscription-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding-left: 32px;
+    margin-top: 2px;
+  }
+
+  .subscription-dropdown-menu .dropdown-item {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+
+  .subscription-dropdown-menu .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+
+  .subscription-dropdown-menu .dropdown-item.active {
+    background: rgba(233, 105, 30, 0.2);
+    color: #e9691e;
+  }
+
+  .dropdown-arrow {
+    color: #94a3b8;
+  }
+}

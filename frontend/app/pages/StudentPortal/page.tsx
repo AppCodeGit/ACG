@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -13,15 +13,19 @@ import CourseModule from "./CourseModule";
 import CoursePerformance from "./CoursePerformance";
 import CourseGrade from "./CourseGrade";
 import Settings from "./Settings";
-import { getSetting } from "../../../lib/settings"; // Add this import
+import { getSetting } from "../../../lib/settings";
+import SubscriptionManagement from "./SubscriptionManagement";
 import StudentNotificationBell from "./StudentNotificationBell";
+
+// Import SearchResults
+import SearchResults from "./SearchResults";
 
 // Define interfaces for type safety
 interface StudentData {
   id?: number;
   name?: string;
   email?: string;
-  profileImage?: string; // Add this
+  profileImage?: string;
   personalDetails?: {
     profileImage?: string;
     phone?: string;
@@ -37,6 +41,17 @@ interface ProfileModalProps {
   fetchStudentData: () => void;
 }
 
+interface User {
+  id?: string;
+  name?: string;
+  email?: string;
+}
+
+interface ProfileImageResponse {
+  success: boolean;
+  profileImage?: string;
+}
+
 // Profile Modal Component
 const ProfileModal = ({
   isOpen,
@@ -47,7 +62,6 @@ const ProfileModal = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Get user from localStorage instead of Redux
   const getUserFromStorage = () => {
     if (typeof window !== "undefined") {
       const userStr = localStorage.getItem("user");
@@ -62,7 +76,6 @@ const ProfileModal = ({
 
   const user = getUserFromStorage();
 
-  // Check URL params for modal open
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -75,21 +88,15 @@ const ProfileModal = ({
   const [profileImage, setProfileImage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
-
-  // Phone number states
   const [phoneNumber, setPhoneNumber] = useState("");
   const [editPhone, setEditPhone] = useState(false);
   const [newPhone, setNewPhone] = useState("");
-
-  // User info states
   const [userName, setUserName] = useState("");
   const [editName, setEditName] = useState(false);
   const [newName, setNewName] = useState("");
-
   const [userEmail, setUserEmail] = useState("");
   const [editEmail, setEditEmail] = useState(false);
   const [newEmail, setNewEmail] = useState("");
-
   const [editPassword, setEditPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -97,19 +104,14 @@ const ProfileModal = ({
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  // General states
   const [message, setMessage] = useState("");
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Check for user data in localStorage
     const checkUserData = () => {
       try {
         let parsedUser: { email?: string } | null = null;
-
         const userStr = localStorage.getItem("user");
-
         if (userStr) {
           try {
             parsedUser = JSON.parse(userStr);
@@ -178,7 +180,6 @@ const ProfileModal = ({
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      // Fetch user profile data
       try {
         const API_URL =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -197,10 +198,8 @@ const ProfileModal = ({
           setUserEmail(userDataInfo.email);
           setNewEmail(userDataInfo.email);
 
-          // Update localStorage with fresh data
           try {
             const userStr = localStorage.getItem("user");
-
             if (userStr) {
               const existingData = JSON.parse(userStr);
               existingData.name = userDataInfo.name;
@@ -215,7 +214,6 @@ const ProfileModal = ({
         console.log("User endpoint might not be implemented yet:", userError);
       }
 
-      // Fetch profile image
       try {
         const API_URL =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -237,7 +235,6 @@ const ProfileModal = ({
         console.log("Image endpoint might not be implemented yet:", imageError);
       }
 
-      // Fetch phone number
       try {
         const API_URL =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -283,22 +280,16 @@ const ProfileModal = ({
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Check file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         setMessage("File size must be less than 2MB");
         return;
       }
-
-      // Check file type
       if (!file.type.match("image.*")) {
         setMessage("Please select an image file (JPEG, PNG, etc.)");
         return;
       }
-
       setSelectedFile(file);
       setMessage("");
-
-      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
@@ -314,7 +305,6 @@ const ProfileModal = ({
       setMessage("User email not found. Please log in again.");
       return;
     }
-
     if (!selectedFile) {
       setMessage("Please select an image first");
       return;
@@ -353,14 +343,12 @@ const ProfileModal = ({
             setMessage("Profile image updated successfully!");
             setSelectedFile(null);
             setPreview("");
-
             if (fetchStudentData) fetchStudentData();
           } else {
             setMessage(data.message || "Failed to update profile image");
           }
         } catch (error) {
           console.error("Error updating profile image:", error);
-
           if (error instanceof Error) {
             if (error.message === "Failed to fetch") {
               setMessage(
@@ -393,13 +381,11 @@ const ProfileModal = ({
       setMessage("User email not found. Please log in again.");
       return;
     }
-
     if (!newPhone) {
       setMessage("Please enter a valid phone number");
       return;
     }
 
-    // Basic phone validation
     const phoneRegex = /^[+]?[0-9]{10,15}$/;
     if (!phoneRegex.test(newPhone.replace(/[\s()-]/g, ""))) {
       setMessage("Please enter a valid phone number (10-15 digits)");
@@ -431,7 +417,6 @@ const ProfileModal = ({
         setEditPhone(false);
         setMessage("Phone number updated successfully!");
 
-        // Update local storage if phone is stored there
         try {
           const userDataStr =
             localStorage.getItem("user") ||
@@ -445,17 +430,14 @@ const ProfileModal = ({
         } catch (e) {
           console.error("Error updating local storage:", e);
         }
-        // Refresh parent data
         if (fetchStudentData) fetchStudentData();
       } else {
         setMessage(data.message || "Failed to update phone number");
       }
     } catch (error) {
       console.error("Error updating phone number:", error);
-
       const message =
         error instanceof Error ? error.message : "An unknown error occurred";
-
       if (message === "Failed to fetch") {
         setMessage(
           "Cannot connect to server. Please make sure the backend is running.",
@@ -473,7 +455,6 @@ const ProfileModal = ({
       setMessage("User email not found. Please log in again.");
       return;
     }
-
     if (!newName) {
       setMessage("Please enter a valid name");
       return;
@@ -501,7 +482,6 @@ const ProfileModal = ({
         setEditName(false);
         setMessage("Name updated successfully!");
 
-        // Update local storage
         try {
           const userDataStr =
             localStorage.getItem("user") || localStorage.getItem("userData");
@@ -513,14 +493,12 @@ const ProfileModal = ({
         } catch (e) {
           console.error("Error updating local storage:", e);
         }
-        // Refresh parent data
         if (fetchStudentData) fetchStudentData();
       } else {
         setMessage(data.message || "Failed to update name");
       }
     } catch (error) {
       console.error("Error updating name:", error);
-
       if (error instanceof Error) {
         if (error.message === "Failed to fetch") {
           setMessage(
@@ -542,13 +520,11 @@ const ProfileModal = ({
       setMessage("User email not found. Please log in again.");
       return;
     }
-
     if (!newEmail) {
       setMessage("Please enter a valid email address");
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(newEmail)) {
       setMessage("Please enter a valid email address");
@@ -580,7 +556,6 @@ const ProfileModal = ({
         setEditEmail(false);
         setMessage("Email updated successfully!");
 
-        // Update local storage
         try {
           const userDataStr =
             localStorage.getItem("user") || localStorage.getItem("userData");
@@ -593,14 +568,12 @@ const ProfileModal = ({
         } catch (e) {
           console.error("Error updating local storage:", e);
         }
-        // Refresh parent data
         if (fetchStudentData) fetchStudentData();
       } else {
         setMessage(data.message || "Failed to update email");
       }
     } catch (error) {
       console.error("Error updating email:", error);
-
       if (error instanceof Error) {
         if (error.message === "Failed to fetch") {
           setMessage(
@@ -622,17 +595,14 @@ const ProfileModal = ({
       setMessage("User email not found. Please log in again.");
       return;
     }
-
     if (!currentPassword || !newPassword || !confirmPassword) {
       setMessage("Please fill in all password fields");
       return;
     }
-
     if (newPassword !== confirmPassword) {
       setMessage("New passwords do not match");
       return;
     }
-
     if (newPassword.length < 6) {
       setMessage("Password must be at least 6 characters");
       return;
@@ -642,9 +612,7 @@ const ProfileModal = ({
       setLoading(true);
       setMessage("");
 
-      // Get the access token from localStorage
       const accessToken = localStorage.getItem("accessToken");
-
       if (!accessToken) {
         setMessage("Session expired. Please log in again.");
         return;
@@ -662,7 +630,7 @@ const ProfileModal = ({
           body: JSON.stringify({
             currentPassword,
             newPassword,
-            accessToken, // 👈 Send access token to backend
+            accessToken,
           }),
         },
       );
@@ -678,7 +646,6 @@ const ProfileModal = ({
           "Password updated successfully! Please login again with your new password.",
         );
 
-        // Clear stored tokens and redirect to login after 3 seconds
         setTimeout(() => {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
@@ -694,7 +661,6 @@ const ProfileModal = ({
       }
     } catch (error) {
       console.error("Error updating password:", error);
-
       if (error instanceof Error) {
         if (error.message === "Failed to fetch") {
           setMessage(
@@ -740,62 +706,72 @@ const ProfileModal = ({
 
   return (
     <div
-      className={`modal-overlay ${isOpen ? "active" : ""}`}
+      className={`profile-modal-overlay ${isOpen ? "active" : ""}`}
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="modal-content profile-modal-content"
+        className="profile-modal-content"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="profile-manager-container">
-          {loading && <div className="loading">Loading...</div>}
+          {loading && <div className="profile-loading">Loading...</div>}
 
           {message && (
             <div
               className={
                 message.includes("success")
-                  ? "message success"
-                  : "message error"
+                  ? "profile-message profile-message-success"
+                  : "profile-message profile-message-error"
               }
             >
               {message}
             </div>
           )}
 
-          {/* User Info Section */}
-          <div className="user-info-section">
-            <h3>Personal Information</h3>
-            <br />
-            <br />
-            {/* Profile Image Section */}
-            <div className="profile-section">
-              <div className="current-image">
-                <h3>Profile Image</h3>
+          <div className="profile-user-info">
+            <div className="profile-section-header">
+              <span className="profile-section-icon">👤</span>
+              <h3>Personal Information</h3>
+            </div>
+
+            <div className="profile-image-section">
+              <div className="profile-current-image">
+                <h4>
+                  <span className="profile-icon">🖼️</span> Profile Image
+                </h4>
                 {profileImage ? (
                   <img
                     src={profileImage}
                     alt="Profile"
-                    className="profile-img"
+                    className="profile-avatar"
                     onError={(e: any) => {
                       e.target.src = `https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(user?.name || "User")}`;
                     }}
                   />
                 ) : (
-                  <div className="no-image">
+                  <div className="profile-no-image">
                     <img
                       src={`https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(user?.name || "User")}`}
                       alt="Default Avatar"
-                      className="profile-img"
+                      className="profile-avatar"
                     />
                   </div>
                 )}
               </div>
 
-              <div className="update-section">
-                <h3>Update Profile Image</h3>
-                <div className="file-input-container">
-                  <div className="btn-container">
-                    <label htmlFor="profile-upload" className="btn">
+              <div className="profile-update-section">
+                <h4>
+                  <span className="profile-icon">📤</span> Update Profile Image
+                </h4>
+                <div className="profile-file-input">
+                  <div className="profile-btn-wrapper">
+                    <label
+                      htmlFor="profile-upload"
+                      className="profile-btn profile-btn-outline"
+                    >
+                      <span className="profile-btn-icon material-symbols-outlined">
+                        cloud_upload
+                      </span>
                       Choose Image
                       <span className="material-symbols-outlined">east</span>
                     </label>
@@ -808,57 +784,85 @@ const ProfileModal = ({
                     disabled={loading || !userEmail}
                   />
                   {selectedFile && (
-                    <span className="file-name">{selectedFile.name}</span>
+                    <span className="profile-file-name">
+                      <span className="material-symbols-outlined">
+                        description
+                      </span>
+                      {selectedFile.name}
+                    </span>
                   )}
                 </div>
 
                 {preview && (
-                  <div className="preview">
-                    <h4>Preview</h4>
-                    <img src={preview} alt="Preview" className="preview-img" />
+                  <div className="profile-preview">
+                    <h4>
+                      <span className="material-symbols-outlined">preview</span>{" "}
+                      Preview
+                    </h4>
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="profile-preview-img"
+                    />
                   </div>
                 )}
 
-                <div className="btn-container">
+                <div className="profile-btn-wrapper">
                   <button
                     onClick={handleImageUpload}
                     disabled={!selectedFile || loading || !userEmail}
-                    className="btn"
+                    className="profile-btn profile-btn-primary"
                   >
-                    {loading ? "Uploading..." : "Upload Image"}
-                    <span className="material-symbols-outlined">east</span>
+                    {loading ? (
+                      <>
+                        <span className="profile-spinner"></span> Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <span className="material-symbols-outlined">
+                          upload
+                        </span>{" "}
+                        Upload Image
+                        <span className="material-symbols-outlined">east</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Name Field */}
-            <div className="info-field">
-              <label>Name</label>
+            <div className="profile-field">
+              <label>
+                <span className="material-symbols-outlined">person</span> Name
+              </label>
               {editName ? (
-                <div className="edit-field">
+                <div className="profile-edit-field">
                   <input
                     type="text"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     disabled={loading}
-                    className="info-input"
+                    className="profile-input"
+                    placeholder="Enter your name"
                   />
-                  <div className="field-buttons">
-                    <div className="btn-container">
+                  <div className="profile-field-actions">
+                    <div className="profile-btn-wrapper">
                       <button
                         onClick={handleNameUpdate}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-success"
                       >
+                        <span className="material-symbols-outlined">save</span>{" "}
                         Save
                         <span className="material-symbols-outlined">east</span>
                       </button>
                       <button
                         onClick={() => cancelEdit("name")}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-danger"
                       >
+                        <span className="material-symbols-outlined">close</span>{" "}
                         Cancel
                         <span className="material-symbols-outlined">east</span>
                       </button>
@@ -866,10 +870,17 @@ const ProfileModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="display-field">
-                  <span>{userName || "Not set"}</span>
-                  <div className="btn-container">
-                    <button onClick={() => setEditName(true)} className="btn">
+                <div className="profile-display-field">
+                  <span>
+                    <span className="material-symbols-outlined">badge</span>
+                    {userName || "Not set"}
+                  </span>
+                  <div className="profile-btn-wrapper">
+                    <button
+                      onClick={() => setEditName(true)}
+                      className="profile-btn profile-btn-edit"
+                    >
+                      <span className="material-symbols-outlined">edit</span>{" "}
                       Edit
                       <span className="material-symbols-outlined">east</span>
                     </button>
@@ -879,32 +890,37 @@ const ProfileModal = ({
             </div>
 
             {/* Email Field */}
-            <div className="info-field">
-              <label>Email</label>
+            <div className="profile-field">
+              <label>
+                <span className="material-symbols-outlined">email</span> Email
+              </label>
               {editEmail ? (
-                <div className="edit-field">
+                <div className="profile-edit-field">
                   <input
                     type="email"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     disabled={loading}
-                    className="info-input"
+                    className="profile-input"
+                    placeholder="Enter your email"
                   />
-                  <div className="field-buttons">
-                    <div className="btn-container">
+                  <div className="profile-field-actions">
+                    <div className="profile-btn-wrapper">
                       <button
                         onClick={handleEmailUpdate}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-success"
                       >
+                        <span className="material-symbols-outlined">save</span>{" "}
                         Save
                         <span className="material-symbols-outlined">east</span>
                       </button>
                       <button
                         onClick={() => cancelEdit("email")}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-danger"
                       >
+                        <span className="material-symbols-outlined">close</span>{" "}
                         Cancel
                         <span className="material-symbols-outlined">east</span>
                       </button>
@@ -912,10 +928,17 @@ const ProfileModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="display-field">
-                  <span>{userEmail || "Not set"}</span>
-                  <div className="btn-container">
-                    <button onClick={() => setEditEmail(true)} className="btn">
+                <div className="profile-display-field">
+                  <span>
+                    <span className="material-symbols-outlined">mail</span>
+                    {userEmail || "Not set"}
+                  </span>
+                  <div className="profile-btn-wrapper">
+                    <button
+                      onClick={() => setEditEmail(true)}
+                      className="profile-btn profile-btn-edit"
+                    >
+                      <span className="material-symbols-outlined">edit</span>{" "}
                       Edit
                       <span className="material-symbols-outlined">east</span>
                     </button>
@@ -925,21 +948,23 @@ const ProfileModal = ({
             </div>
 
             {/* Password Field */}
-            <div className="info-field">
-              <label>Password</label>
+            <div className="profile-field">
+              <label>
+                <span className="material-symbols-outlined">lock</span> Password
+              </label>
               {editPassword ? (
-                <div className="edit-field">
-                  <div className="password-input-container">
+                <div className="profile-edit-field">
+                  <div className="profile-password-input">
                     <input
                       type={showCurrentPassword ? "text" : "password"}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="Current password"
                       disabled={loading}
-                      className="info-input"
+                      className="profile-input"
                     />
                     <span
-                      className="password-toggle"
+                      className="profile-password-toggle"
                       onClick={() =>
                         setShowCurrentPassword(!showCurrentPassword)
                       }
@@ -950,17 +975,17 @@ const ProfileModal = ({
                     </span>
                   </div>
 
-                  <div className="password-input-container">
+                  <div className="profile-password-input">
                     <input
                       type={showNewPassword ? "text" : "password"}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="New password"
                       disabled={loading}
-                      className="info-input"
+                      className="profile-input"
                     />
                     <span
-                      className="password-toggle"
+                      className="profile-password-toggle"
                       onClick={() => setShowNewPassword(!showNewPassword)}
                     >
                       <span className="material-symbols-outlined">
@@ -969,17 +994,17 @@ const ProfileModal = ({
                     </span>
                   </div>
 
-                  <div className="password-input-container">
+                  <div className="profile-password-input">
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirm new password"
                       disabled={loading}
-                      className="info-input"
+                      className="profile-input"
                     />
                     <span
-                      className="password-toggle"
+                      className="profile-password-toggle"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
@@ -990,21 +1015,23 @@ const ProfileModal = ({
                     </span>
                   </div>
 
-                  <div className="field-buttons">
-                    <div className="btn-container">
+                  <div className="profile-field-actions">
+                    <div className="profile-btn-wrapper">
                       <button
                         onClick={handlePasswordUpdate}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-success"
                       >
+                        <span className="material-symbols-outlined">save</span>{" "}
                         Save
                         <span className="material-symbols-outlined">east</span>
                       </button>
                       <button
                         onClick={() => cancelEdit("password")}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-danger"
                       >
+                        <span className="material-symbols-outlined">close</span>{" "}
                         Cancel
                         <span className="material-symbols-outlined">east</span>
                       </button>
@@ -1012,13 +1039,17 @@ const ProfileModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="display-field">
-                  <span>••••••••</span>
-                  <div className="btn-container">
+                <div className="profile-display-field">
+                  <span>
+                    <span className="material-symbols-outlined">password</span>
+                    ••••••••
+                  </span>
+                  <div className="profile-btn-wrapper">
                     <button
                       onClick={() => setEditPassword(true)}
-                      className="btn"
+                      className="profile-btn profile-btn-edit"
                     >
+                      <span className="material-symbols-outlined">edit</span>{" "}
                       Edit
                       <span className="material-symbols-outlined">east</span>
                     </button>
@@ -1027,34 +1058,39 @@ const ProfileModal = ({
               )}
             </div>
 
-            {/* Phone Number Section */}
-            <div className="info-field">
-              <label>Phone Number</label>
+            {/* Phone Number Field */}
+            <div className="profile-field">
+              <label>
+                <span className="material-symbols-outlined">phone</span> Phone
+                Number
+              </label>
               {editPhone ? (
-                <div className="edit-field">
+                <div className="profile-edit-field">
                   <input
                     type="tel"
                     value={newPhone}
                     onChange={(e) => setNewPhone(e.target.value)}
                     placeholder="Enter your phone number"
                     disabled={loading}
-                    className="info-input"
+                    className="profile-input"
                   />
-                  <div className="phone-buttons">
-                    <div className="btn-container">
+                  <div className="profile-field-actions">
+                    <div className="profile-btn-wrapper">
                       <button
                         onClick={handlePhoneUpdate}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-success"
                       >
+                        <span className="material-symbols-outlined">save</span>{" "}
                         Save
                         <span className="material-symbols-outlined">east</span>
                       </button>
                       <button
                         onClick={() => cancelEdit("phone")}
                         disabled={loading}
-                        className="btn"
+                        className="profile-btn profile-btn-danger"
                       >
+                        <span className="material-symbols-outlined">close</span>{" "}
                         Cancel
                         <span className="material-symbols-outlined">east</span>
                       </button>
@@ -1062,12 +1098,17 @@ const ProfileModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="phone-display">
-                  <p className="phone-number">
+                <div className="profile-display-field">
+                  <span>
+                    <span className="material-symbols-outlined">call</span>
                     {phoneNumber || "No phone number set"}
-                  </p>
-                  <div className="btn-container">
-                    <button onClick={() => setEditPhone(true)} className="btn">
+                  </span>
+                  <div className="profile-btn-wrapper">
+                    <button
+                      onClick={() => setEditPhone(true)}
+                      className="profile-btn profile-btn-edit"
+                    >
+                      <span className="material-symbols-outlined">edit</span>{" "}
                       Edit
                       <span className="material-symbols-outlined">east</span>
                     </button>
@@ -1081,24 +1122,6 @@ const ProfileModal = ({
     </div>
   );
 };
-
-// Main StudentPortal Component
-// Add these interfaces at the top of your file, before the StudentPortal component
-
-interface User {
-  id?: string;
-  name?: string;
-  email?: string;
-}
-
-interface ProfileImageResponse {
-  success: boolean;
-  profileImage?: string;
-}
-
-interface ErrorResponse {
-  message?: string;
-}
 
 // Main StudentPortal Component
 const StudentPortal = () => {
@@ -1117,30 +1140,83 @@ const StudentPortal = () => {
   const [maintenanceMode, setMaintenanceMode] = useState<boolean>(false);
   const [checkingMaintenance, setCheckingMaintenance] = useState<boolean>(true);
   const [sessionExpired, setSessionExpired] = useState<boolean>(false);
-  
+
+  // Search states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   // NEW: Sidebar open/close state for mobile
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const toggleSearch = (): void => {
     setIsSearchVisible(!isSearchVisible);
+    if (!isSearchVisible) {
+      setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }, 100);
+    } else {
+      setShowSearchResults(false);
+      setSearchQuery("");
+    }
   };
 
-  // NEW: Toggle sidebar for mobile
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    setShowSearchResults(value.trim().length > 0);
+  };
+
+  const handleSearchResultClick = (sectionId: string) => {
+    setShowSearchResults(false);
+    setSearchQuery("");
+    setIsSearchVisible(false);
+    if (searchInputRef.current) {
+      searchInputRef.current.value = "";
+    }
+
+    const sectionMap: Record<string, string> = {
+      dashboard: "dashboard",
+      feespayment: "feespayment",
+      paymentdetails: "paymentdetails",
+      "course Module": "course Module",
+      Performance: "Performance",
+      Grade: "Grade",
+      settings: "settings",
+      profile: "profile",
+      notifications: "notifications",
+      progress: "progress",
+      subscription: "subscription",
+    };
+
+    const targetSection = sectionMap[sectionId] || sectionId;
+
+    if (sectionId === "profile") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("modal", "profile");
+      window.history.pushState({}, "", url.toString());
+      window.location.reload();
+      return;
+    }
+
+    setActiveSection(targetSection);
+    setIsSidebarOpen(false);
+  };
+
   const toggleSidebarMobile = (): void => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Modified: Toggle sidebar expand/collapse for desktop
   const toggleSidebarDesktop = (): void => {
     setIsSidebarExpanded(!isSidebarExpanded);
-    // Close dropdowns when collapsing to avoid issues
     if (isSidebarExpanded) {
       setIsPaymentDropdownOpen(false);
       setIsCoursesDropdownOpen(false);
     }
   };
 
-  // Get user from localStorage
   const getUserFromStorage = (): User | null => {
     if (typeof window !== "undefined") {
       const userStr = localStorage.getItem("user");
@@ -1156,7 +1232,6 @@ const StudentPortal = () => {
   const user: User | null = getUserFromStorage();
   const userEmail: string | undefined = user?.email;
 
-  // Check if user is authenticated
   const isAuthenticated = (): boolean => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
@@ -1186,7 +1261,6 @@ const StudentPortal = () => {
     }
   };
 
-  // Check session expiry on component mount
   useEffect(() => {
     const checkSessionExpiry = () => {
       const sessionExpiry = localStorage.getItem("sessionExpiry");
@@ -1220,7 +1294,6 @@ const StudentPortal = () => {
     }
   }, [checkingMaintenance, router]);
 
-  // Periodic session check
   useEffect(() => {
     const interval = setInterval(() => {
       const sessionExpiry = localStorage.getItem("sessionExpiry");
@@ -1243,7 +1316,6 @@ const StudentPortal = () => {
     return () => clearInterval(interval);
   }, [router]);
 
-  // Check maintenance mode
   useEffect(() => {
     const checkMaintenanceMode = async () => {
       try {
@@ -1259,7 +1331,6 @@ const StudentPortal = () => {
     checkMaintenanceMode();
   }, []);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
       if (
@@ -1282,7 +1353,6 @@ const StudentPortal = () => {
     };
   }, [isSidebarExpanded, isPaymentDropdownOpen, isCoursesDropdownOpen]);
 
-  // Close sidebar when clicking outside on mobile
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
       if (window.innerWidth <= 991 && isSidebarOpen) {
@@ -1291,9 +1361,9 @@ const StudentPortal = () => {
         const target = event.target as Node;
 
         if (
-          sidebar && 
-          !sidebar.contains(target) && 
-          hamburger && 
+          sidebar &&
+          !sidebar.contains(target) &&
+          hamburger &&
           !hamburger.contains(target)
         ) {
           setIsSidebarOpen(false);
@@ -1307,7 +1377,6 @@ const StudentPortal = () => {
     };
   }, [isSidebarOpen]);
 
-  // Close sidebar on window resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 991 && isSidebarOpen) {
@@ -1321,12 +1390,12 @@ const StudentPortal = () => {
     };
   }, [isSidebarOpen]);
 
-  // Fetch student data
   const fetchStudentData = useCallback(async (): Promise<void> => {
     if (!user?.email) return;
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const token = localStorage.getItem("token");
 
       let profileImage: string | null = null;
@@ -1360,7 +1429,6 @@ const StudentPortal = () => {
     }
   }, [user?.email, user?.id, user?.name]);
 
-  // Refresh data when modal closes
   useEffect(() => {
     if (!isProfileModalOpen && user?.email) {
       fetchStudentData();
@@ -1371,7 +1439,6 @@ const StudentPortal = () => {
     fetchStudentData();
   }, [fetchStudentData]);
 
-  // Check authentication on mount
   useEffect(() => {
     if (typeof window !== "undefined" && !isAuthenticated()) {
       router.push("/login");
@@ -1424,29 +1491,24 @@ const StudentPortal = () => {
 
   return (
     <div className="d-flex">
-      {/* Hamburger Menu Button - Mobile */}
       <button className="sidebar-hamburger" onClick={toggleSidebarMobile}>
         <span className="hamburger-line"></span>
         <span className="hamburger-line"></span>
         <span className="hamburger-line"></span>
       </button>
 
-      {/* Sidebar Overlay - Mobile */}
-      <div 
-        className={`sidebar-overlay ${isSidebarOpen ? "active" : ""}`} 
+      <div
+        className={`sidebar-overlay ${isSidebarOpen ? "active" : ""}`}
         onClick={toggleSidebarMobile}
       ></div>
 
-      {/* Sidebar */}
       <div
         className={`sidebar ${isSidebarExpanded ? "expanded" : "collapsed"} ${isSidebarOpen ? "open" : "closed"}`}
       >
-        {/* Close Button - Mobile */}
         <button className="sidebar-close" onClick={toggleSidebarMobile}>
           <span className="material-symbols-outlined">close</span>
         </button>
 
-        {/* Toggle Button - Desktop */}
         <button className="sidebar-toggle" onClick={toggleSidebarDesktop}>
           <i
             className={`bi ${isSidebarExpanded ? "bi-chevron-left" : "bi-chevron-right"}`}
@@ -1475,6 +1537,7 @@ const StudentPortal = () => {
         </div>
 
         <ul className="p-3 nav flex-column">
+          {/* Dashboard */}
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "dashboard" ? "active" : ""}`}
@@ -1488,6 +1551,21 @@ const StudentPortal = () => {
             </button>
           </li>
 
+          {/* ✅ NEW: Subscription Link */}
+          <li className="mb-3 nav-item">
+            <button
+              className={`nav-link ${activeSection === "subscription" ? "active" : ""}`}
+              onClick={() => {
+                setActiveSection("subscription");
+                setIsSidebarOpen(false);
+              }}
+            >
+              <i className="bi bi-collection me-2"></i>
+              {isSidebarExpanded && "Subscription"}
+            </button>
+          </li>
+
+          {/* Payment Info Dropdown */}
           <li className="mb-3 nav-item">
             <div className="sidebar-item">
               <div
@@ -1508,7 +1586,6 @@ const StudentPortal = () => {
                   )}
                 </button>
               </div>
-              {/* For expanded mode - dropdown shows inline */}
               {isSidebarExpanded && isPaymentDropdownOpen && (
                 <div className="dropdown-list">
                   <div
@@ -1533,7 +1610,6 @@ const StudentPortal = () => {
                   </div>
                 </div>
               )}
-              {/* For collapsed mode - dropdown shows as floating menu */}
               {!isSidebarExpanded && isPaymentDropdownOpen && (
                 <div className="dropdown-list collapsed-dropdown">
                   <div
@@ -1561,6 +1637,7 @@ const StudentPortal = () => {
             </div>
           </li>
 
+          {/* Courses Dropdown */}
           <li className="mb-3 nav-item">
             <div className="sidebar-item">
               <div
@@ -1581,7 +1658,6 @@ const StudentPortal = () => {
                   )}
                 </button>
               </div>
-              {/* For expanded mode - dropdown shows inline */}
               {isSidebarExpanded && isCoursesDropdownOpen && (
                 <div className="dropdown-list">
                   <div
@@ -1616,7 +1692,6 @@ const StudentPortal = () => {
                   </div>
                 </div>
               )}
-              {/* For collapsed mode - dropdown shows as floating menu */}
               {!isSidebarExpanded && isCoursesDropdownOpen && (
                 <div className="dropdown-list collapsed-dropdown">
                   <div
@@ -1654,6 +1729,7 @@ const StudentPortal = () => {
             </div>
           </li>
 
+          {/* Settings */}
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "settings" ? "active" : ""}`}
@@ -1667,6 +1743,7 @@ const StudentPortal = () => {
             </button>
           </li>
 
+          {/* Logout */}
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "logout" ? "active" : ""}`}
@@ -1679,7 +1756,6 @@ const StudentPortal = () => {
         </ul>
       </div>
 
-      {/* Main Content */}
       <div className="main-content">
         <div className="nav-container">
           <div className="navba">
@@ -1693,13 +1769,11 @@ const StudentPortal = () => {
               />
             </div>
             <div className="student-icons">
-              {/* Notification Bell */}
               <div className="notification-container">
                 <span className="notification-badge"></span>
                 <StudentNotificationBell />
               </div>
 
-              {/* Search Bar */}
               <div className="search-bar-container">
                 {!isSearchVisible && (
                   <button className="search-icon-button" onClick={toggleSearch}>
@@ -1709,9 +1783,19 @@ const StudentPortal = () => {
                 {isSearchVisible && (
                   <div className="search-wrapper">
                     <input
+                      ref={searchInputRef}
                       type="text"
-                      placeholder="Search..."
+                      placeholder="Search courses, payments, settings..."
                       className="search-input"
+                      value={searchQuery}
+                      onChange={handleSearchInput}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") {
+                          setShowSearchResults(false);
+                          setSearchQuery("");
+                          setIsSearchVisible(false);
+                        }
+                      }}
                     />
                     <button
                       className="close-icon-button"
@@ -1719,12 +1803,29 @@ const StudentPortal = () => {
                     >
                       <span className="material-symbols-outlined">close</span>
                     </button>
+                    {showSearchResults && (
+                      <SearchResults
+                        query={searchQuery}
+                        onClose={() => {
+                          setShowSearchResults(false);
+                          setSearchQuery("");
+                        }}
+                        onResultClick={handleSearchResultClick}
+                      />
+                    )}
                   </div>
                 )}
               </div>
             </div>
           </div>
         </div>
+
+        {/* ✅ NEW: Subscription Management Section */}
+        {activeSection === "subscription" && (
+          <div className="subscription-section">
+            <SubscriptionManagement />
+          </div>
+        )}
 
         {activeSection === "dashboard" && (
           <div className="md-4">
@@ -1754,23 +1855,14 @@ const StudentPortal = () => {
             <CourseGrade />
           </div>
         )}
-      
+
         {activeSection === "settings" && (
           <div className="mb-4 section">
             <Settings />
           </div>
         )}
-
-        {/* Footer */}
-        <div className="footer">
-          <p>
-            &copy; {new Date().getFullYear()} AppCode Student Portal. All rights
-            reserved.
-          </p>
-        </div>
       </div>
 
-      {/* Profile Modal */}
       <ProfileModal
         isOpen={isProfileModalOpen}
         setIsOpen={setIsProfileModalOpen}

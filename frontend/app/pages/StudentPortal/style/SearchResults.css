@@ -1,0 +1,899 @@
+/* app/pages/StudentPortal/style/SearchResults.css */
+
+/* ============================================
+   STUDENT PORTAL SEARCH RESULTS
+   ============================================ */
+
+/* Base styles - Mobile First */
+.student-search-results-dropdown {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 100%;
+  max-height: 70vh;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  z-index: 10000;
+  overflow: hidden;
+  animation: studentSearchSlideDown 0.3s ease;
+}
+
+@keyframes studentSearchSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Desktop positioning */
+@media (min-width: 769px) {
+  .student-search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: auto;
+    right: 0;
+    transform: none;
+    width: 480px;
+    max-width: 480px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .student-search-results-dropdown {
+    width: 520px;
+    max-width: 520px;
+  }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.student-search-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.student-search-results-count {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.student-search-results-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.student-search-results-close:hover {
+  background: #f1f5f9;
+}
+
+.student-search-results-close .material-symbols-outlined {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+/* ============================================
+   RESULTS LIST
+   ============================================ */
+.student-search-results-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.student-search-results-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.student-search-results-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.student-search-results-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.student-search-results-list::-webkit-scrollbar-thumb:hover {
+  background: #e9691e;
+}
+
+/* ============================================
+   SECTION GROUP
+   ============================================ */
+.student-search-section-group {
+  margin-bottom: 8px;
+}
+
+.student-search-section-group:last-child {
+  margin-bottom: 0;
+}
+
+.student-search-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #eef2f6;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-icon .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.section-name {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* ============================================
+   RESULT ITEM
+   ============================================ */
+.student-search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.student-search-result-item:last-child {
+  border-bottom: none;
+}
+
+.student-search-result-item:hover {
+  background: #f8fafc;
+}
+
+.student-search-result-item.selected {
+  background: #f1f5f9;
+  border-left: 3px solid #e9691e;
+}
+
+.student-search-result-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.student-search-result-item:hover .student-search-result-icon {
+  transform: scale(1.05);
+}
+
+.student-search-result-icon .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.student-search-result-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-search-result-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.student-search-result-description {
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.student-search-result-badge {
+  margin-top: 4px;
+}
+
+.section-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.student-search-result-arrow {
+  flex-shrink: 0;
+  color: #cbd5e1;
+  transition: transform 0.2s ease;
+}
+
+.student-search-result-item:hover .student-search-result-arrow {
+  transform: translateX(4px);
+  color: #e9691e;
+}
+
+.student-search-result-arrow .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* ============================================
+   NO RESULTS
+   ============================================ */
+.student-search-no-results {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.student-search-no-results .material-symbols-outlined {
+  font-size: 48px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+
+.student-search-no-results p {
+  font-size: 14px;
+  color: #475569;
+  margin: 0 0 8px 0;
+}
+
+.student-search-suggestion {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.student-search-results-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.student-search-keyboard-hint {
+  font-size: 11px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.student-search-keyboard-hint kbd {
+  padding: 2px 6px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #475569;
+  font-family: inherit;
+}
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+
+/* Tablet (541px - 768px) */
+@media (max-width: 768px) {
+  .student-search-results-dropdown {
+    top: 56px;
+    width: 90%;
+    max-width: 420px;
+    max-height: 60vh;
+    border-radius: 14px;
+  }
+
+  .student-search-results-list {
+    max-height: 320px;
+  }
+
+  .student-search-result-item {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .student-search-result-title {
+    font-size: 13px;
+  }
+
+  .student-search-result-description {
+    font-size: 11px;
+  }
+
+  .student-search-result-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .student-search-result-icon .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .student-search-results-header {
+    padding: 10px 14px;
+  }
+
+  .student-search-results-count {
+    font-size: 11px;
+  }
+
+  .student-search-no-results {
+    padding: 30px 20px;
+  }
+
+  .student-search-no-results .material-symbols-outlined {
+    font-size: 40px;
+  }
+
+  .student-search-results-footer {
+    gap: 12px;
+    padding: 8px 14px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-keyboard-hint {
+    font-size: 10px;
+  }
+
+  .student-search-keyboard-hint kbd {
+    font-size: 9px;
+    padding: 1px 5px;
+  }
+
+  .section-badge {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
+
+  .student-search-section-header {
+    padding: 6px 14px;
+  }
+
+  .section-name {
+    font-size: 11px;
+  }
+}
+
+/* Mobile Large (481px - 540px) */
+@media (min-width: 481px) and (max-width: 540px) {
+  .student-search-results-dropdown {
+    top: 54px;
+    width: 92%;
+    max-width: 400px;
+    max-height: 55vh;
+    border-radius: 14px;
+  }
+
+  .student-search-results-list {
+    max-height: 280px;
+  }
+
+  .student-search-result-item {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .student-search-result-title {
+    font-size: 12px;
+  }
+
+  .student-search-result-description {
+    font-size: 10px;
+  }
+
+  .student-search-result-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .student-search-result-icon .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .student-search-results-header {
+    padding: 8px 12px;
+  }
+
+  .student-search-results-count {
+    font-size: 10px;
+  }
+
+  .student-search-no-results {
+    padding: 24px 16px;
+  }
+
+  .student-search-no-results .material-symbols-outlined {
+    font-size: 36px;
+  }
+
+  .student-search-no-results p {
+    font-size: 12px;
+  }
+
+  .student-search-suggestion {
+    font-size: 10px;
+  }
+
+  .student-search-results-footer {
+    gap: 8px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-keyboard-hint {
+    font-size: 9px;
+  }
+
+  .student-search-keyboard-hint kbd {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  .section-badge {
+    font-size: 8px;
+    padding: 1px 6px;
+  }
+
+  .student-search-result-arrow .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-section-header {
+    padding: 4px 12px;
+  }
+
+  .section-name {
+    font-size: 10px;
+  }
+
+  .section-count {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+}
+
+/* Mobile Medium (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .student-search-results-dropdown {
+    top: 52px;
+    width: 94%;
+    max-width: 380px;
+    max-height: 50vh;
+    border-radius: 12px;
+  }
+
+  .student-search-results-list {
+    max-height: 250px;
+  }
+
+  .student-search-result-item {
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-result-title {
+    font-size: 12px;
+  }
+
+  .student-search-result-description {
+    font-size: 10px;
+  }
+
+  .student-search-result-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .student-search-result-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-result-content {
+    flex: 1 1 60%;
+  }
+
+  .student-search-results-header {
+    padding: 8px 12px;
+  }
+
+  .student-search-results-count {
+    font-size: 10px;
+  }
+
+  .student-search-results-close .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-no-results {
+    padding: 24px 16px;
+  }
+
+  .student-search-no-results .material-symbols-outlined {
+    font-size: 32px;
+  }
+
+  .student-search-no-results p {
+    font-size: 12px;
+  }
+
+  .student-search-suggestion {
+    font-size: 10px;
+  }
+
+  .student-search-results-footer {
+    gap: 6px;
+    padding: 6px 10px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-keyboard-hint {
+    font-size: 8px;
+  }
+
+  .student-search-keyboard-hint kbd {
+    font-size: 8px;
+    padding: 1px 3px;
+  }
+
+  .section-badge {
+    font-size: 8px;
+    padding: 1px 6px;
+  }
+
+  .student-search-result-arrow .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-section-header {
+    padding: 4px 12px;
+  }
+
+  .section-name {
+    font-size: 10px;
+  }
+
+  .section-count {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+}
+
+/* Mobile Small (320px - 375px) */
+@media (max-width: 375px) {
+  .student-search-results-dropdown {
+    top: 48px;
+    width: 96%;
+    max-width: 340px;
+    max-height: 45vh;
+    border-radius: 12px;
+  }
+
+  .student-search-results-list {
+    max-height: 220px;
+  }
+
+  .student-search-result-item {
+    padding: 6px 10px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-result-title {
+    font-size: 11px;
+  }
+
+  .student-search-result-description {
+    font-size: 9px;
+  }
+
+  .student-search-result-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .student-search-result-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-result-content {
+    flex: 1 1 100%;
+    order: 2;
+  }
+
+  .student-search-result-arrow {
+    margin-left: auto;
+    order: 3;
+  }
+
+  .student-search-result-arrow .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .student-search-result-badge {
+    margin-top: 2px;
+  }
+
+  .student-search-results-header {
+    padding: 6px 10px;
+  }
+
+  .student-search-results-count {
+    font-size: 9px;
+  }
+
+  .student-search-results-close .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .student-search-no-results {
+    padding: 20px 12px;
+  }
+
+  .student-search-no-results .material-symbols-outlined {
+    font-size: 28px;
+  }
+
+  .student-search-no-results p {
+    font-size: 11px;
+  }
+
+  .student-search-suggestion {
+    font-size: 9px;
+  }
+
+  .student-search-results-footer {
+    gap: 4px;
+    padding: 4px 8px;
+    flex-wrap: wrap;
+  }
+
+  .student-search-keyboard-hint {
+    font-size: 8px;
+  }
+
+  .student-search-keyboard-hint kbd {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  .section-badge {
+    font-size: 7px;
+    padding: 1px 4px;
+  }
+
+  .student-search-section-header {
+    padding: 4px 10px;
+  }
+
+  .section-name {
+    font-size: 9px;
+  }
+
+  .section-count {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  .section-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .student-search-results-dropdown {
+    top: 45px;
+    max-height: 65vh;
+  }
+
+  .student-search-results-list {
+    max-height: 200px;
+  }
+
+  .student-search-result-item {
+    padding: 4px 10px;
+    gap: 6px;
+  }
+
+  .student-search-result-title {
+    font-size: 11px;
+  }
+
+  .student-search-result-description {
+    font-size: 10px;
+  }
+
+  .student-search-result-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .student-search-result-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .student-search-no-results {
+    padding: 16px 12px;
+  }
+
+  .student-search-no-results .material-symbols-outlined {
+    font-size: 28px;
+  }
+
+  .student-search-no-results p {
+    font-size: 11px;
+  }
+
+  .student-search-results-footer {
+    padding: 4px 10px;
+    gap: 6px;
+  }
+
+  .student-search-keyboard-hint {
+    font-size: 8px;
+  }
+
+  .student-search-keyboard-hint kbd {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  .section-badge {
+    font-size: 7px;
+    padding: 1px 4px;
+  }
+
+  .student-search-results-header {
+    padding: 6px 10px;
+  }
+
+  .student-search-results-count {
+    font-size: 10px;
+  }
+
+  .student-search-results-close .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .student-search-section-header {
+    padding: 4px 10px;
+  }
+
+  .section-name {
+    font-size: 9px;
+  }
+
+  .section-count {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .student-search-results-dropdown {
+    animation: none;
+  }
+
+  .student-search-result-item {
+    transition: none;
+  }
+
+  .student-search-result-item:hover .student-search-result-arrow {
+    transform: none;
+  }
+
+  .student-search-result-item:hover .student-search-result-icon {
+    transform: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .student-search-results-dropdown {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.student-search-result-item:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.student-search-results-close:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .student-search-results-dropdown {
+    border: 2px solid CanvasText;
+  }
+
+  .student-search-result-item.selected {
+    border-left: 4px solid CanvasText;
+  }
+
+  .section-badge {
+    border: 1px solid CanvasText;
+  }
+
+  .student-search-results-close {
+    border: 1px solid transparent;
+  }
+
+  .student-search-results-close:hover {
+    border-color: CanvasText;
+  }
+
+  .student-search-result-item:hover .student-search-result-arrow {
+    color: CanvasText;
+  }
+
+  .student-search-keyboard-hint kbd {
+    border: 1px solid CanvasText;
+  }
+}

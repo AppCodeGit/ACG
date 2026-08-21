@@ -1,0 +1,1553 @@
+/* ============================================
+   SUBSCRIPTION PLAN MANAGEMENT STYLES
+   Fully Responsive - Consistent with Admin Design
+   ============================================ */
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.subscription-management {
+  padding: 22px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.subscription-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.subscription-loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(233, 105, 30, 0.1);
+  border-top-color: #e9691e;
+  border-right-color: #f08b4a;
+  border-radius: 50%;
+  animation: subscriptionSpin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  box-shadow: 0 0 20px rgba(233, 105, 30, 0.15);
+}
+
+@keyframes subscriptionSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.subscription-loading p {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ============================================
+   HEADER - HERO STYLE
+   ============================================ */
+.subscription-management .management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, #e9691e 0%, #0f172a 100%);
+  border-radius: 32px;
+  padding: 32px 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.subscription-management .management-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 70%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(0, 0, 255, 0.05), rgba(236, 72, 153, 0.05));
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+
+.subscription-management .management-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 50%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.subscription-management .management-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subscription-management .management-header h2::before {
+  content: '📋';
+  font-size: 1.8rem;
+}
+
+.subscription-management .header-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+.subscription-management .header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   BUTTONS - Consistent with Admin Design
+   ============================================ */
+.btn-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: #ffffff;
+  color: #e9691e;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-create:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.btn-create:active {
+  transform: translateY(0);
+}
+
+.btn-submit {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #e9691e, #d45d1a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(233, 105, 30, 0.3);
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   ALERTS - Toast Style
+   ============================================ */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  animation: subscriptionSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes subscriptionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.alert-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+
+.alert-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #16a34a;
+}
+
+.alert p {
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.alert-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   FORM - Consistent with Course Management
+   ============================================ */
+.plan-form-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.plan-form-container h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-form-container h3::before {
+  content: '✏️';
+  font-size: 1.4rem;
+}
+
+.plan-form {
+  max-width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group label .required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #cbd5e1;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #e9691e;
+  box-shadow: 0 0 0 4px rgba(233, 105, 30, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 90px;
+  font-weight: 400;
+}
+
+.form-group .program-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+  grid-column: 1 / -1;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ============================================
+   PLANS GRID
+   ============================================ */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.no-plans {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 20px;
+  color: #94a3b8;
+}
+
+.no-plans .no-plans-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.no-plans p:first-of-type {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.no-plans p:last-of-type {
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+/* ============================================
+   PLAN CARD
+   ============================================ */
+.plan-card {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e9691e, #f08b4a);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.plan-card:hover::before {
+  opacity: 1;
+}
+
+.plan-card:hover {
+  border-color: #e9691e;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.plan-card-inactive {
+  opacity: 0.65;
+  border-color: #d1d5db;
+}
+
+.plan-card-inactive::before {
+  background: linear-gradient(90deg, #9ca3af, #6b7280);
+  opacity: 1;
+}
+
+.plan-card-inactive:hover {
+  opacity: 0.8;
+  transform: translateY(-4px);
+  border-color: #9ca3af;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Plan Status */
+.plan-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge-active {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status-badge-active::before {
+  content: '●';
+  font-size: 8px;
+  color: #16a34a;
+}
+
+.status-badge-inactive {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.status-badge-inactive::before {
+  content: '●';
+  font-size: 8px;
+  color: #64748b;
+}
+
+.subscriber-count {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Plan Name */
+.plan-name h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.plan-program {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Plan Pricing */
+.plan-pricing {
+  margin: 14px 0 8px 0;
+  padding: 12px 0;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.plan-pricing .price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #e9691e;
+}
+
+.plan-pricing .interval {
+  font-size: 1rem;
+  color: #94a3b8;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+/* ============================================
+   SUBSCRIPTION PLAN MANAGEMENT STYLES
+   Consistent with Admin Design - Orange, White, Gray
+   ============================================ */
+
+/* ============================================
+   PLAN DESCRIPTION
+   ============================================ */
+.plan-description-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 10px 0 14px 0;
+  background: #f8fafc;
+  border-radius: 10px;
+  border-left: 3px solid #e9691e;
+  transition: all 0.3s ease;
+}
+
+.plan-card:hover .plan-description-wrapper {
+  background: #f1f5f9;
+  border-left-color: #d45d1a;
+}
+
+.plan-description-wrapper .plan-description-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #e9691e;
+}
+
+.plan-description-wrapper .plan-description {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+}
+
+/* ============================================
+   PLAN META - Clean Orange & Gray Theme
+   ============================================ */
+.plan-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  transition: all 0.3s ease;
+}
+
+.plan-card:hover .plan-meta {
+  background: #f1f5f9;
+  border-color: #e9691e;
+}
+
+.plan-meta .plan-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.plan-meta .plan-meta-item:hover {
+  background: rgba(233, 105, 30, 0.08);
+}
+
+.plan-meta .plan-meta-icon {
+  font-size: 0.8rem;
+}
+
+.plan-meta .plan-meta-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.plan-meta .plan-meta-value {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* Product ID */
+.plan-meta .plan-meta-id {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  background: #ffffff;
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  letter-spacing: 0.3px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.plan-meta-item:hover .plan-meta-id {
+  border-color: #e9691e;
+}
+
+/* Copy button */
+.plan-meta .plan-meta-copy {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plan-meta-item:hover .plan-meta-copy {
+  color: #e9691e;
+  background: #f1f5f9;
+}
+
+.plan-meta-copy:active {
+  transform: scale(0.9);
+}
+
+/* Date */
+.plan-meta .plan-meta-date {
+  color: #475569;
+}
+
+/* Subscriber count badge */
+.plan-meta .plan-meta-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9691e;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 1px 10px;
+  border-radius: 20px;
+  min-width: 24px;
+  height: 22px;
+}
+
+/* Meta divider */
+.plan-meta .plan-meta-divider {
+  width: 1px;
+  height: 22px;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 480px) {
+  .plan-description-wrapper {
+    padding: 10px 12px;
+    gap: 8px;
+    margin: 8px 0 10px 0;
+  }
+
+  .plan-description-wrapper .plan-description {
+    font-size: 0.8rem;
+  }
+
+  .plan-description-wrapper .plan-description-icon {
+    font-size: 0.9rem;
+  }
+
+  .plan-meta {
+    padding: 10px 12px;
+    gap: 4px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .plan-meta .plan-meta-item {
+    padding: 3px 6px;
+  }
+
+  .plan-meta .plan-meta-id {
+    max-width: 100px;
+    font-size: 0.65rem;
+  }
+
+  .plan-meta .plan-meta-divider {
+    display: none;
+  }
+
+  .plan-meta .plan-meta-label {
+    font-size: 0.6rem;
+  }
+
+  .plan-meta .plan-meta-value {
+    font-size: 0.7rem;
+  }
+
+  .plan-meta .plan-meta-count {
+    font-size: 0.65rem;
+    height: 20px;
+    padding: 0 8px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .plan-meta {
+    padding: 10px 12px;
+  }
+
+  .plan-meta .plan-meta-id {
+    max-width: 110px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .plan-meta {
+    gap: 2px;
+  }
+
+  .plan-meta .plan-meta-item {
+    flex: 1 1 auto;
+    min-width: 45%;
+  }
+
+  .plan-meta .plan-meta-divider {
+    display: none;
+  }
+}
+
+/* Plan Actions */
+.plan-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.plan-actions button {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-edit {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.btn-edit:hover {
+  background: #93c5fd;
+  transform: translateY(-2px);
+}
+
+.btn-toggle-deactivate {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-toggle-deactivate:hover {
+  background: #fca5a5;
+  transform: translateY(-2px);
+}
+
+.btn-toggle-activate {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.btn-toggle-activate:hover {
+  background: #86efac;
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #fca5a5;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   DELETE CONFIRMATION MODAL
+   ============================================ */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: deleteModalFadeIn 0.3s ease;
+}
+
+@keyframes deleteModalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.delete-modal-content {
+  background: #ffffff;
+  border-radius: 24px;
+  max-width: 480px;
+  width: 100%;
+  padding: 40px 36px;
+  position: relative;
+  animation: deleteModalSlideUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+@keyframes deleteModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.delete-modal-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  display: block;
+  animation: deleteModalBounce 0.6s ease;
+}
+
+@keyframes deleteModalBounce {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.delete-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.delete-modal-text {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.delete-modal-text strong {
+  color: #0f172a;
+}
+
+.delete-modal-warning {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 0 0 24px 0;
+  text-align: left;
+}
+
+.delete-modal-warning-icon {
+  font-size: 1.1rem;
+  margin-right: 8px;
+}
+
+.delete-modal-warning p {
+  font-size: 0.9rem;
+  color: #dc2626;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.delete-modal-warning p:first-of-type {
+  margin-bottom: 4px;
+}
+
+.delete-modal-warning p strong {
+  color: #dc2626;
+}
+
+.delete-modal-subscriber-warning {
+  color: #f59e0b !important;
+  margin-top: 6px !important;
+  font-size: 0.85rem !important;
+}
+
+.delete-modal-subscriber-warning strong {
+  color: #f59e0b !important;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.delete-modal-btn-cancel {
+  padding: 12px 28px;
+  background: #f1f5f9;
+  color: #475569;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.delete-modal-btn-cancel:hover:not(:disabled) {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.delete-modal-btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.delete-modal-btn-delete {
+  padding: 12px 28px;
+  background: #ef4444;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.delete-modal-btn-delete:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35);
+}
+
+.delete-modal-btn-delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.delete-modal-btn-deleting {
+  opacity: 0.7;
+}
+
+.delete-modal-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: deleteModalSpin 0.6s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes deleteModalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   RESPONSIVE - Consistent with Admin Pages
+   ============================================ */
+
+/* ===== 320px — 480px: Mobile ===== */
+@media (max-width: 480px) {
+  .subscription-management {
+    padding: 12px;
+  }
+
+  .subscription-management .management-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 24px;
+    border-radius: 20px;
+    gap: 14px;
+  }
+
+  .subscription-management .management-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .subscription-management .management-header h2::before {
+    font-size: 1.4rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .subscription-management .header-actions {
+    width: 100%;
+  }
+
+  .btn-create {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .form-group.full-width {
+    grid-column: 1;
+  }
+
+  .plan-form-container {
+    padding: 16px 18px;
+    border-radius: 16px;
+  }
+
+  .plan-form-container h3 {
+    font-size: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .plan-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+  }
+
+  .plan-actions {
+    flex-direction: column;
+  }
+
+  .plan-actions button {
+    flex: 1;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .plan-pricing .price {
+    font-size: 1.6rem;
+  }
+
+  .delete-modal-content {
+    padding: 24px 18px;
+    max-width: 100%;
+    margin: 12px;
+    border-radius: 18px;
+  }
+
+  .delete-modal-icon {
+    font-size: 3rem;
+  }
+
+  .delete-modal-title {
+    font-size: 1.2rem;
+  }
+
+  .delete-modal-text {
+    font-size: 0.85rem;
+  }
+
+  .delete-modal-actions {
+    flex-direction: column;
+  }
+
+  .delete-modal-btn-cancel,
+  .delete-modal-btn-delete {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .alert {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+}
+
+/* ===== 481px — 768px: Tablets ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .subscription-management {
+    padding: 16px;
+  }
+
+  .subscription-management .management-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 28px;
+    border-radius: 24px;
+    gap: 12px;
+  }
+
+  .subscription-management .management-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .subscription-management .header-actions {
+    width: 100%;
+  }
+
+  .btn-create {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .form-group.full-width {
+    grid-column: 1;
+  }
+
+  .plan-form-container {
+    padding: 20px 24px;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .plan-actions {
+    flex-direction: column;
+  }
+
+  .plan-actions button {
+    flex: 1;
+    width: 100%;
+  }
+}
+
+/* ===== 769px — 991px: Small Laptops ===== */
+@media (min-width: 769px) and (max-width: 991px) {
+  .subscription-management {
+    padding: 20px;
+  }
+
+  .subscription-management .management-header {
+    padding: 28px 32px;
+    border-radius: 28px;
+  }
+
+  .subscription-management .management-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+/* ===== 992px — 1200px: Desktops ===== */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+/* ===== 1201px+: Large Desktops ===== */
+@media (min-width: 1201px) {
+  .plans-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-height: 600px) and (orientation: landscape) and (max-width: 991px) {
+  .subscription-management .management-header {
+    padding: 16px 24px;
+    border-radius: 20px;
+  }
+
+  .subscription-management .management-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .plan-form-container {
+    padding: 16px 20px;
+  }
+
+  .delete-modal-content {
+    padding: 20px 24px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .delete-modal-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+  }
+
+  .delete-modal-title {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .delete-modal-text {
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+
+  .delete-modal-warning {
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - FOCUS VISIBLE
+   ============================================ */
+.btn-create:focus-visible,
+.btn-submit:focus-visible,
+.btn-cancel:focus-visible,
+.btn-edit:focus-visible,
+.btn-toggle-deactivate:focus-visible,
+.btn-toggle-activate:focus-visible,
+.btn-delete:focus-visible,
+.delete-modal-btn-cancel:focus-visible,
+.delete-modal-btn-delete:focus-visible,
+.alert-close:focus-visible,
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+  outline: 3px solid #e9691e;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   REDUCED MOTION - Accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .delete-modal-overlay {
+    animation: none;
+  }
+
+  .delete-modal-content {
+    animation: none;
+  }
+
+  .delete-modal-icon {
+    animation: none;
+  }
+
+  .alert {
+    animation: none;
+  }
+
+  .plan-card {
+    transition: none;
+  }
+
+  .plan-card:hover {
+    transform: none !important;
+  }
+
+  .btn-create,
+  .btn-submit,
+  .btn-cancel,
+  .btn-edit,
+  .btn-toggle-deactivate,
+  .btn-toggle-activate,
+  .btn-delete,
+  .delete-modal-btn-cancel,
+  .delete-modal-btn-delete {
+    transition: none;
+  }
+
+  .btn-create:hover,
+  .btn-submit:hover,
+  .btn-cancel:hover,
+  .btn-edit:hover,
+  .btn-toggle-deactivate:hover,
+  .btn-toggle-activate:hover,
+  .btn-delete:hover,
+  .delete-modal-btn-cancel:hover,
+  .delete-modal-btn-delete:hover {
+    transform: none !important;
+  }
+
+  .subscription-loading .spinner {
+    animation: none;
+  }
+
+  .delete-modal-spinner {
+    animation: none;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+@media (forced-colors: active) {
+  .subscription-management .management-header {
+    border-bottom: 4px solid CanvasText;
+  }
+
+  .plan-card {
+    border: 2px solid CanvasText;
+  }
+
+  .plan-card:hover {
+    border-color: Highlight;
+  }
+
+  .status-badge {
+    border: 2px solid CanvasText;
+  }
+
+  .delete-modal-content {
+    border: 3px solid CanvasText;
+  }
+
+  .btn-create {
+    border: 2px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .btn-submit {
+    border: 2px solid CanvasText;
+  }
+
+  .btn-cancel {
+    border: 2px solid CanvasText;
+  }
+
+  .delete-modal-btn-cancel {
+    border: 2px solid CanvasText;
+  }
+
+  .delete-modal-btn-delete {
+    border: 2px solid CanvasText;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    border: 2px solid CanvasText;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: Highlight;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .subscription-management {
+    padding: 20px;
+    background: white;
+    box-shadow: none;
+  }
+
+  .subscription-management .management-header {
+    background: #e9691e !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .subscription-management .management-header h2 {
+    color: white;
+  }
+
+  .subscription-management .management-header .header-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-create {
+    display: none;
+  }
+
+  .plan-actions button {
+    display: none;
+  }
+
+  .plan-card {
+    border: 1px solid #ddd;
+    box-shadow: none;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .plan-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .delete-modal-overlay {
+    display: none;
+  }
+
+  .alert {
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  .plan-form-container {
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  .form-actions {
+    display: none;
+  }
+
+  .header-actions {
+    display: none;
+  }
+
+  .subscription-loading {
+    display: none;
+  }
+}

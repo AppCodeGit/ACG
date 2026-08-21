@@ -59,6 +59,12 @@ model User {
   payments      Payment[]  // Now this will work since Payment has userId
   courses       Course[]   // Courses created by admin/instructor
   courseContent CourseContent[] // Content uploaded by user
+  
+  // ✅ ADDED: Subscription relation
+  subscriptions StudentSubscription[]
+
+  @@index([email])
+  @@index([cognitoId])
 }
 
 //////////////////////////
@@ -94,13 +100,23 @@ model Student {
   guardianEmail      String?
   guardianOccupation String?
 
+  // ✅ ADDED: Stripe customer ID for subscriptions
+  stripeCustomerId String?
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   
   enrollments     Enrollment[]
   assignmentSubmissions AssignmentSubmission[] 
   finalGrade      FinalGrade?
-  studentNotifications StudentNotification[]  
+  studentNotifications StudentNotification[]
+  
+  // ✅ ADDED: Subscription relations
+  subscriptions   StudentSubscription[]
+  subscriptionNotifications SubscriptionNotification[]
+
+  @@index([email])
+  @@index([userId])
 }
 
 model Program {
@@ -146,6 +162,7 @@ model Course {
   @@index([instructorId])
   @@index([status])
   @@index([isPublished])
+  @@index([programId])
 }
 
 // Add after Program model
@@ -327,11 +344,21 @@ model Payment {
   courseId       Int?
   course         Course?  @relation(fields: [courseId], references: [id])
 
+  // ✅ ADDED: Paystack specific fields
+  paystackAccessCode String?
+  paystackReference  String?  @unique
+  paystackChannel    String?  // 'card', 'bank', 'ussd', 'mobile_money'
+  paystackCurrency   String?  @default("GHS")
+  paymentMethod      String?  // 'card', 'mobile_money', 'bank_transfer'
+  paymentGateway     String?  // 'paystack', 'stripe'
+  metadata           Json?
+
   @@index([email])
   @@index([userId])
   @@index([status])
   @@index([transactionId])
   @@index([courseId])
+  @@index([paystackReference])
 }
 
 model AssignmentNotification {
@@ -405,4 +432,158 @@ model FinalGrade {
   updatedAt       DateTime @updatedAt
   
   @@unique([studentId, programName])
+}
+
+
+// ==============================
+// SUBSCRIPTION MODELS - COMPLETELY SEPARATE
+// ==============================
+
+enum SubscriptionStatus {
+  active
+  past_due
+  unpaid
+  canceled
+  incomplete
+  expired
+  trialing
+}
+
+// ==============================
+// SUBSCRIPTION PLAN
+// ==============================
+model SubscriptionPlan {
+  id          Int     @id @default(autoincrement())
+  name        String  // e.g., "Monthly", "Yearly", "Premium"
+  description String?
+  price       Float   // Price in USD
+  interval    String  // 'month' or 'year'
+  programName String  // Which program this plan is for
+  isActive    Boolean @default(true)
+
+  // Stripe integration
+  stripeProductId String @unique
+  stripePriceId   String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  subscriptions StudentSubscription[]
+
+  @@index([programName])
+  @@index([isActive])
+}
+
+// ==============================
+// STUDENT SUBSCRIPTION
+// ==============================
+model StudentSubscription {
+  id        Int              @id @default(autoincrement())
+  studentId Int
+  student   Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  planId    Int
+  plan      SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  // Stripe subscription ID
+  stripeSubscriptionId String @unique
+
+  // Subscription details
+  status   SubscriptionStatus @default(active)
+  amount   Float              // Amount paid per billing period
+  currency String             @default("usd") // ✅ Changed to USD
+
+  // Billing periods
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  canceledAt         DateTime?
+  cancelAtPeriodEnd  Boolean   @default(false)
+
+  // Metadata
+  metadata Json? // Store additional data
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Payment history for this subscription
+  payments SubscriptionPayment[]
+
+  // Relation to User (for linking to existing user)
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  @@index([studentId])
+  @@index([planId])
+  @@index([status])
+  @@index([stripeSubscriptionId])
+  @@index([currentPeriodEnd])
+  @@index([userId])
+}
+
+// ==============================
+// SUBSCRIPTION PAYMENT - TRACKS SUBSCRIPTION PAYMENTS ONLY
+// ==============================
+model SubscriptionPayment {
+  id             Int                 @id @default(autoincrement())
+  subscriptionId Int
+  subscription   StudentSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  // Stripe payment details
+  stripeInvoiceId       String? // ✅ No @unique
+  stripePaymentIntentId String?
+
+  amount      Float
+  currency    String   @default("usd") // ✅ Changed to USD
+  status      String   // 'succeeded', 'pending', 'failed'
+  paymentDate DateTime @default(now())
+
+  // Invoice details
+  invoiceUrl    String?
+  invoiceNumber String?
+
+  createdAt DateTime @default(now())
+
+  @@index([subscriptionId])
+  @@index([stripeInvoiceId])
+  @@index([paymentDate])
+}
+
+// ==============================
+// SUBSCRIPTION NOTIFICATION
+// ==============================
+model SubscriptionNotification {
+  id        Int     @id @default(autoincrement())
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  type      String // 'renewal', 'expiring', 'payment_failed', 'canceled'
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  // Store additional data
+  data      Json?
+
+  @@index([studentId])
+  @@index([read])
+  @@index([createdAt])
+}
+
+// ==============================
+// WEBHOOK LOG - FOR IDEMPOTENCY
+// ==============================
+model WebhookLog {
+  id             Int      @id @default(autoincrement())
+  stripeEventId  String   @unique
+  eventType      String
+  processedAt    DateTime @default(now())
+  status         String   // 'success', 'failed'
+  errorMessage   String?
+  metadata       Json?    // Store additional data
+  
+  @@index([stripeEventId])
+  @@index([eventType])
+  @@index([processedAt])
+  @@index([status])
 }

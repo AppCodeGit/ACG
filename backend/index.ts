@@ -28,8 +28,9 @@ import gradesRoutes from "./routes/grades";
 import studentSettingsRoutes from "./routes/studentSettings";
 import studentNotificationsRoutes from "./routes/studentNotifications";
 import enrollmentRoutes from "./routes/enrollment";
-
-
+import subcriptionRoutes from "./routes/subscription";
+// ✅ Import the webhook handler
+import { handleWebhook } from "./routes/webhook";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -62,7 +63,19 @@ app.use(
   })
 );
 
-// Body parsers
+// =============================================
+// ✅ CRITICAL: Webhook route MUST come FIRST
+// BEFORE any other body parsing middleware
+// =============================================
+app.post(
+  '/api/subscription/webhook',
+  express.raw({ type: 'application/json' }),
+  handleWebhook
+);
+
+// =============================================
+// ✅ NOW use JSON parser for all other routes
+// =============================================
 app.use(express.json({ limit: '2gb' }));
 app.use(express.urlencoded({ extended: true, limit: '2gb' }));
 
@@ -188,6 +201,7 @@ app.use("/api/grades", gradesRoutes);
 app.use("/api/student-settings", studentSettingsRoutes);
 app.use("/api/student-notifications", studentNotificationsRoutes);
 app.use("/api/enrollment", enrollmentRoutes);
+app.use("/api/subscription", subcriptionRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

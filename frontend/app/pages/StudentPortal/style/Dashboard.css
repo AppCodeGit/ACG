@@ -1,3 +1,7 @@
+/* ============================================
+   DASHBOARD STYLES - RESTRUCTURED LAYOUT
+   ============================================ */
+
 .dashboard-section {
   color: #333;
 }
@@ -18,32 +22,28 @@
   .dashboard-section {
     padding: 15px;
   }
-
-  .dashboard-section .dashboard-title {
-    font-size: 1.5rem;
-  }
-
-  .dashboard-section .section-title {
-    font-size: 1.2rem;
-  }
 }
 
-/* Welcome Container */
+/* ============================================
+   WELCOME CONTAINER
+   ============================================ */
 .dashboard-section .welcome-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* Welcome Banner */
+/* ============================================
+   ROW 1: WELCOME BANNER - FULL WIDTH
+   ============================================ */
 .dashboard-section .welcome-banner {
+  width: 100%;
   display: flex;
-  height: 60vh;
   background: #f5f7fa;
   border-radius: 12px;
   overflow: hidden;
-  grid-column: 1 / 3;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  min-height: 200px;
 }
 
 .dashboard-section .welcome-banner::before {
@@ -105,13 +105,43 @@
   font-weight: 500;
 }
 
-/* Student Dashboard */
-.dashboard-section .dashboard-sections {
+/* ============================================
+   ROW 2: PROFILE CARD (LEFT) + YOUR PROGRESS & ACADEMIC UPDATES (RIGHT)
+   ============================================ */
+.dashboard-section .dashboard-row-2 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr 2fr;
   gap: 20px;
 }
 
+/* RIGHT COLUMN: Your Progress & Academic Updates (side by side) */
+.dashboard-section .dashboard-right-col-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ============================================
+   ROW 3: CURRENT MODULE (LEFT) + DAILY MOTIVATION (RIGHT)
+   ============================================ */
+.dashboard-section .dashboard-row-3 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* ============================================
+   ROW 4: ANNOUNCEMENTS & DATE TABLE - FULL WIDTH
+   ============================================ */
+.dashboard-section .announcement-date {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ============================================
+   DASHBOARD TILES - COMMON STYLES
+   ============================================ */
 .dashboard-section .dashboard-tile {
   background-color: #fff;
   color: #343a40;
@@ -134,7 +164,7 @@
   background: #f1f5f9;
 }
 
-.dashboard-section .dashboard-tile .title{
+.dashboard-section .dashboard-tile .title {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -144,7 +174,15 @@
   color: #1e293b;
 }
 
-/* Consistent Orange Theme for All Icons */
+.dashboard-section .dashboard-tile .title h6 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Orange Theme for Icons */
 .dashboard-section .dashboard-tile .bi-book-half,
 .dashboard-section .dashboard-tile .bi-journal-bookmark-fill,
 .dashboard-section .dashboard-tile .bi-emoji-smile,
@@ -154,9 +192,108 @@
 }
 
 /* ============================================
-   YOUR PROGRESS SECTION
+   PROFILE CARD
    ============================================ */
+.dashboard-section .profile-card {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
+  overflow: hidden;
+  color: #333;
+  transition: transform 0.3s;
+  align-self: start;
+}
 
+.dashboard-section .profile-card:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-section .profile-card .profile-header {
+  background: linear-gradient(135deg, #e9691e 0%, #0f172a 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dashboard-section .profile-card .profile-image {
+  width: 100px;
+  height: 100px;
+  border: 4px solid #fff;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dashboard-section .profile-card .student-profile-header .student-name {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.dashboard-section .profile-card .student-profile-header .student-id {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 500;
+  margin: 0;
+}
+
+.dashboard-section .profile-body {
+  padding: 20px;
+}
+
+.dashboard-section .profile-body .detail-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  margin: 10px 0;
+  padding: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-section .profile-body .detail-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-section .profile-body .icon-wrapper {
+  width: 35px;
+  height: 35px;
+  background: #ffe0cf;
+  border-radius: 8px;
+  color: #e9691e;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section .profile-body .info-text strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dashboard-section .profile-body .info-text p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* ============================================
+   PROGRESS TRACKER
+   ============================================ */
 .dashboard-section .dashboard-tile.progress-tracker {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
   border: 1px solid rgba(233, 105, 30, 0.15);
@@ -174,30 +311,37 @@
   background: linear-gradient(90deg, #e9691e, #f08b4a, #f59e0b);
 }
 
-.dashboard-section .progress-tracker .progress {
-  background-color: #f1f5f9;
-  border-radius: 12px;
-  height: 12px;
+/* Progress Tracker Container */
+.dashboard-section .progress-tracker-bar {
   margin: 15px 0 10px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-section .progress-tracker .progress-bar {
-  background: linear-gradient(135deg, #e9691e, #f08b4a);
-  border-radius: 12px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+/* Progress Bar Container */
+.dashboard-section .progress-tracker-container {
+  background-color: #f1f5f9;
+  border-radius: 20px;
+  height: 16px;
   overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+/* Progress Bar Fill */
+.dashboard-section .progress-tracker-fill {
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 50%, #f59e0b 100%);
+  border-radius: 20px;
+  height: 100%;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: white;
+  position: relative;
+  overflow: hidden;
+  min-width: 30px;
 }
 
-.dashboard-section .progress-tracker .progress-bar::after {
+/* Shimmer Animation Effect */
+.dashboard-section .progress-tracker-fill::after {
   content: '';
   position: absolute;
   top: 0;
@@ -207,13 +351,14 @@
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.25) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: shimmer 2s infinite;
+  animation: progressShimmer 2s infinite;
+  pointer-events: none;
 }
 
-@keyframes shimmer {
+@keyframes progressShimmer {
   0% {
     transform: translateX(-100%);
   }
@@ -222,44 +367,76 @@
   }
 }
 
-.dashboard-section .progress-stats {
-  margin-top: 15px;
+/* Progress Label */
+.dashboard-section .progress-tracker-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   PROGRESS STATS
+   ============================================ */
+.dashboard-section .progress-tracker-stats {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 14px;
 }
 
-.dashboard-section .progress-stats p {
+.dashboard-section .progress-stat-item {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #475569;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
 
-.dashboard-section .progress-stats p:first-child {
+.dashboard-section .progress-stat-item:hover {
+  transform: translateY(-2px);
+}
+
+/* Completion Stat */
+.dashboard-section .progress-stat-completion {
   background: #f1f5f9;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: 600;
   color: #e9691e;
+  font-weight: 600;
 }
 
-.dashboard-section .progress-stats p:last-child {
+.dashboard-section .progress-stat-completion:hover {
+  background: #ffe0cf;
+}
+
+/* Courses Stat */
+.dashboard-section .progress-stat-courses {
   background: #dcfce7;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: 600;
   color: #166534;
+  font-weight: 600;
+}
+
+.dashboard-section .progress-stat-courses:hover {
+  background: #bbf7d0;
+}
+
+/* Stat Icon */
+.dashboard-section .progress-stat-icon {
+  font-size: 0.9rem;
 }
 
 /* ============================================
-   CURRENT MODULE SECTION
+   CURRENT MODULE
    ============================================ */
-
 .dashboard-section .dashboard-tile.daily-schedule {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
   border: 1px solid rgba(233, 105, 30, 0.15);
@@ -293,30 +470,104 @@
   margin-bottom: 12px;
 }
 
-.dashboard-section .module-progress {
-  margin: 12px 0;
-  padding: 10px;
-  background: #f8fafc;
-  border-radius: 12px;
+/* ============================================
+   MODULE PROGRESS
+   ============================================ */
+.dashboard-section .module-progress-wrapper {
+  margin: 14px 0;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
 }
 
-.dashboard-section .module-progress .progress {
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 3px;
-  margin-bottom: 8px;
+.dashboard-section .module-progress-wrapper:hover {
+  border-color: #e9691e;
+  box-shadow: 0 4px 12px rgba(233, 105, 30, 0.08);
 }
 
-.dashboard-section .module-progress .progress-bar {
-  background: linear-gradient(90deg, #e9691e, #f08b4a);
-  border-radius: 3px;
+.dashboard-section .module-progress-bar-container {
+  background-color: #e2e8f0;
+  border-radius: 20px;
+  height: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+  position: relative;
 }
 
-.dashboard-section .module-progress small {
+.dashboard-section .module-progress-fill {
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 50%, #f59e0b 100%);
+  border-radius: 20px;
+  height: 16px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-width: 24px;
+}
+
+.dashboard-section .module-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: moduleProgressShimmer 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes moduleProgressShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.dashboard-section .module-progress-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-section .module-progress-text {
+  display: block;
   font-size: 0.7rem;
   color: #64748b;
+  margin-top: 8px;
+  text-align: right;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
 }
 
+.dashboard-section .module-progress-wrapper:hover .module-progress-text {
+  color: #e9691e;
+}
+
+.dashboard-section .module-progress-text::before {
+  content: '📊 ';
+  font-size: 0.65rem;
+}
+
+/* ============================================
+   CONCEPTS LIST
+   ============================================ */
 .dashboard-section .concepts-list {
   margin: 12px 0;
   padding: 10px;
@@ -351,6 +602,9 @@
   border-bottom: none;
 }
 
+/* ============================================
+   NEXT MODULE
+   ============================================ */
 .dashboard-section .next-module {
   margin-top: 12px;
   padding: 10px;
@@ -374,60 +628,8 @@
 }
 
 /* ============================================
-   MOTIVATIONAL QUOTE SECTION
+   ACADEMIC UPDATES
    ============================================ */
-
-.dashboard-section .dashboard-tile.motivation {
-  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 100%);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.dashboard-section .dashboard-tile.motivation .title {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.dashboard-section .dashboard-tile.motivation .title h4 {
-  color: white;
-}
-
-.dashboard-section .dashboard-tile.motivation .bi-emoji-smile {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-
-.dashboard-section .quote-content {
-  margin-top: 15px;
-}
-
-.dashboard-section .quote-text {
-  font-size: 1rem;
-  line-height: 1.5;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 10px;
-}
-
-.dashboard-section .quote-author {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.75);
-  text-align: right;
-  margin-bottom: 10px;
-}
-
-.dashboard-section .quote-refresh {
-  display: block;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
-  margin-top: 10px;
-}
-
-/* ============================================
-   ACADEMIC UPDATES SECTION
-   ============================================ */
-
 .dashboard-section .dashboard-tile.quick-actions {
   background: linear-gradient(135deg, #ffffff 0%, #fef9f5 100%);
   border: 1px solid rgba(233, 105, 30, 0.15);
@@ -515,22 +717,60 @@
 }
 
 /* ============================================
-   ANNOUNCEMENTS SECTION
+   MOTIVATIONAL QUOTE
    ============================================ */
-
-.dashboard-section .announcement-date {
-  display: flex;
-  gap: 20px;
-  grid-column: 1/3;
+.dashboard-section .dashboard-tile.motivation {
+  background: linear-gradient(135deg, #e9691e 0%, #f08b4a 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
+.dashboard-section .dashboard-tile.motivation .title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dashboard-section .dashboard-tile.motivation .bi-emoji-smile {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.dashboard-section .quote-content {
+  margin-top: 15px;
+}
+
+.dashboard-section .quote-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 10px;
+}
+
+.dashboard-section .quote-author {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.dashboard-section .quote-refresh {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ============================================
+   ANNOUNCEMENTS
+   ============================================ */
 .dashboard-section .announcement-date .announcement-banner {
   background: #ffffff;
   border-left: 6px solid #e9691e;
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.6s ease-in-out;
   width: 100%;
 }
 
@@ -566,13 +806,13 @@
   gap: 8px;
 }
 
-.dashboard-section .announcement-date .announcement-list {
+.dashboard-section .announcement-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.dashboard-section .announcement-date .announcement-list li {
+.dashboard-section .announcement-list li {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -584,33 +824,24 @@
   border: 1px solid #e2e8f0;
 }
 
-.dashboard-section .announcement-date .announcement-list li:hover {
+.dashboard-section .announcement-list li:hover {
   transform: translateX(5px);
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-color: #e9691e;
 }
 
-.dashboard-section .announcement-date .announcement-list li .icon {
+.dashboard-section .announcement-list li .icon {
   font-size: 1.3rem;
   flex-shrink: 0;
 }
 
-.dashboard-section .announcement-date .announcement-list li div {
-  flex: 1;
-}
-
-.dashboard-section .announcement-date .announcement-list li strong {
-  color: #1e293b;
-  font-size: 0.85rem;
-}
-
-.dashboard-section .announcement-date .announcement-list li .Text {
+.dashboard-section .announcement-list li .Text {
   color: #64748b;
   font-size: 0.85rem;
 }
 
-.dashboard-section .announcement-date .announcement-list li .highlight {
+.dashboard-section .announcement-list li .highlight {
   background-color: #ffe0cf;
   color: #e9691e;
   padding: 2px 8px;
@@ -620,7 +851,7 @@
   margin-left: 5px;
 }
 
-.dashboard-section .announcement-date .announcement-list li .feedback {
+.dashboard-section .announcement-list li .feedback {
   display: block;
   font-size: 0.75rem;
   color: #e9691e;
@@ -628,7 +859,7 @@
   font-style: italic;
 }
 
-.dashboard-section .announcement-date .announcement-list li .course-date {
+.dashboard-section .announcement-list li .course-date {
   font-size: 0.7rem;
   color: #94a3b8;
   margin-top: 6px;
@@ -656,236 +887,9 @@
   font-size: 1rem;
 }
 
-/* Profile Card */
-.dashboard-section .profile-card {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 6px 6px rgba(102, 124, 150, 0.2);
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  color: #333;
-  transition: transform 0.3s;
-}
-
-.dashboard-section .profile-card:hover {
-  transform: translateY(-5px);
-}
-
-.dashboard-section .profile-card .profile-header {
-  background: linear-gradient(135deg, #e9691e 0%, #0f172a 100%);
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding: 20px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.dashboard-section .profile-card .profile-header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 70%;
-  height: 200%;
-  background: linear-gradient(135deg, rgba(0, 0, 255, 0.1), rgba(236, 72, 153, 0.1));
-  transform: rotate(35deg);
-  pointer-events: none;
-}
-
-.dashboard-section .profile-card .profile-header::after {
-  content: '';
-  position: absolute;
-  bottom: -20%;
-  left: -10%;
-  width: 50%;
-  height: 150%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.507), transparent);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-
-.dashboard-section .profile-card .profile-image {
-  width: 100px;
-  height: 100px;
-  border: 4px solid #fff;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.dashboard-section .profile-card .student-profile-header .student-name {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-text-transform: capitalize;
-}
-
-.dashboard-section .profile-card .student-profile-header .student-id {
-  font-size: 0.9rem;
-  color: #ffffff;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-}
-
-
-.dashboard-section .profile-body {
-  padding: 20px;
-}
-
-.dashboard-section .profile-body .detail-item {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  background: #fff;
-  border-radius: 12px;
-  margin: 10px 0;
-  padding: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dashboard-section .profile-body .detail-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-
-.dashboard-section .profile-body .icon-wrapper {
-  width: 35px;
-  height: 35px;
-  background: #ffe0cf;
-  border-radius: 8px;
-  color: #e9691e;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-section .profile-body .info-text strong {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.dashboard-section .profile-body .info-text p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #64748b;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .dashboard-section .welcome-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-section .welcome-banner {
-    grid-column: 1;
-    height: auto;
-    flex-direction: column;
-  }
-  
-  .dashboard-section .announcement-date {
-    grid-column: 1;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-section {
-    padding: 15px;
-  }
-  
-  .dashboard-section .dashboard-sections {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-section .progress-stats {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .dashboard-section .grade-list li,
-  .dashboard-section .assignment-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .dashboard-section .announcement-date .announcement-list li {
-    flex-direction: column;
-  }
-  
-  .dashboard-section .announcement-date .announcement-list li .icon {
-    font-size: 1.5rem;
-  }
-  
-  .dashboard-section .welcome-banner .text-container {
-    padding: 20px;
-  }
-  
-  .dashboard-section .welcome-banner .text-container h1 {
-    font-size: 1.2rem;
-    margin: 20px 0;
-  }
-  
-  .dashboard-section .profile-card .profile-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .dashboard-section .student-profile-header .student-name,
-  .dashboard-section .student-profile-header .student-id {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .dashboard-section .dashboard-tile {
-    padding: 15px;
-  }
-  
-  .dashboard-section .welcome-banner .banner-item::before {
-    font-size: 2rem;
-    padding: 8px 10px;
-  }
-  
-  .dashboard-section .module-title {
-    font-size: 1rem;
-  }
-  
-  .dashboard-section .quote-text {
-    font-size: 0.9rem;
-  }
-}
-
-/* Module Contents List Styles */
+/* ============================================
+   MODULE CONTENTS LIST
+   ============================================ */
 .dashboard-section .module-contents-list {
   list-style: none;
   padding: 0;
@@ -945,7 +949,9 @@ text-transform: capitalize;
   font-size: 0.9rem;
 }
 
-/* Completion Message */
+/* ============================================
+   COMPLETION MESSAGE
+   ============================================ */
 .dashboard-section .completion-message {
   text-align: center;
   padding: 30px 20px;
@@ -971,26 +977,9 @@ text-transform: capitalize;
   color: #15803d;
 }
 
-/* Update the .title section */
-.dashboard-section .dashboard-tile .title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  font-size: 1.7rem;
-  font-weight: 800;
-  color: #1e293b;
-}
-
-.dashboard-section .dashboard-tile .title h6 {
-  margin: 0;
-  flex: 1;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-/* Refresh button styles */
+/* ============================================
+   REFRESH BUTTON
+   ============================================ */
 .dashboard-section .refresh-module-btn {
   background: none;
   border: none;
@@ -1015,4 +1004,203 @@ text-transform: capitalize;
   background: none;
   padding: 0;
   margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet - 992px */
+@media (max-width: 992px) {
+  .dashboard-section .dashboard-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section .dashboard-row-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section .dashboard-right-col-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-section .announcement-date {
+    flex-direction: column;
+  }
+}
+
+/* Mobile - 768px */
+@media (max-width: 768px) {
+  .dashboard-section {
+    padding: 15px;
+  }
+
+  .dashboard-section .dashboard-right-col-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section .welcome-banner {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .dashboard-section .welcome-banner .text-container {
+    padding: 20px;
+  }
+
+  .dashboard-section .welcome-banner .text-container h1 {
+    font-size: 1.2rem;
+    margin: 20px 0;
+  }
+
+  .dashboard-section .profile-card .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .dashboard-section .student-profile-header .student-name,
+  .dashboard-section .student-profile-header .student-id {
+    justify-content: center;
+  }
+
+  .dashboard-section .progress-tracker-stats {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .dashboard-section .progress-stat-item {
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+
+  .dashboard-section .progress-tracker-container {
+    height: 12px;
+  }
+
+  .dashboard-section .progress-tracker-label {
+    font-size: 0.55rem;
+  }
+
+  .dashboard-section .module-progress-wrapper {
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+
+  .dashboard-section .module-progress-bar-container {
+    height: 6px;
+  }
+
+  .dashboard-section .module-progress-label {
+    font-size: 0.45rem;
+  }
+
+  .dashboard-section .module-progress-text {
+    font-size: 0.65rem;
+  }
+
+  .dashboard-section .grade-list li,
+  .dashboard-section .assignment-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .dashboard-section .announcement-list li {
+    flex-direction: column;
+  }
+
+  .dashboard-section .announcement-list li .icon {
+    font-size: 1.5rem;
+  }
+}
+
+/* Small Mobile - 480px */
+@media (max-width: 480px) {
+  .dashboard-section .dashboard-tile {
+    padding: 15px;
+  }
+
+  .dashboard-section .welcome-banner .banner-item::before {
+    font-size: 2rem;
+    padding: 8px 10px;
+  }
+
+  .dashboard-section .module-title {
+    font-size: 1rem;
+  }
+
+  .dashboard-section .quote-text {
+    font-size: 0.9rem;
+  }
+
+  .dashboard-section .dashboard-row-2,
+  .dashboard-section .dashboard-row-3 {
+    gap: 12px;
+  }
+
+  .dashboard-section .dashboard-right-col-2 {
+    gap: 12px;
+  }
+
+  .dashboard-section .progress-stat-item {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+  }
+
+  .dashboard-section .progress-tracker-container {
+    height: 10px;
+  }
+
+  .dashboard-section .progress-tracker-label {
+    font-size: 0.5rem;
+  }
+
+  .dashboard-section .module-progress-wrapper {
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+  }
+
+  .dashboard-section .module-progress-bar-container {
+    height: 5px;
+  }
+
+  .dashboard-section .module-progress-label {
+    font-size: 0.4rem;
+  }
+
+  .dashboard-section .module-progress-text {
+    font-size: 0.6rem;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-section .progress-tracker-fill {
+    transition: none;
+  }
+
+  .dashboard-section .progress-tracker-fill::after {
+    animation: none;
+  }
+
+  .dashboard-section .progress-stat-item {
+    transition: none;
+  }
+
+  .dashboard-section .progress-stat-item:hover {
+    transform: none;
+  }
+
+  .dashboard-section .module-progress-fill {
+    transition: none;
+  }
+
+  .dashboard-section .module-progress-fill::after {
+    animation: none;
+  }
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef, MouseEvent } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import logo from "./appcode.png";
+import SearchResults from "../SearchResults/SearchResults"; // Import the search component
 
 /* =========================
    Types
@@ -148,8 +149,11 @@ export default function Header() {
   const pathname = usePathname();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -180,6 +184,27 @@ export default function Header() {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside as EventListener);
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside as EventListener,
+      );
+    };
+  }, []);
+
+  // Click outside for search
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | globalThis.MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setShowSearchResults(false);
       }
     };
 
@@ -345,16 +370,50 @@ export default function Header() {
   };
 
   /* =========================
+     Search Logic
+  ========================= */
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    setShowSearchResults(query.trim().length > 0);
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      setIsSearchVisible(false);
+      setSearchQuery("");
+      setShowSearchResults(false);
+    }
+  };
+
+  const toggleSearch = (): void => {
+    setIsSearchVisible((prev) => !prev);
+    if (!isSearchVisible) {
+      // Focus the input when opening
+      setTimeout(() => {
+        const input = document.querySelector('.search-input') as HTMLInputElement;
+        if (input) input.focus();
+      }, 100);
+    } else {
+      setSearchQuery("");
+      setShowSearchResults(false);
+    }
+  };
+
+  const closeSearch = (): void => {
+    setIsSearchVisible(false);
+    setSearchQuery("");
+    setShowSearchResults(false);
+  };
+
+  /* =========================
      Helpers
   ========================= */
 
   const isAdmin: boolean =
     user?.role?.toLowerCase() === "admin" ||
     user?.email?.toLowerCase() === "admin@appcode.com";
-
-  const toggleSearch = (): void => {
-    setIsSearchVisible((prev) => !prev);
-  };
 
   const toggleDropdown = (): void => {
     setIsDropdownOpen((prev) => !prev);
@@ -448,7 +507,7 @@ export default function Header() {
 
         <div className="header-contact">
           {/* Search Bar */}
-          <div className="search-bar-container">
+          <div className="search-bar-container" ref={searchRef}>
             {!isSearchVisible && (
               <button className="search-icon-button" onClick={toggleSearch}>
                 <span className="material-symbols-outlined">search</span>
@@ -458,15 +517,27 @@ export default function Header() {
               <div className="search-wrapper">
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Search courses, programs, pages..."
                   className="search-input"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleSearchKeyDown}
+                  autoFocus
                 />
-                <button className="close-icon-button" onClick={toggleSearch}>
+                <button className="close-icon-button" onClick={closeSearch}>
                   <span className="material-symbols-outlined">close</span>
                 </button>
+                {showSearchResults && (
+                  <SearchResults
+                    query={searchQuery}
+                    onClose={closeSearch}
+                  />
+                )}
               </div>
             )}
           </div>
+
+          {/* Authentication Section */}
           <div className="login-container">
             {user ? (
               isAdmin ? (

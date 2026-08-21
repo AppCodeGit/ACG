@@ -10,6 +10,7 @@ import feeimage4 from "../../assets/feeimage4.jpeg";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/Header/HeaderPage";
 import Navigation from "../../components/Navigation/NavPage";
+import Subscription from "../../components/SubscriptionPlans/SubscriptionPlans";
 
 // Types
 interface PaymentStatus {
@@ -55,7 +56,8 @@ function FeeSelectionPage() {
 
   const fetchPaymentStatus = async (userEmail: string) => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const token = localStorage.getItem("token");
       const response = await fetch(
         `${API_URL}/api/fees/payment-status/${userEmail}`,
@@ -82,7 +84,7 @@ function FeeSelectionPage() {
   const handlePayment = (
     amount: number,
     semester: string,
-    installment: string,
+    installment: string
   ) => {
     console.log("Button clicked!", { amount, semester, installment });
     setAmount(amount);
@@ -91,69 +93,65 @@ function FeeSelectionPage() {
     setShowModal(true);
   };
 
-const handleSubmit = async () => {
-  setIsLoading(true);
-  
-  try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    const token = localStorage.getItem("token");
-    
-    // Save payment data
-    const saveResponse = await fetch(`${API_URL}/api/fees/SaveFormData`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}` : "",
-      },
-      body: JSON.stringify({ 
-        semester, 
+  const handleSubmit = async () => {
+    setIsLoading(true);
+
+    try {
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const token = localStorage.getItem("token");
+
+      // Save payment data
+      const saveResponse = await fetch(`${API_URL}/api/fees/SaveFormData`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+        body: JSON.stringify({
+          semester,
+          installment,
+          amount,
+        }),
+      });
+
+      if (!saveResponse.ok) {
+        throw new Error("Failed to save payment data");
+      }
+
+      const saveResult = await saveResponse.json();
+      console.log("Payment data saved:", saveResult);
+
+      // Redirect to Paystack
+      const paymentLink = paymentLinks[amount];
+      if (!paymentLink) {
+        console.error(`No payment link for amount: ${amount}`);
+        setIsLoading(false);
+        return;
+      }
+
+      const metadata = {
+        semester,
         installment,
-        amount 
-      }),
-    });
+        amount,
+        paymentId: saveResult.paymentId,
+        sessionId: saveResult.sessionId,
+      };
 
-    if (!saveResponse.ok) {
-      throw new Error("Failed to save payment data");
-    }
+      const redirectUrl = `${paymentLink}?metadata=${encodeURIComponent(
+        JSON.stringify(metadata)
+      )}`;
 
-    const saveResult = await saveResponse.json();
-    console.log("Payment data saved:", saveResult);
-
-    // Redirect to Paystack with metadata including the session ID
-    const paymentLink = paymentLinks[amount];
-    if (!paymentLink) {
-      console.error(`No payment link for amount: ${amount}`);
+      console.log("Redirecting to Paystack:", redirectUrl);
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error("Payment initialization error:", error);
       setIsLoading(false);
-      return;
     }
-
-    // Include session ID in metadata to help webhook find the payment
-    const metadata = { 
-      semester, 
-      installment, 
-      amount,
-      paymentId: saveResult.paymentId,
-      sessionId: saveResult.sessionId
-    };
-    
-    const redirectUrl = `${paymentLink}?metadata=${encodeURIComponent(
-      JSON.stringify(metadata),
-    )}`;
-    
-    console.log("Redirecting to Paystack:", redirectUrl);
-    window.location.href = redirectUrl;
-    
-  } catch (error) {
-    console.error("Payment initialization error:", error);
-    setIsLoading(false);
-  }
-};
+  };
 
   // Check if installment is paid
-  const isInstallmentPaid = (
-    semester: string,
-    installment: string,
-  ): boolean => {
+  const isInstallmentPaid = (semester: string, installment: string): boolean => {
     if (!paymentStatus || Object.keys(paymentStatus).length === 0) {
       return false;
     }
@@ -173,14 +171,14 @@ const handleSubmit = async () => {
       "Third Installment",
     ];
     return installments.every((installment) =>
-      isInstallmentPaid(semester, installment),
+      isInstallmentPaid(semester, installment)
     );
   };
 
   // Check if previous installment is paid
   const isInstallmentAvailable = (
     semester: string,
-    installment: string,
+    installment: string
   ): boolean => {
     if (semester === "First Semester" && installment === "First Installment") {
       return true;
@@ -211,19 +209,26 @@ const handleSubmit = async () => {
   const renderPaymentButton = (
     amount: number,
     semester: string,
-    installmentName: string,
+    installmentName: string
   ) => {
     const isPaid = isInstallmentPaid(semester, installmentName);
     const isAvailable = isInstallmentAvailable(semester, installmentName);
 
     return (
       <button
-        className={`btn ${isPaid ? "btn-paid" : !isAvailable ? "btn-disabled" : ""}`}
+        className={`fee-btn ${isPaid ? "fee-btn-paid" : !isAvailable ? "fee-btn-disabled" : ""}`}
         onClick={() => handlePayment(amount, semester, installmentName)}
         disabled={isPaid || !isAvailable}
       >
-        {isPaid ? "Paid" : "Pay Now"}
-        <span className="material-symbols-outlined">east</span>
+        {isPaid ? (
+          <>
+            <span className="fee-btn-icon">✅</span> Paid
+          </>
+        ) : (
+          <>
+            Pay Now <span className="fee-btn-arrow">→</span>
+          </>
+        )}
       </button>
     );
   };
@@ -232,231 +237,195 @@ const handleSubmit = async () => {
     <>
       <Header />
       <Navigation />
-      <div className="layout container">
-        <div className="layout-container">
-          {/* Left Section */}
-          <div className="image-grid">
-            <Image
-              src={feeimage1}
-              alt="Placeholder 1"
-              width={200}
-              height={150}
-            />
-            <Image
-              src={feeimage2}
-              alt="Placeholder 2"
-              width={200}
-              height={150}
-            />
-            <Image
-              src={feeimage3}
-              alt="Placeholder 3"
-              width={200}
-              height={150}
-            />
-            <Image
-              src={feeimage4}
-              alt="Placeholder 4"
-              width={200}
-              height={150}
-            />
+
+      <div className="fee-page">
+        <div className="fee-container container">
+
+          {/* ============================================
+          HERO SECTION
+          ============================================ */}
+          <div className="fee-hero">
+            <div className="fee-hero-content">
+              <div className="fee-hero-icon">💰</div>
+              <h1 className="fee-hero-title">Fee Structure</h1>
+              <p className="fee-hero-subtitle">
+                Manage your tuition payments easily. Select your semester and
+                installment plan below.
+              </p>
+            </div>
           </div>
 
-          {/* Right Section */}
-          <div className="text-content">
-            <h1>Hey there, Welcome to Our First Installment Fees Structure</h1>
-            <p>
-              Fees cover internet services, learning materials, activities, and
-              support services. AppCode&apos;s academic year consists of three
-              semesters.
-            </p>
-            <div className="payment-options">
-              <div className="payment-card">
-                <div className="payment-item">
-                  <i className="bi bi-book me-2"></i>
-                  <span>Semester One</span>
-                </div>
-                <br />
-                <div className="text">
-                  This semester focuses on foundational concepts, and basic
-                  skills development.
-                </div>
+          {/* ============================================
+          LAYOUT SECTION
+          ============================================ */}
+          <div className="fee-layout">
+            {/* Left: Image Grid */}
+            <div className="fee-image-grid">
+              <div className="fee-image-item">
+                <Image src={feeimage1} alt="Campus" fill className="fee-image" />
               </div>
-              <div className="payment-card">
-                <div className="payment-item">
-                  <i className="bi bi-journal-text me-2"></i>
-                  <span>Semester Two</span>
-                </div>
-                <br />
-                <div className="text">
-                  Dive deeper into intermediate topics projects to build on your
-                  knowledge.
-                </div>
+              <div className="fee-image-item">
+                <Image src={feeimage2} alt="Learning" fill className="fee-image" />
               </div>
-              <div className="payment-card">
-                <div className="payment-item">
-                  <i className="bi bi-mortarboard me-2"></i>
-                  <span>Semester Three</span>
+              <div className="fee-image-item">
+                <Image src={feeimage3} alt="Students" fill className="fee-image" />
+              </div>
+              <div className="fee-image-item">
+                <Image src={feeimage4} alt="Graduation" fill className="fee-image" />
+              </div>
+            </div>
+
+            {/* Right: Content */}
+            <div className="fee-content">
+              <h2 className="fee-content-title">
+                Welcome to Our Fee Structure
+              </h2>
+              <p className="fee-content-desc">
+                Fees cover internet services, learning materials, activities,
+                and support services. AppCode&apos;s academic year consists of
+                three semesters.
+              </p>
+
+              {/* Semester Cards */}
+              <div className="fee-semester-grid">
+                <div className="fee-semester-card">
+                  <div className="fee-semester-icon">📘</div>
+                  <h4>Semester One</h4>
+                  <p>Foundational concepts and basic skills development.</p>
                 </div>
-                <br />
-                <div className="text">
-                  Advanced subjects and capstone projects are the focus,
-                  preparing you for opportunities.
+                <div className="fee-semester-card">
+                  <div className="fee-semester-icon">📗</div>
+                  <h4>Semester Two</h4>
+                  <p>Intermediate topics and projects to build on your knowledge.</p>
+                </div>
+                <div className="fee-semester-card">
+                  <div className="fee-semester-icon">📕</div>
+                  <h4>Semester Three</h4>
+                  <p>Advanced subjects and capstone projects.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="fees-flip-cards">
-          <h2>Tuition And Other Fees</h2>
-          <br />
-          <div className="cards-container">
-            <div className="flip-card">
-              <div className="card-front">
-                <h3>1st Semester</h3>
-              </div>
-              <div className="card-back">
-                <p>Gh¢ 5,920.00</p>
-                <p>USD: $402.25</p>
-              </div>
-            </div>
-            <div className="flip-card">
-              <div className="card-front">
-                <h3>2nd Semester</h3>
-              </div>
-              <div className="card-back">
-                <p>Gh¢ 5,920.00</p>
-                <p>USD: $402.25</p>
-              </div>
-            </div>
-            <div className="flip-card">
-              <div className="card-front">
-                <h3>3rd Semester</h3>
-              </div>
-              <div className="card-back">
-                <p>Gh¢ 5,920.00</p>
-                <p>USD: $402.25</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="price-field">
-          <div className="pricing-item">
-            <div className="item">
-              <h2>First Installment</h2>
+          {/* ============================================
+          PRICE SECTION
+          ============================================ */}
+          <div className="fee-price-section">
+            <div className="fee-price-left">
+              <h3>First Installment</h3>
               <p>
                 This initial payment includes admission processing fees,
                 administrative costs, and other essential onboarding services.
               </p>
             </div>
-          </div>
-          <div className="pricing-item">
-            <div className="item-list">
-              <div className="list">
-                <i className="bi bi-check-circle me-2"></i>
-                Access to student portal
+
+            <div className="fee-price-right">
+              <ul className="fee-price-benefits">
+                <li>✅ Access to student portal</li>
+                <li>✅ Campus development and maintenance fee</li>
+                <li>✅ Library and ICT services subscription</li>
+                <li>✅ Learning resources</li>
+              </ul>
+
+              <div className="fee-price-amount">
+                <span className="fee-price-currency">GH¢</span>
+                <span className="fee-price-number">3,000.00</span>
               </div>
-              <div className="list">
-                <i className="bi bi-check-circle me-2"></i>
-                Campus development and maintenance fee
+
+              <div className="fee-price-btn">
+                {renderPaymentButton(2000, "First Semester", "First Installment")}
               </div>
-              <div className="list">
-                <i className="bi bi-check-circle me-2"></i>
-                Library and ICT services subscription
-              </div>
-              <div className="list">
-                <i className="bi bi-check-circle me-2"></i>
-                learning resources
-              </div>
-            </div>
-            <div className="price">
-              <p>Gh¢ 3,000.00</p>
-            </div>
-            <div className="btn-container">
-              {renderPaymentButton(2000, "First Semester", "First Installment")}
             </div>
           </div>
+
+          {/* ============================================
+          SUBSCRIPTION SECTION
+          ============================================ */}
+          <div className="fee-subscription-section">
+            <Subscription />
+          </div>
+
         </div>
       </div>
 
-      {/* Payment Confirmation Modal */}
+      {/* ============================================
+      PAYMENT SUMMARY MODAL
+      ============================================ */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="payment-summary">
-              <div className="summary-header">
-                <div className="summary-icon">
-                  <span className="material-symbols-outlined">
-                    receipt_long
+        <div className="fee-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="fee-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="fee-modal-header">
+              <div className="fee-modal-header-icon">📋</div>
+              <h3>Payment Summary</h3>
+              <button
+                className="fee-modal-close"
+                onClick={() => setShowModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="fee-modal-body">
+              <div className="fee-modal-item">
+                <span className="fee-modal-item-icon">🏫</span>
+                <div className="fee-modal-item-content">
+                  <span className="fee-modal-item-label">Semester</span>
+                  <span className="fee-modal-item-value">{semester}</span>
+                </div>
+              </div>
+
+              <div className="fee-modal-item">
+                <span className="fee-modal-item-icon">📋</span>
+                <div className="fee-modal-item-content">
+                  <span className="fee-modal-item-label">Installment Plan</span>
+                  <span className="fee-modal-item-value">{installment}</span>
+                </div>
+              </div>
+
+              <div className="fee-modal-total">
+                <span className="fee-modal-total-icon">💰</span>
+                <div className="fee-modal-total-content">
+                  <span className="fee-modal-total-label">Total Amount Due</span>
+                  <span className="fee-modal-total-value">
+                    GH¢ {amount?.toLocaleString()}
                   </span>
-                </div>
-                <h3>Payment Summary</h3>
-              </div>
-
-              <div className="summary-content">
-                <div className="summary-item">
-                  <div className="item-icon">
-                    <span className="material-symbols-outlined">school</span>
-                  </div>
-                  <div className="item-details">
-                    <span className="item-label">Semester</span>
-                    <span className="item-value">{semester}</span>
-                  </div>
-                </div>
-
-                <div className="summary-item">
-                  <div className="item-icon">
-                    <span className="material-symbols-outlined">payments</span>
-                  </div>
-                  <div className="item-details">
-                    <span className="item-label">Installment Plan</span>
-                    <span className="item-value">{installment}</span>
-                  </div>
-                </div>
-
-                <div className="summary-total">
-                  <div className="total-icon">
-                    <span className="material-symbols-outlined">payments</span>
-                  </div>
-                  <div className="total-details">
-                    <span className="total-label">Total Amount Due</span>
-                    <span className="total-amount">
-                      Ghc {amount?.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="summary-footer">
-                <div className="secure-notice">
-                  <span className="material-symbols-outlined">lock</span>
-                  <span>Secure Payment</span>
                 </div>
               </div>
             </div>
 
-            <div className="btn-container">
-              <button
-                onClick={handleSubmit}
-                className="btn btn-submit"
-                disabled={isLoading}
-              >
-                {isLoading ? "Processing..." : "Proceed"}
-                <span className="material-symbols-outlined">east</span>
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="btn btn-cancel"
-                disabled={isLoading}
-              >
-                Cancel
-              </button>
+            <div className="fee-modal-footer">
+              <div className="fee-modal-secure">
+                <span>🔒</span> Secure Payment
+              </div>
+              <div className="fee-modal-actions">
+                <button
+                  className="fee-modal-btn fee-modal-btn-cancel"
+                  onClick={() => setShowModal(false)}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="fee-modal-btn fee-modal-btn-submit"
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <span className="fee-spinner"></span> Processing...
+                    </>
+                  ) : (
+                    <>
+                      Proceed <span className="fee-btn-arrow">→</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+
       <Footer />
     </>
   );

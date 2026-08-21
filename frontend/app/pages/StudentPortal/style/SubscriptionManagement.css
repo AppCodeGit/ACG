@@ -1,0 +1,748 @@
+/* ============================================
+   SUBSCRIPTION MANAGEMENT STYLES
+   ============================================ */
+
+.subscription-management-container {
+  padding: 28px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.subscription-management-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.subscription-management-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 2px 0;
+}
+
+.subscription-management-header p {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.subscription-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.active {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.status-dot.canceled {
+  background: #6b7280;
+}
+
+.status-dot.past_due {
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.status-dot.unpaid {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+.subscription-management-alert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subscription-management-alert.error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+
+.subscription-management-alert.success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #16a34a;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.subscription-management-alert p {
+  flex: 1;
+  margin: 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.alert-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   CARD
+   ============================================ */
+.subscription-management-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.subscription-management-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.plan-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.plan-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.plan-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  background: linear-gradient(135deg, #e9691e, #d45d1a);
+  color: #ffffff;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.price-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.price-interval {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ============================================
+   DETAILS GRID
+   ============================================ */
+.subscription-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px 24px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.detail-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.status-icon {
+  font-size: 0.7rem;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.subscription-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-subscription {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+  min-width: 220px;
+}
+
+.btn-subscription:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-cancel {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #fee2e2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+.btn-resume {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.btn-resume:hover:not(:disabled) {
+  background: #dbeafe;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cancel-note {
+  font-size: 0.85rem;
+  color: #f59e0b;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+/* ============================================
+   PAYMENT HISTORY
+   ============================================ */
+.subscription-payment-history {
+  margin-top: 28px;
+}
+
+.payment-history-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  padding: 10px 16px;
+  width: 100%;
+  background: #f8fafc;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.payment-history-toggle:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.toggle-icon {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  transition: transform 0.3s ease;
+}
+
+.payment-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 2px 12px;
+  border-radius: 20px;
+}
+
+.payment-history-content {
+  margin-top: 16px;
+  animation: slideDown 0.3s ease;
+}
+
+/* ============================================
+   PAYMENT TABLE
+   ============================================ */
+.payment-history-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.payment-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.payment-history-table thead {
+  background: #f8fafc;
+}
+
+.payment-history-table th {
+  text-align: left;
+  padding: 14px 18px;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.payment-history-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+}
+
+.payment-history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.payment-history-table tbody tr:hover td {
+  background: #fafbfc;
+}
+
+.payment-date {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.payment-amount {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.payment-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.invoice-link {
+  color: #e9691e;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #fef2ee;
+  display: inline-block;
+}
+
+.invoice-link:hover {
+  background: #fee2d6;
+  color: #d45d1a;
+  transform: translateY(-1px);
+}
+
+.no-invoice {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.no-payments {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+}
+
+.no-payments-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.no-payments p {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.subscription-management-empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+}
+
+.subscription-management-empty h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+}
+
+.subscription-management-empty p {
+  color: #64748b;
+  margin: 0 0 20px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.empty-action-btn {
+  padding: 10px 32px;
+  background: linear-gradient(135deg, #e9691e, #d45d1a);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.empty-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(233, 105, 30, 0.3);
+}
+
+/* ============================================
+   LOADING
+   ============================================ */
+.subscription-management-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 20px;
+}
+
+.spinner-container {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f1f5f9;
+  border-top: 4px solid #e9691e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.subscription-management-loading p {
+  color: #94a3b8;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .subscription-management-container {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .subscription-management-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .plan-price {
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .subscription-details-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .btn-subscription {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .payment-history-table {
+    font-size: 0.8rem;
+  }
+
+  .payment-history-table th,
+  .payment-history-table td {
+    padding: 10px 12px;
+  }
+
+  .payment-history-toggle {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+  }
+
+  .subscription-management-card {
+    padding: 20px;
+  }
+
+  .empty-action-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subscription-management-container {
+    padding: 12px;
+  }
+
+  .header-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .plan-name {
+    font-size: 1rem;
+  }
+
+  .price-amount {
+    font-size: 1.2rem;
+  }
+
+  .detail-value {
+    font-size: 0.9rem;
+  }
+
+  .payment-history-table th,
+  .payment-history-table td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .invoice-link {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+  }
+
+  .subscription-management-empty {
+    padding: 40px 16px;
+  }
+
+  .empty-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .empty-icon {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+.payment-history-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.payment-history-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.payment-history-table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.payment-history-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -66,7 +66,7 @@ interface DashboardData {
   }>;
 }
 
-// Fallback quotes in case API fails
+// Fallback quotes
 const fallbackQuotes = [
   {
     quote:
@@ -147,7 +147,7 @@ const Dashboard: React.FC = () => {
   const [dailyQuote, setDailyQuote] = useState(fallbackQuotes[0]);
   const [quoteLoading, setQuoteLoading] = useState(true);
 
-  // Fetch daily motivational quote with multiple fallbacks
+  // Fetch daily motivational quote
   const fetchDailyQuote = async () => {
     setQuoteLoading(true);
 
@@ -205,7 +205,7 @@ const Dashboard: React.FC = () => {
     setQuoteLoading(false);
   };
 
-  // Fetch current module data directly
+  // Fetch current module data
   const fetchCurrentModule = async (email: string) => {
     try {
       const API_URL =
@@ -222,7 +222,6 @@ const Dashboard: React.FC = () => {
       console.log("Current module response:", result);
 
       if (result.success && result.data.hasModules) {
-        // Update your dashboardData with the current module info
         setDashboardData((prev) => ({
           ...prev!,
           currentModule: result.data.currentModule,
@@ -230,7 +229,6 @@ const Dashboard: React.FC = () => {
           nextModule: result.data.nextModule,
         }));
       } else if (result.data.allModulesCompleted) {
-        // Show completion message
         setDashboardData((prev) => ({
           ...prev!,
           currentModule: null,
@@ -268,11 +266,10 @@ const Dashboard: React.FC = () => {
       }
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
-      // Don't set error state here, just log it
     }
   };
 
-  // Fetch studentId separately from User table
+  // Fetch studentId
   const fetchStudentId = async (email: string) => {
     try {
       const API_URL =
@@ -339,7 +336,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Get user from localStorage and fetch data
+  // Get user from localStorage
   useEffect(() => {
     const userData = localStorage.getItem("user");
     console.log("Raw user data from localStorage:", userData);
@@ -397,6 +394,9 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-section">
       <div className="welcome-container">
+        {/* ============================================
+            ROW 1: WELCOME BANNER - FULL WIDTH
+            ============================================ */}
         <div className="welcome-banner">
           <div className="text-container">
             <div className="welcome-greeting">
@@ -420,266 +420,289 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="student-dashboard">
-          <div className="dashboard-sections">
-            {/* Section 1: Progress Tracker */}
-            <div className="dashboard-tile progress-tracker">
-              <div className="title">
-                <i className="bi bi-bar-chart-fill"></i>
-                <h6>Your Progress</h6>
-              </div>
-              <div className="progress">
+        {/* ============================================
+            ROW 2: YOUR PROGRESS & CURRENT MODULE (SIDE BY SIDE)
+            ============================================ */}
+        <div className="dashboard-row-2">
+          {/* Your Progress */}
+          <div className="dashboard-tile progress-tracker">
+            <div className="title">
+              <i className="bi bi-bar-chart-fill"></i>
+              <h6>Your Progress</h6>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="progress-tracker-bar">
+              <div className="progress-tracker-container">
                 <div
-                  className="progress-bar"
+                  className="progress-tracker-fill"
                   style={{ width: `${dashboardData?.overallProgress || 0}%` }}
                 >
-                  {dashboardData?.overallProgress || 0}%
+                  <span className="progress-tracker-label">
+                    {dashboardData?.overallProgress || 0}%
+                  </span>
                 </div>
-              </div>
-              <div className="progress-stats">
-                <p>
-                  📊 Overall Completion: {dashboardData?.overallProgress || 0}%
-                </p>
-                <p>
-                  ✅ Completed Courses: {dashboardData?.completedCourses || 0} /{" "}
-                  {dashboardData?.totalCourses || 0}
-                </p>
               </div>
             </div>
 
-            {/* Section 2: Current Module */}
-            <div className="dashboard-tile daily-schedule">
-              <div className="title">
-                <i className="bi bi-book-half"></i>
-                <h6>Current Module</h6>
-                <button
-                  onClick={() => user?.email && fetchCurrentModule(user.email)}
-                  className="refresh-module-btn"
-                  title="Refresh current module"
-                >
-                  <i className="bi bi-arrow-repeat"></i>
-                </button>
-              </div>
-              {dashboardData?.currentModule ? (
-                <>
-                  <h5 className="module-title">
-                    {dashboardData.currentModule.title}
-                  </h5>
-                  <p className="module-desc">
-                    {dashboardData.currentModule.description}
-                  </p>
-                  <div className="module-progress">
-                    <div className="progress">
-                      <div
-                        className="progress-bar"
-                        style={{
-                          width: `${(dashboardData.currentModule.completedContent / dashboardData.currentModule.totalContent) * 100}%`,
-                        }}
-                      >
+            {/* Progress Stats */}
+            <div className="progress-tracker-stats">
+              <p className="progress-stat-item progress-stat-completion">
+                <span className="progress-stat-icon">📊</span>
+                Overall Completion: {dashboardData?.overallProgress || 0}%
+              </p>
+              <p className="progress-stat-item progress-stat-courses">
+                <span className="progress-stat-icon">✅</span>
+                Completed Courses: {dashboardData?.completedCourses || 0} /{" "}
+                {dashboardData?.totalCourses || 0}
+              </p>
+            </div>
+          </div>
+
+          {/* Current Module */}
+          <div className="dashboard-tile daily-schedule">
+            <div className="title">
+              <i className="bi bi-book-half"></i>
+              <h6>Current Module</h6>
+              <button
+                onClick={() => user?.email && fetchCurrentModule(user.email)}
+                className="refresh-module-btn"
+                title="Refresh current module"
+              >
+                <i className="bi bi-arrow-repeat"></i>
+              </button>
+            </div>
+
+            {dashboardData?.currentModule ? (
+              <>
+                <h5 className="module-title">
+                  {dashboardData.currentModule.title}
+                </h5>
+                <p className="module-desc">
+                  {dashboardData.currentModule.description}
+                </p>
+
+                {/* Module Progress */}
+                <div className="module-progress-wrapper">
+                  <div className="module-progress-bar-container">
+                    <div
+                      className="module-progress-fill"
+                      style={{
+                        width: `${(dashboardData.currentModule.completedContent / dashboardData.currentModule.totalContent) * 100}%`,
+                      }}
+                    >
+                      <span className="module-progress-label">
                         {Math.round(
                           (dashboardData.currentModule.completedContent /
                             dashboardData.currentModule.totalContent) *
                             100,
                         )}
                         %
-                      </div>
+                      </span>
                     </div>
-                    <small>
-                      {dashboardData.currentModule.completedContent}/
-                      {dashboardData.currentModule.totalContent} items completed
-                    </small>
                   </div>
-
-                  <div className="concepts-list">
-                    <strong>
-                      📖 Module Contents (
-                      {dashboardData.currentModuleContent.length} items):
-                    </strong>
-                    <ul className="module-contents-list">
-                      {dashboardData.currentModuleContent.map((content) => (
-                        <li
-                          key={content.id}
-                          className={content.isCompleted ? "completed" : ""}
-                        >
-                          <span className="content-icon">
-                            {content.isCompleted
-                              ? "✅"
-                              : content.type === "video"
-                                ? "🎬"
-                                : content.type === "document"
-                                  ? "📄"
-                                  : "📋"}
-                          </span>
-                          <span className="content-title">{content.title}</span>
-                          <span className="content-type-badge">
-                            {content.type}
-                          </span>
-                          {content.isCompleted && (
-                            <span className="completed-check">✓</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Only show Next Up if there is a next module */}
-                  {dashboardData.nextModule && (
-                    <div className="next-module">
-                      <strong>🔜 Next Up:</strong>
-                      <p>{dashboardData.nextModule.title}</p>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="completion-message">
-                  <div className="completion-icon">🏆</div>
-                  <p>🎉 Congratulations! You've completed all modules!</p>
-                  <p className="completion-subtext">
-                    Great job on finishing all the course content.
-                  </p>
+                  <small className="module-progress-text">
+                    {dashboardData.currentModule.completedContent}/
+                    {dashboardData.currentModule.totalContent} items completed
+                  </small>
                 </div>
+
+                {/* Concepts List */}
+                <div className="concepts-list">
+                  <strong>
+                    📖 Module Contents (
+                    {dashboardData.currentModuleContent.length} items):
+                  </strong>
+                  <ul className="module-contents-list">
+                    {dashboardData.currentModuleContent.map((content) => (
+                      <li
+                        key={content.id}
+                        className={content.isCompleted ? "completed" : ""}
+                      >
+                        <span className="content-icon">
+                          {content.isCompleted
+                            ? "✅"
+                            : content.type === "video"
+                              ? "🎬"
+                              : content.type === "document"
+                                ? "📄"
+                                : "📋"}
+                        </span>
+                        <span className="content-title">{content.title}</span>
+                        <span className="content-type-badge">
+                          {content.type}
+                        </span>
+                        {content.isCompleted && (
+                          <span className="completed-check">✓</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Next Module */}
+                {dashboardData.nextModule && (
+                  <div className="next-module">
+                    <strong>🔜 Next Up:</strong>
+                    <p>{dashboardData.nextModule.title}</p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="completion-message">
+                <div className="completion-icon">🏆</div>
+                <p>🎉 Congratulations! You've completed all modules!</p>
+                <p className="completion-subtext">
+                  Great job on finishing all the course content.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ============================================
+            ROW 3: ACADEMIC UPDATES (LEFT) + PROFILE CARD (RIGHT)
+            ============================================ */}
+        <div className="dashboard-row-3">
+          {/* Academic Updates */}
+          <div className="dashboard-tile quick-actions">
+            <div className="title">
+              <i className="bi bi-journal-bookmark-fill"></i>
+              <h6>Academic Updates</h6>
+            </div>
+
+            <div className="academic-section">
+              <h5>📝 Recent Grades</h5>
+              {dashboardData?.recentGrades &&
+              dashboardData.recentGrades.length > 0 ? (
+                <ul className="grade-list">
+                  {dashboardData.recentGrades.map((grade) => (
+                    <li key={grade.id}>
+                      <span className="grade-title">
+                        {grade.assignmentTitle}
+                      </span>
+                      <span className="grade-score">{grade.grade}%</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No recent grades available</p>
               )}
             </div>
 
-            {/* Section 3: Motivational Quote */}
-            <div className="dashboard-tile motivation">
-              <div className="title">
-                <i className="bi bi-emoji-smile"></i>
-                <h6>Daily Motivation</h6>
-              </div>
-              <div className="quote-content">
-                {quoteLoading ? (
-                  <p className="quote-text">✨ Loading inspiration...</p>
-                ) : (
-                  <>
-                    <p className="quote-text">✨ "{dailyQuote.quote}"</p>
-                    <p className="quote-author">
-                      — {dailyQuote.author || "Anonymous"}
-                    </p>
-                    <small className="quote-refresh">
-                      ✨ New quote tomorrow
-                    </small>
-                  </>
-                )}
+            <div className="academic-section">
+              <h5>⏳ Pending Grading</h5>
+              {dashboardData?.upcomingAssignments &&
+              dashboardData.upcomingAssignments.length > 0 ? (
+                <ul className="assignment-list">
+                  {dashboardData.upcomingAssignments.map((assignment) => (
+                    <li key={assignment.id}>
+                      <span>{assignment.assignmentTitle}</span>
+                      <span className="pending-badge">Waiting for review</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No pending assignments</p>
+              )}
+            </div>
+          </div>
+
+          {/* Profile Card */}
+          <div className="profile-card">
+            <div className="profile-header">
+              <img
+                className="profile-image"
+                src={
+                  studentProfile?.profileImage?.trim()
+                    ? studentProfile.profileImage
+                    : `https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(studentProfile?.fullName || user?.name || "User")}`
+                }
+                alt="Profile Icon"
+                onError={(e) => {
+                  e.currentTarget.src = `https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(studentProfile?.fullName || user?.name || "User")}`;
+                }}
+              />
+              <div className="student-profile-header">
+                <h2 className="student-name">
+                  {studentProfile?.fullName || user?.name}
+                </h2>
+                <p className="student-id">Student ID: {studentId || "N/A"}</p>
               </div>
             </div>
 
-            {/* Section 4: Academic Updates */}
-            <div className="dashboard-tile quick-actions">
-              <div className="title">
-                <i className="bi bi-journal-bookmark-fill"></i>
-                <h6>Academic Updates</h6>
+            <div className="profile-body">
+              <div className="detail-item">
+                <div className="icon-wrapper">
+                  <i className="bi bi-envelope-fill"></i>
+                </div>
+                <div className="info-text">
+                  <strong>Email</strong>
+                  <p>{studentProfile?.email || "N/A"}</p>
+                </div>
               </div>
 
-              {/* Recent Grades */}
-              <div className="academic-section">
-                <h5>📝 Recent Grades</h5>
-                {dashboardData?.recentGrades &&
-                dashboardData.recentGrades.length > 0 ? (
-                  <ul className="grade-list">
-                    {dashboardData.recentGrades.map((grade) => (
-                      <li key={grade.id}>
-                        <span className="grade-title">
-                          {grade.assignmentTitle}
-                        </span>
-                        <span className="grade-score">{grade.grade}%</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No recent grades available</p>
-                )}
+              <div className="detail-item">
+                <div className="icon-wrapper">
+                  <i className="bi bi-mortarboard-fill"></i>
+                </div>
+                <div className="info-text">
+                  <strong>Program Name</strong>
+                  <p>{studentProfile?.programName || "Not enrolled"}</p>
+                </div>
               </div>
 
-              {/* Upcoming Assignments */}
-              <div className="academic-section">
-                <h5>⏳ Pending Grading</h5>
-                {dashboardData?.upcomingAssignments &&
-                dashboardData.upcomingAssignments.length > 0 ? (
-                  <ul className="assignment-list">
-                    {dashboardData.upcomingAssignments.map((assignment) => (
-                      <li key={assignment.id}>
-                        <span>{assignment.assignmentTitle}</span>
-                        <span className="pending-badge">
-                          Waiting for review
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No pending assignments</p>
-                )}
+              <div className="detail-item">
+                <div className="icon-wrapper">
+                  <i className="bi bi-telephone-fill"></i>
+                </div>
+                <div className="info-text">
+                  <strong>Phone Number</strong>
+                  <p>{studentProfile?.phone || "N/A"}</p>
+                </div>
+              </div>
+
+              <div className="detail-item">
+                <div className="icon-wrapper">
+                  <i className="bi bi-geo-alt-fill"></i>
+                </div>
+                <div className="info-text">
+                  <strong>Country</strong>
+                  <p>{studentProfile?.nationality || "N/A"}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Profile Card */}
-        <div className="profile-card">
-          <div className="profile-header">
-            <img
-              className="profile-image"
-              src={
-                studentProfile?.profileImage?.trim()
-                  ? studentProfile.profileImage
-                  : `https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(studentProfile?.fullName || user?.name || "User")}`
-              }
-              alt="Profile Icon"
-              onError={(e) => {
-                e.currentTarget.src = `https://ui-avatars.com/api/?background=4F46E5&color=fff&bold=true&size=128&name=${encodeURIComponent(studentProfile?.fullName || user?.name || "User")}`;
-              }}
-            />
-            <div className="student-profile-header">
-              <h2 className="student-name">
-                {studentProfile?.fullName || user?.name}
-              </h2>
-              <p className="student-id">Student ID: {studentId || "N/A"}</p>
+        {/* ============================================
+            ROW 4: DAILY MOTIVATION - FULL WIDTH
+            ============================================ */}
+        <div className="dashboard-row-4">
+          <div className="dashboard-tile motivation">
+            <div className="title">
+              <i className="bi bi-emoji-smile"></i>
+              <h6>Daily Motivation</h6>
             </div>
-          </div>
-
-          <div className="profile-body">
-            <div className="detail-item">
-              <div className="icon-wrapper">
-                <i className="bi bi-envelope-fill"></i>
-              </div>
-              <div className="info-text">
-                <strong>Email</strong>
-                <p>{studentProfile?.email || "N/A"}</p>
-              </div>
-            </div>
-
-            <div className="detail-item">
-              <div className="icon-wrapper">
-                <i className="bi bi-mortarboard-fill"></i>
-              </div>
-              <div className="info-text">
-                <strong>Program Name</strong>
-                <p>{studentProfile?.programName || "Not enrolled"}</p>
-              </div>
-            </div>
-
-            <div className="detail-item">
-              <div className="icon-wrapper">
-                <i className="bi bi-telephone-fill"></i>
-              </div>
-              <div className="info-text">
-                <strong>Phone Number</strong>
-                <p>{studentProfile?.phone || "N/A"}</p>
-              </div>
-            </div>
-
-            <div className="detail-item">
-              <div className="icon-wrapper">
-                <i className="bi bi-geo-alt-fill"></i>
-              </div>
-              <div className="info-text">
-                <strong>Country</strong>
-                <p>{studentProfile?.nationality || "N/A"}</p>
-              </div>
+            <div className="quote-content">
+              {quoteLoading ? (
+                <p className="quote-text">✨ Loading inspiration...</p>
+              ) : (
+                <>
+                  <p className="quote-text">✨ "{dailyQuote.quote}"</p>
+                  <p className="quote-author">
+                    — {dailyQuote.author || "Anonymous"}
+                  </p>
+                  <small className="quote-refresh">✨ New quote tomorrow</small>
+                </>
+              )}
             </div>
           </div>
         </div>
 
+        {/* ============================================
+            ROW 5: ANNOUNCEMENTS & DATE TABLE - FULL WIDTH
+            ============================================ */}
         <div className="announcement-date">
           <div className="announcement-banner">
             <div className="announcement-header">
@@ -687,7 +710,6 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div className="announcement-content">
-              {/* Grade Announcements Section */}
               <div className="announcement-section">
                 <h4>🎓 Grade Announcements</h4>
                 {dashboardData?.recentGrades &&
@@ -715,7 +737,6 @@ const Dashboard: React.FC = () => {
                 )}
               </div>
 
-              {/* Published Courses Section */}
               <div className="announcement-section">
                 <h4>🚀 New Courses Available</h4>
                 {dashboardData?.publishedCourses &&

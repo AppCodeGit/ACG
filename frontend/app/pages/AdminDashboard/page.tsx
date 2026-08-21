@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Image from "next/image";
@@ -13,36 +13,101 @@ import ReportsAnalytics from "./ReportsAnalytics";
 import SystemSettings from "./SystemSettings";
 import CourseContentManagement from "./CourseContentManagement";
 import AssignmentManagement from "./AssignmentManagement/page";
+import SubscriptionPlanManagement from "./SubscriptionPlanManagement";
+import SubscriptionPaymentsManagement from "./SubscriptionPaymentsManagement";
+
 import Logo from "../StudentPortal/images/appcode.png";
 import "./style/AdminDashboard.css";
 import NotificationBell from "./NotificationBell";
+import SearchResults from "./SearchResults";
 
 const AdminDashboard = () => {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("overview");
+  const [activeSubSection, setActiveSubSection] = useState<string>("plans"); // For subscription sub-tabs
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   
-  // NEW: Sidebar open/close state for mobile
+  // Search states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  
+  // Sidebar open/close state for mobile
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  // Dropdown states
+  const [isSubscriptionDropdownOpen, setIsSubscriptionDropdownOpen] = useState<boolean>(false);
+  const subscriptionDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleSearch = (): void => {
     setIsSearchVisible(!isSearchVisible);
+    if (!isSearchVisible) {
+      setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }, 100);
+    } else {
+      setShowSearchResults(false);
+      setSearchQuery("");
+    }
   };
 
-  // NEW: Toggle sidebar for mobile
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    setShowSearchResults(value.trim().length > 0);
+  };
+
+  const handleSearchResultClick = (sectionId: string) => {
+    setShowSearchResults(false);
+    setSearchQuery("");
+    setIsSearchVisible(false);
+    if (searchInputRef.current) {
+      searchInputRef.current.value = "";
+    }
+    
+    const sectionMap: Record<string, string> = {
+      "overview": "overview",
+      "students": "students",
+      "courses": "courses",
+      "content": "content",
+      "assignments": "assignments",
+      "payments": "payments",
+      "reports": "reports",
+      "settings": "settings",
+      "subscriptions": "subscriptions"
+    };
+    
+    const targetSection = sectionMap[sectionId] || sectionId;
+    setActiveSection(targetSection);
+    setIsSidebarOpen(false);
+  };
+
   const toggleSidebarMobile = (): void => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Modified: Toggle sidebar expand/collapse for desktop
   const toggleSidebarDesktop = (): void => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
-  // Check if user is authenticated
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (subscriptionDropdownRef.current && !subscriptionDropdownRef.current.contains(event.target as Node)) {
+        setIsSubscriptionDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const checkAuthentication = (): boolean => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
@@ -136,6 +201,14 @@ const AdminDashboard = () => {
       window.removeEventListener('focus', handleFocus);
     };
   }, [router]);
+
+  // Handle subscription menu item click
+  const handleSubscriptionClick = (subSection: string) => {
+    setActiveSection("subscriptions");
+    setActiveSubSection(subSection);
+    setIsSubscriptionDropdownOpen(false);
+    setIsSidebarOpen(false);
+  };
 
   if (loading) {
     return (
@@ -276,6 +349,45 @@ const AdminDashboard = () => {
             </button>
           </li>
 
+          {/* 👈 NEW: Subscription Dropdown */}
+          <li className="mb-3 nav-item">
+            <div ref={subscriptionDropdownRef} className="subscription-dropdown-wrapper">
+              <button
+                className={`nav-link ${activeSection === "subscriptions" ? "active" : ""}`}
+                onClick={() => setIsSubscriptionDropdownOpen(!isSubscriptionDropdownOpen)}
+              >
+                <i className="bi bi-collection me-2"></i>
+                {isSidebarExpanded && (
+                  <>
+                    Subscriptions
+                    <span className="dropdown-arrow">{isSubscriptionDropdownOpen ? "▲" : "▼"}</span>
+                  </>
+                )}
+                {!isSidebarExpanded && <span className="dropdown-indicator">▾</span>}
+              </button>
+              
+              {/* Dropdown Menu */}
+              {isSubscriptionDropdownOpen && isSidebarExpanded && (
+                <div className="subscription-dropdown-menu">
+                  <button
+                    className={`dropdown-item ${activeSection === "subscriptions" && activeSubSection === "plans" ? "active" : ""}`}
+                    onClick={() => handleSubscriptionClick("plans")}
+                  >
+                    <i className="bi bi-collection me-2"></i>
+                    Subscription Plans
+                  </button>
+                  <button
+                    className={`dropdown-item ${activeSection === "subscriptions" && activeSubSection === "payments" ? "active" : ""}`}
+                    onClick={() => handleSubscriptionClick("payments")}
+                  >
+                    <i className="bi bi-credit-card me-2"></i>
+                    Subscription Payments
+                  </button>
+                </div>
+              )}
+            </div>
+          </li>
+
           <li className="mb-3 nav-item">
             <button
               className={`nav-link ${activeSection === "reports" ? "active" : ""}`}
@@ -326,6 +438,8 @@ const AdminDashboard = () => {
             {activeSection === "content" && "Course Content Management"}
             {activeSection === "assignments" && "Assignment Management"}
             {activeSection === "payments" && "Payment Management"}
+            {activeSection === "subscriptions" && activeSubSection === "plans" && "Subscription Plan Management"}
+            {activeSection === "subscriptions" && activeSubSection === "payments" && "Subscription Payments"}
             {activeSection === "reports" && "Reports & Analytics"}
             {activeSection === "settings" && "System Settings"}
           </h2>
@@ -342,9 +456,7 @@ const AdminDashboard = () => {
           </div>
           <div className="admin-icons">
             {/* Notification Bell */}
-              <NotificationBell />
-
-            
+            <NotificationBell />
 
             {/* Search Bar */}
             <div className="search-bar-container">
@@ -356,13 +468,33 @@ const AdminDashboard = () => {
               {isSearchVisible && (
                 <div className="search-wrapper">
                   <input
+                    ref={searchInputRef}
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search students, courses, settings..."
                     className="search-input"
+                    value={searchQuery}
+                    onChange={handleSearchInput}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') {
+                        setShowSearchResults(false);
+                        setSearchQuery("");
+                        setIsSearchVisible(false);
+                      }
+                    }}
                   />
                   <button className="close-icon-button" onClick={toggleSearch}>
                     <span className="material-symbols-outlined">close</span>
                   </button>
+                  {showSearchResults && (
+                    <SearchResults
+                      query={searchQuery}
+                      onClose={() => {
+                        setShowSearchResults(false);
+                        setSearchQuery("");
+                      }}
+                      onResultClick={handleSearchResultClick}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -376,6 +508,8 @@ const AdminDashboard = () => {
           {activeSection === "courses" && <CourseManagement />}
           {activeSection === "content" && <CourseContentManagement />}
           {activeSection === "payments" && <PaymentManagement />}
+          {activeSection === "subscriptions" && activeSubSection === "plans" && <SubscriptionPlanManagement />}
+          {activeSection === "subscriptions" && activeSubSection === "payments" && <SubscriptionPaymentsManagement />}
           {activeSection === "reports" && <ReportsAnalytics />}
           {activeSection === "settings" && <SystemSettings />}
           {activeSection === "assignments" && <AssignmentManagement />}
